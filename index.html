@@ -6,149 +6,65 @@
     <title>MD Tamjidul Islam | AI Developer Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamjid Islam | Cyborg Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
-        
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            background-color: #0b0e14; /* ছবির মতো ডার্ক ব্যাকগ্রাউন্ড */
-            color: #ffffff;
-            overflow-x: hidden;
+            /* একটি ডিফিউজড ব্লু-সবুজ-ডার্ক ব্যাকগ্রাউন্ড যা আসল ছবির মতো */
+            background: linear-gradient(135deg, #1e3a8a 0%, #064e3b 50%, #0f172a 100%);
         }
-
-        /* ছবির মতো ব্যাকগ্রাউন্ড এনিমেশন বা লাইট ইফেক্ট */
-        .bg-glow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 70% 30%, #1a365d 0%, #0b0e14 70%);
-            z-index: -1;
-        }
-
-        /* ছবির ডান পাশের গ্লাস ইফেক্ট বক্স */
-        .glass-box {
+        .glass-panel {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #3b82f6; /* সাইড বর্ডার */
-            border-radius: 10px;
-        }
-
-        /* ছবির সেই বিশেষ লুক দিতে মাস্কিং বা ইফেক্ট */
-        .profile-img-container {
-            position: relative;
-            mask-image: linear-gradient(to right, black 80%, transparent 100%);
-        }
-
-        .tech-line {
-            height: 2px;
-            background: linear-gradient(90deg, #3b82f6, transparent);
-            margin: 10px 0;
         }
     </style>
 </head>
-<body>
+<body class="text-gray-100 min-h-screen flex items-center justify-center p-6 md:p-12">
 
-    <div class="bg-glow"></div>
-
-    <nav class="fixed w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-widest text-blue-500">TAMJID <span class="text-white">2.0</span></h1>
-            <div class="space-x-8 hidden md:block font-medium">
-                <a href="#" class="hover:text-blue-400 transition">হোম</a>
-                <a href="#privacy" class="hover:text-blue-400 transition">প্রাইভেসি পলিসি</a>
-                <a href="mailto:tamjidulislamovi@gmail.com" class="bg-blue-600 px-4 py-2 rounded text-sm hover:bg-blue-700 transition">যোগাযোগ</a>
-            </div>
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div class="flex justify-center md:justify-start">
+            <img src="cyborg-man.png" alt="Cyborg Tamjid" class="w-full max-w-sm h-auto drop-shadow-lg">
         </div>
-    </nav>
 
-    <section class="min-h-screen flex items-center pt-20">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            
-            <div class="profile-img-container order-2 md:order-1">
-                <img id="profile_img" src="https://i.ibb.co/Vp8M7Y6/cyborg-placeholder.png" alt="Tamjid" 
-                     class="w-full max-w-lg mx-auto drop-shadow-[0_0_50px_rgba(59,130,246,0.3)]">
-            </div>
+        <div class="flex flex-col gap-8">
+            <div class="glass-panel p-10 rounded-2xl flex flex-col gap-6">
+                
+                <div class="flex flex-col gap-3">
+                    <p class="text-3xl font-bold">আমি,</p>
+                    <h1 class="text-5xl md:text-6xl font-black">তামজিদুল ইসলাম (অভি)</h1>
+                </div>
 
-            <div class="order-1 md:order-2">
-                <div class="glass-box p-8 md:p-12">
-                    <h2 class="text-2xl mb-2 text-gray-300">আমি,</h2>
-                    <h1 id="hero_name" class="text-4xl md:text-6xl font-bold mb-4 text-white">তামজিদুল ইসলাম (অভি)</h1>
-                    
-                    <div class="tech-line w-1/2"></div>
-                    
-                    <p id="hero_desc" class="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-                        আমি একজন ডিজিটাল ক্রিয়েটর। ওয়েবসাইট ডেভেলপমেন্ট, গ্রাফিক্স ডিজাইন, ও ব্যবসা প্রতিষ্ঠান নিয়ে আমার আগ্রহ রয়েছে। আমি মূলত একজন বিশ্ববিদ্যালয় শিক্ষার্থী।
+                <div class="w-20 h-0.5 bg-gray-500 rounded-full"></div>
+
+                <div class="flex items-start gap-5 p-5 bg-gray-900/40 rounded-xl relative">
+                    <p class="text-xl leading-relaxed text-gray-300">
+                        আমি একজন ডিজিটাল ক্রিয়েটর। ওয়েবসাইট ডেভেলপমেন্ট, গ্রাফিক্স ডিজাইন, ও ব্যবসা প্রতিষ্ঠান নিয়ে আমার আগ্রহ রয়েছে।
                     </p>
-
-                    <div class="flex items-center gap-4 text-blue-400 italic">
-                        <i class="fas fa-microchip"></i>
-                        <span>Developer of Ira AI Assistant</span>
+                    <div class="absolute right-5 bottom-5 flex items-center gap-3">
+                        <i class="fas fa-code text-gray-600"></i>
+                        <i class="fas fa-paint-brush text-gray-600"></i>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="privacy" class="py-20 bg-black/30 backdrop-blur-sm border-t border-white/5">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
-                <i class="fas fa-user-shield text-blue-500"></i> Privacy Policy
-            </h2>
-            <div class="bg-white/5 p-8 rounded-2xl border border-white/10 text-gray-300">
-                <p class="mb-4 text-blue-400 font-semibold">কার্যকরী তারিখ: এপ্রিল ২০২৬</p>
-                <p class="mb-6 leading-relaxed">এই ওয়েবসাইট এবং <strong>Ira AI</strong> মেসেঞ্জার বটটি <strong>MD Tamjidul Islam 2.0</strong> দ্বারা পরিচালিত। আমরা ব্যবহারকারীর গোপনীয়তা রক্ষায় অঙ্গীকারবদ্ধ।</p>
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="p-4 bg-white/5 rounded-lg">
-                        <h3 class="font-bold text-white mb-2 underline decoration-blue-500">ডেটা কালেকশন:</h3>
-                        <p class="text-sm">আমরা মেসেঞ্জার বট থেকে কোনো ব্যক্তিগত তথ্য সংরক্ষণ বা শেয়ার করি না।</p>
-                    </div>
-                    <div class="p-4 bg-white/5 rounded-lg">
-                        <h3 class="font-bold text-white mb-2 underline decoration-blue-500">থার্ড-পার্টি:</h3>
-                        <p class="text-sm">মেসেজ প্রসেস করতে আমরা Google Gemini AI ব্যবহার করি। আমাদের সার্ভারে কোনো ডেটা থাকে না।</p>
-                    </div>
+                <div class="flex items-center gap-4 p-5 bg-gray-900/40 rounded-xl">
+                    <p class="text-xl leading-relaxed text-gray-300">
+                        আমি মূলত একজন বিশ্ববিদ্যালয় শিক্ষার্থী।
+                    </p>
+                    <i class="fas fa-briefcase text-gray-600"></i>
                 </div>
+
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer class="py-10 text-center text-gray-500 text-xs border-t border-white/5">
-        <p>&copy; 2026 MD Tamjidul Islam 2.0. All Rights Reserved.</p>
-    </footer>
-
-    <script>
-        const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
-        const SHEETS_CSV_URL = base_url + '&cache=' + new Date().getTime();
-
-        async function loadData() {
-            try {
-                const response = await fetch(SHEETS_CSV_URL);
-                const data = await response.text();
-                const rows = data.split('\n');
-                const sheetData = {};
-
-                rows.forEach(row => {
-                    const columns = row.split(',');
-                    if (columns.length >= 2) {
-                        sheetData[columns[0].trim()] = columns[1].trim();
-                    }
-                });
-
-                if(sheetData.hero_name) {
-                    document.getElementById('hero_name').innerText = sheetData.hero_name;
-                }
-                if(sheetData.hero_desc) {
-                    document.getElementById('hero_desc').innerText = sheetData.hero_desc;
-                }
-                if(sheetData.profile_image) {
-                    document.getElementById('profile_img').src = sheetData.profile_image;
-                }
-                
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-        loadData();
-    </script>
 </body>
 </html>
