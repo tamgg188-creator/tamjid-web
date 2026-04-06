@@ -1,193 +1,154 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html lang="bn">
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>MD Tamjidul Islam 2.0 | Portfolio</title>
-
+    <title>MD Tamjidul Islam | AI Developer Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
     <style>
-
-        .hero-bg { background: radial-gradient(circle at 50% 50%, #f9fafb 0%, #ffffff 100%); }
-
-        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
-
-    </style>
-
-</head>
-
-<body class="hero-bg text-slate-800 font-sans">
-
-
-
-    <nav class="fixed w-full z-50 glass border-b border-gray-100">
-
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-
-            <h1 class="text-2xl font-black tracking-tighter text-blue-600 uppercase">Tamjid.</h1>
-
-            <div class="space-x-8 hidden md:block font-medium">
-
-                <a href="#" class="hover:text-blue-600">Home</a>
-
-                <a href="#about" class="hover:text-blue-600">About</a>
-
-                <a href="#privacy" class="hover:text-blue-600 text-red-500">Privacy Policy</a>
-
-            </div>
-
-        </div>
-
-    </nav>
-
-
-
-    <section class="pt-32 pb-20 px-6">
-
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between">
-
-            <div class="md:w-1/2 mb-12">
-
-                <h1 id="hero_name" class="text-5xl md:text-7xl font-black mb-6 leading-tight">MD TAMJIDUL <br><span class="text-blue-600">ISLAM 2.0</span></h1>
-
-                <p id="hero_desc" class="text-gray-600 text-lg max-w-md mb-8">AI Developer & Creator of Ira AI Assistant.</p>
-
-                <div class="flex space-x-4">
-
-                    <a href="mailto:tamjidulislamovi@gmail.com" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 shadow-lg transition">Hire Me</a>
-
-                </div>
-
-            </div>
-
-            
-
-            <div class="md:w-1/2 flex justify-center relative">
-
-                <div class="w-72 h-72 md:w-96 md:h-96 bg-blue-100 rounded-3xl rotate-3 absolute -z-10"></div>
-
-                <img id="profile_img" src="https://via.placeholder.com/400" alt="Profile" class="w-72 h-72 md:w-96 md:h-96 object-cover rounded-3xl shadow-2xl border-4 border-white -rotate-3 transition hover:rotate-0 duration-500">
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <section id="privacy" class="py-20 bg-slate-50 border-t border-gray-200">
-
-        <div class="max-w-4xl mx-auto px-6">
-
-            <h2 class="text-3xl font-black mb-6">Privacy Policy</h2>
-
-            <div class="prose prose-slate bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-
-                <p class="mb-4 font-bold text-blue-600">Effective Date: April 2026</p>
-
-                <p class="mb-4 text-gray-600">This website and the <strong>Ira AI</strong> messenger bot are managed by <strong>MD Tamjidul Islam 2.0</strong>. We are committed to protecting user privacy.</p>
-
-                <ul class="list-disc ml-6 text-gray-600 space-y-2">
-
-                    <li><strong>Data Collection:</strong> We do not store or share personal user data from the Messenger bot.</li>
-
-                    <li><strong>Third-Party:</strong> We use Google Gemini AI to process messages in real-time. No data is saved on our servers.</li>
-
-                    <li><strong>Contact:</strong> For any queries, reach us at <span class="font-bold">tamjidulislamovi@gmail.com</span>.</li>
-
-                </ul>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <footer class="py-10 text-center text-gray-400 text-sm">
-
-        <p>&copy; 2026 MD Tamjidul Islam 2.0. All Rights Reserved.</p>
-
-    </footer>
-
-
-
-    <script>
-
-        // Cache-buster যোগ করা হয়েছে যাতে আপডেট দ্রুত আসে
-
-        const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
-
-        const SHEETS_CSV_URL = base_url + '&cache=' + new Date().getTime();
-
-
-
-        async function loadData() {
-
-            try {
-
-                const response = await fetch(SHEETS_CSV_URL);
-
-                const data = await response.text();
-
-                const rows = data.split('\n');
-
-                const sheetData = {};
-
-
-
-                rows.forEach(row => {
-
-                    const columns = row.split(',');
-
-                    if (columns.length >= 2) {
-
-                        sheetData[columns[0].trim()] = columns[1].trim();
-
-                    }
-
-                });
-
-
-
-                // Syntax Error ঠিক করা হয়েছে এবং ডাটা চেক করা হচ্ছে
-
-                if(sheetData.hero_name) {
-
-                    const formattedName = sheetData.hero_name.replace(' ISLAM 2.0', '<br><span class="text-blue-600">ISLAM 2.0</span>');
-
-                    document.getElementById('hero_name').innerHTML = formattedName;
-
-                }
-
-                if(sheetData.hero_desc) document.getElementById('hero_desc').innerText = sheetData.hero_desc;
-
-                if(sheetData.profile_image) document.getElementById('profile_img').src = sheetData.profile_image;
-
-                
-
-            } catch (error) {
-
-                console.error('Error fetching data:', error);
-
-            }
-
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #0b0e14; /* ছবির মতো ডার্ক ব্যাকগ্রাউন্ড */
+            color: #ffffff;
+            overflow-x: hidden;
         }
 
+        /* ছবির মতো ব্যাকগ্রাউন্ড এনিমেশন বা লাইট ইফেক্ট */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 70% 30%, #1a365d 0%, #0b0e14 70%);
+            z-index: -1;
+        }
+
+        /* ছবির ডান পাশের গ্লাস ইফেক্ট বক্স */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #3b82f6; /* সাইড বর্ডার */
+            border-radius: 10px;
+        }
+
+        /* ছবির সেই বিশেষ লুক দিতে মাস্কিং বা ইফেক্ট */
+        .profile-img-container {
+            position: relative;
+            mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        }
+
+        .tech-line {
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, transparent);
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <nav class="fixed w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-widest text-blue-500">TAMJID <span class="text-white">2.0</span></h1>
+            <div class="space-x-8 hidden md:block font-medium">
+                <a href="#" class="hover:text-blue-400 transition">হোম</a>
+                <a href="#privacy" class="hover:text-blue-400 transition">প্রাইভেসি পলিসি</a>
+                <a href="mailto:tamjidulislamovi@gmail.com" class="bg-blue-600 px-4 py-2 rounded text-sm hover:bg-blue-700 transition">যোগাযোগ</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="min-h-screen flex items-center pt-20">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            
+            <div class="profile-img-container order-2 md:order-1">
+                <img id="profile_img" src="https://i.ibb.co/Vp8M7Y6/cyborg-placeholder.png" alt="Tamjid" 
+                     class="w-full max-w-lg mx-auto drop-shadow-[0_0_50px_rgba(59,130,246,0.3)]">
+            </div>
+
+            <div class="order-1 md:order-2">
+                <div class="glass-box p-8 md:p-12">
+                    <h2 class="text-2xl mb-2 text-gray-300">আমি,</h2>
+                    <h1 id="hero_name" class="text-4xl md:text-6xl font-bold mb-4 text-white">তামজিদুল ইসলাম (অভি)</h1>
+                    
+                    <div class="tech-line w-1/2"></div>
+                    
+                    <p id="hero_desc" class="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+                        আমি একজন ডিজিটাল ক্রিয়েটর। ওয়েবসাইট ডেভেলপমেন্ট, গ্রাফিক্স ডিজাইন, ও ব্যবসা প্রতিষ্ঠান নিয়ে আমার আগ্রহ রয়েছে। আমি মূলত একজন বিশ্ববিদ্যালয় শিক্ষার্থী।
+                    </p>
+
+                    <div class="flex items-center gap-4 text-blue-400 italic">
+                        <i class="fas fa-microchip"></i>
+                        <span>Developer of Ira AI Assistant</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="privacy" class="py-20 bg-black/30 backdrop-blur-sm border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-8 flex items-center gap-3">
+                <i class="fas fa-user-shield text-blue-500"></i> Privacy Policy
+            </h2>
+            <div class="bg-white/5 p-8 rounded-2xl border border-white/10 text-gray-300">
+                <p class="mb-4 text-blue-400 font-semibold">কার্যকরী তারিখ: এপ্রিল ২০২৬</p>
+                <p class="mb-6 leading-relaxed">এই ওয়েবসাইট এবং <strong>Ira AI</strong> মেসেঞ্জার বটটি <strong>MD Tamjidul Islam 2.0</strong> দ্বারা পরিচালিত। আমরা ব্যবহারকারীর গোপনীয়তা রক্ষায় অঙ্গীকারবদ্ধ।</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="p-4 bg-white/5 rounded-lg">
+                        <h3 class="font-bold text-white mb-2 underline decoration-blue-500">ডেটা কালেকশন:</h3>
+                        <p class="text-sm">আমরা মেসেঞ্জার বট থেকে কোনো ব্যক্তিগত তথ্য সংরক্ষণ বা শেয়ার করি না।</p>
+                    </div>
+                    <div class="p-4 bg-white/5 rounded-lg">
+                        <h3 class="font-bold text-white mb-2 underline decoration-blue-500">থার্ড-পার্টি:</h3>
+                        <p class="text-sm">মেসেজ প্রসেস করতে আমরা Google Gemini AI ব্যবহার করি। আমাদের সার্ভারে কোনো ডেটা থাকে না।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-10 text-center text-gray-500 text-xs border-t border-white/5">
+        <p>&copy; 2026 MD Tamjidul Islam 2.0. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
+        const SHEETS_CSV_URL = base_url + '&cache=' + new Date().getTime();
+
+        async function loadData() {
+            try {
+                const response = await fetch(SHEETS_CSV_URL);
+                const data = await response.text();
+                const rows = data.split('\n');
+                const sheetData = {};
+
+                rows.forEach(row => {
+                    const columns = row.split(',');
+                    if (columns.length >= 2) {
+                        sheetData[columns[0].trim()] = columns[1].trim();
+                    }
+                });
+
+                if(sheetData.hero_name) {
+                    document.getElementById('hero_name').innerText = sheetData.hero_name;
+                }
+                if(sheetData.hero_desc) {
+                    document.getElementById('hero_desc').innerText = sheetData.hero_desc;
+                }
+                if(sheetData.profile_image) {
+                    document.getElementById('profile_img').src = sheetData.profile_image;
+                }
+                
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
         loadData();
-
     </script>
-
 </body>
-
 </html>
