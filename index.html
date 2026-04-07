@@ -4,37 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title> MD Tamjidul Islam| Website Developer & Graphics Designer| Most creative person in Bangladesh </title>
-    <meta name="description" content="তামজিদুল ইসলাম অভি (Tamjidul Islam Ovi) একজন পেশাদার ওয়েবসাইট ডেভেলপার এবং গ্রাফিক্স ডিজাইনার।">
-    <meta name="keywords" content="Tamjidul Islam, Tamjidul Islam Ovi, তামজিদুল ইসলাম অভি, Web Developer Bangladesh, Most creative Person in Bangladesh, Most creative person in Sylhet,  Graphics Designer Bangladesh, Digital Creator, Tamjid Islam">
-    <meta name="author" content="Tamjidul Islam Ovi">
+    <title> MD Tamjidul Islam | Website Developer & Graphics Designer </title>
+    <meta name="description" content="তামজিদুল ইসলাম অভি একজন পেশাদার ওয়েবসাইট ডেভেলপার এবং গ্রাফিক্স ডিজাইনার।">
     
-    <meta name="google-site-verification" content="ভেরিফিকেশন_কোড_এখানে" />
-
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-    <link rel="canonical" href="https://www.tamjidulislam.online/">
-    
-    <meta property="og:title" content="Tamjidul Islam Ovi | Portfolio">
-    <meta property="og:description" content="Website Developer & Graphics Designer. ডিজিটাল ক্রিয়েটর হিসেবে কাজ করছি।">
-    <meta property="og:url" content="https://www.tamjidulislam.online">
-    <meta property="og:type" content="website">
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Tamjidul Islam Ovi",
-      "alternateName": "তামজিদুল ইসলাম অভি",
-      "url": "https://www.tamjidulislam.online",
-      "jobTitle": ["Website Developer", "Graphics Designer"],
-      "description": "Professional Web Developer and Graphics Designer from Bangladesh.",
-      "sameAs": [
-        "https://www.facebook.com/share/18GPcLtj9h/",
-        "https://www.linkedin.com/in/tamjidul-islam-ovi-008342401"
-      ]
-    }
-    </script>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -44,20 +16,31 @@
             font-family: 'Hind Siliguri', sans-serif;
             background: radial-gradient(circle at 30% 30%, #1e293b 0%, #0f172a 100%);
             color: #f1f5f9;
+            overflow-x: hidden;
         }
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #3b82f6;
-        }
-        .privacy-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         .glow-effect {
             filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
+        }
+
+        /* ড্রপ এবং বাউন্স এনিমেশন */
+        @keyframes dropBounce {
+            0% { transform: translateY(-500px); opacity: 0; }
+            60% { transform: translateY(30px); opacity: 1; }
+            80% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+
+        .animate-drop {
+            animation: dropBounce 1s ease-out forwards;
+        }
+
+        .hidden-section {
+            display: none;
         }
     </style>
 </head>
@@ -66,58 +49,55 @@
     <nav class="fixed w-full z-50 bg-slate-950/50 backdrop-blur-md border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-xl font-bold tracking-tighter text-blue-500">TAMJID <span class="text-white">2.0</span></h1>
-            <div class="space-x-8 hidden md:flex text-sm font-medium">
-                <a href="#" class="hover:text-blue-400 transition">হোম</a>
-                <a href="#about" class="hover:text-blue-400 transition">আমার সম্পর্কে</a>
-                <a href="#privacy" class="hover:text-red-400 transition">প্রাইভেসি পলিসি</a>
+            <div class="space-x-8 flex text-sm font-medium">
+                <button onclick="showSection('home')" class="hover:text-blue-400 transition">হোম</button>
+                <button onclick="showSection('contact')" class="hover:text-blue-400 transition">যোগাযোগ</button>
+                <button onclick="showSection('privacy')" class="hover:text-red-400 transition">প্রাইভেসি পলিসি</button>
             </div>
         </div>
     </nav>
 
-    <section id="about" class="min-h-screen flex items-center pt-20 px-6">
+    <section id="home" class="min-h-screen flex items-center pt-20 px-6">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            
             <div class="flex justify-center relative">
                 <div class="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full"></div>
-                <img id="profile_img" src="https://via.placeholder.com/500x600?text=Loading+Image..." 
+                <img id="profile_img" src="https://via.placeholder.com/500x600?text=Loading..." 
                      alt="Tamjidul Islam Ovi" 
-                     class="w-full max-w-md h-auto glow-effect rounded-2xl relative z-10 transition-opacity duration-700 opacity-0"
+                     class="w-full max-w-md h-auto glow-effect rounded-2xl relative z-10 opacity-0 transition-opacity duration-700"
                      onload="this.style.opacity='1'">
             </div>
 
             <div class="space-y-6">
-                <div class="glass-card p-8 md:p-12 rounded-2xl shadow-2xl">
+                <div class="glass-card p-8 md:p-12 rounded-2xl border-l-4 border-blue-500">
                     <p class="text-2xl text-blue-400 mb-2 font-light">আমি,</p>
                     <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">তামজিদুল ইসলাম (অভি)</h1>
-                    
                     <div class="space-y-4 text-lg text-slate-300 leading-relaxed">
                         <p>আমি একজন ডিজিটাল ক্রিয়েটর। ওয়েবসাইট ডেভেলপমেন্ট, গ্রাফিক্স ডিজাইন, ও ব্যবসা প্রতিষ্ঠান নিয়ে আমার আগ্রহ রয়েছে।</p>
-                        <p>আমি মূলত একজন বিশ্ববিদ্যালয় শিক্ষার্থী।</p>
+                        <p class="text-sm text-slate-400 italic">Developer of Ira AI Assistant</p>
                     </div>
-
-                    <div class="mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
-                        <div class="flex gap-4">
-                            <i class="fas fa-code text-blue-500" title="Web Development"></i>
-                            <i class="fas fa-palette text-purple-500" title="Graphics Design"></i>
-                            <i class="fas fa-briefcase text-orange-500" title="Business"></i>
-                        </div>
-                        <div class="flex gap-4">
-                            <a href="https://www.facebook.com/share/18GPcLtj9h/" target="_blank" class="text-blue-500 hover:text-blue-400 transition text-2xl" title="Facebook">
-                                <i class="fab fa-facebook"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/tamjidul-islam-ovi-008342401" target="_blank" class="text-blue-600 hover:text-blue-400 transition text-2xl" title="LinkedIn">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p class="mt-4 text-sm text-slate-400 italic">Developer of Ira AI Assistant</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="privacy" class="py-24 bg-slate-950/30">
-        <div class="max-w-4xl mx-auto px-6">
+    <section id="contact" class="min-h-screen hidden-section flex flex-col items-center justify-center pt-20">
+        <h2 class="text-4xl font-bold mb-12">আমার সাথে যোগাযোগ করুন</h2>
+        <div class="flex flex-col gap-8 items-center">
+            <a href="https://www.facebook.com/share/18GPcLtj9h/" target="_blank" 
+               class="contact-icon animate-drop bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full flex items-center gap-4 text-xl transition shadow-xl"
+               style="animation-delay: 0.2s;">
+                <i class="fab fa-facebook"></i> Facebook
+            </a>
+            <a href="https://www.linkedin.com/in/tamjidul-islam-ovi-008342401" target="_blank" 
+               class="contact-icon animate-drop bg-blue-800 hover:bg-blue-900 text-white px-8 py-4 rounded-full flex items-center gap-4 text-xl transition shadow-xl"
+               style="animation-delay: 0.4s;">
+                <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+        </div>
+    </section>
+
+    <section id="privacy" class="min-h-screen hidden-section py-32 px-6">
+        <div class="max-w-4xl mx-auto">
             <h2 class="text-3xl font-bold mb-10 flex items-center gap-3">
                 <span class="w-10 h-10 bg-red-500/20 text-red-500 rounded-lg flex items-center justify-center">
                     <i class="fas fa-shield-alt"></i>
@@ -125,7 +105,7 @@
                 Privacy Policy
             </h2>
             
-            <div class="privacy-card p-8 md:p-10 rounded-3xl space-y-6 text-slate-300">
+            <div class="glass-card p-8 md:p-10 rounded-3xl space-y-6 text-slate-300">
                 <p class="text-blue-400 font-semibold">কার্যকরী তারিখ: এপ্রিল ২০২৬</p>
                 <p>এই ওয়েবসাইট এবং <strong>Ira AI</strong> মেসেঞ্জার বটটি <strong>MD Tamjidul Islam 2.0</strong> দ্বারা পরিচালিত। আমরা ব্যবহারকারীর গোপনীয়তা রক্ষায় অঙ্গীকারবদ্ধ।</p>
                 
@@ -148,10 +128,35 @@
     </section>
 
     <footer class="py-12 text-center text-slate-500 text-sm border-t border-white/5">
-        <p>&copy; 2026 MD Tamjidul Islam 2.0. All Rights Reserved. | <a href="/sitemap.xml" class="hover:underline">Sitemap</a></p>
+        <p>&copy; 2026 MD Tamjidul Islam 2.0. All Rights Reserved.</p>
     </footer>
 
     <script>
+        // সেকশন পরিবর্তন করার ফাংশন
+        function showSection(sectionId) {
+            // সব সেকশন হাইড করা
+            document.getElementById('home').classList.add('hidden-section');
+            document.getElementById('contact').classList.add('hidden-section');
+            document.getElementById('privacy').classList.add('hidden-section');
+
+            // টার্গেট সেকশন দেখানো
+            const activeSection = document.getElementById(sectionId);
+            activeSection.classList.remove('hidden-section');
+
+            // যদি যোগাযোগ সেকশন হয়, তবে এনিমেশন রিস্টার্ট করা
+            if(sectionId === 'contact') {
+                const icons = document.querySelectorAll('.contact-icon');
+                icons.forEach(icon => {
+                    icon.style.animation = 'none';
+                    icon.offsetHeight; /* ট্রিক: রি-ফ্লো ট্রিগার করা */
+                    icon.style.animation = null;
+                });
+            }
+            // স্ক্রল টপে নিয়ে যাওয়া
+            window.scrollTo(0, 0);
+        }
+
+        // প্রোফাইল ইমেজ লোড করার স্ক্রিপ্ট (আপনার গুগল শিট থেকে)
         const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
         const SHEETS_CSV_URL = base_url + '&cache=' + new Date().getTime();
 
@@ -172,7 +177,7 @@
                     }
                 });
             } catch (error) {
-                console.error('Error loading image from Sheets:', error);
+                console.error('Error loading image:', error);
             }
         }
         loadProfileImage();
