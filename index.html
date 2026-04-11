@@ -51,7 +51,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: #0f172a; /* ব্যাকগ্রাউন্ড কালার - ডার্ক থিম */
+            background: #0f172a; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -65,22 +65,19 @@
             visibility: hidden;
         }
 
-        /* লোডিং মৌমাছির ছবির স্টাইল এবং এনিমেশন */
         .loading-bee {
-            width: 150px; /* মৌমাছির সাইজ */
+            width: 150px; 
             height: auto;
-            border-radius: 50%; /* ছবিটিকে গোল করার জন্য, না চাইলে বাদ দিন */
+            border-radius: 50%;
             object-fit: contain;
-            /* আপনার ছবির জন্য CSS এনিমেশন */
             animation: beePulse 2.5s infinite ease-in-out, beeFloat 4s infinite ease-in-out;
         }
 
-        /* মৌমাছি পালস এবং ধীরে ধীরে স্পিন এনিমেশন */
         @keyframes beePulse {
             0%, 100% {
                 transform: scale(1);
                 opacity: 0.9;
-                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3)); /* হালকা হলুদ গ্লো */
+                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
             }
             50% {
                 transform: scale(1.1);
@@ -89,7 +86,6 @@
             }
         }
 
-        /* হালকা ভাসমান এনিমেশন */
         @keyframes beeFloat {
             0%, 100% {
                 transform: translateY(0);
@@ -104,7 +100,7 @@
 
     <div id="preloader">
         <img 
-            src="https://i.postimg.cc/5NJPwg5w/download-20260411-125646-0000.webp" 
+            src="https://i.postimg.cc/hP7yk0TZ/download-20260411-162239-0000.gif" 
             alt="Loading Bee" 
             class="loading-bee"
         >
@@ -202,16 +198,13 @@
     <script>
         // Loading Screen Logic
         window.addEventListener('load', () => {
-            // লোডিং এনিমেশন ৩ সেকেন্ড চলার পর অদৃশ্য হবে
             setTimeout(() => {
                 const preloader = document.getElementById('preloader');
                 preloader.classList.add('hidden');
-                // অ্যানিমেশন শেষ হলে স্ক্রল ইনেবল হবে
                 document.body.style.overflow = 'auto';
-            }, 3000); // ৩ সেকেন্ড (৩০০০ মিলি-সেকেন্ড)
+            }, 3000); 
         });
 
-        // Disable scroll during loading
         document.body.style.overflow = 'hidden';
 
         const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
