@@ -19,22 +19,6 @@
     <meta property="og:url" content="https://www.tamjidulislam.online">
     <meta property="og:type" content="website">
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Tamjidul Islam Ovi",
-      "alternateName": "তামজিদুল ইসলাম অভি",
-      "url": "https://www.tamjidulislam.online",
-      "jobTitle": ["Website Developer", "Graphics Designer"],
-      "description": "Professional Web Developer and Graphics Designer from Bangladesh.",
-      "sameAs": [
-        "https://www.facebook.com/share/18GPcLtj9h/",
-        "https://www.linkedin.com/in/tamjidul-islam-ovi-008342401"
-      ]
-    }
-    </script>
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -59,9 +43,73 @@
         .glow-effect {
             filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
         }
+
+        /* --- New Preloader CSS --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #0f172a; /* ব্যাকগ্রাউন্ড কালার - ডার্ক থিম */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* লোডিং মৌমাছির ছবির স্টাইল এবং এনিমেশন */
+        .loading-bee {
+            width: 150px; /* মৌমাছির সাইজ */
+            height: auto;
+            border-radius: 50%; /* ছবিটিকে গোল করার জন্য, না চাইলে বাদ দিন */
+            object-fit: contain;
+            /* আপনার ছবির জন্য CSS এনিমেশন */
+            animation: beePulse 2.5s infinite ease-in-out, beeFloat 4s infinite ease-in-out;
+        }
+
+        /* মৌমাছি পালস এবং ধীরে ধীরে স্পিন এনিমেশন */
+        @keyframes beePulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.9;
+                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3)); /* হালকা হলুদ গ্লো */
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+            }
+        }
+
+        /* হালকা ভাসমান এনিমেশন */
+        @keyframes beeFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
     </style>
 </head>
 <body class="selection:bg-blue-500 selection:text-white">
+
+    <div id="preloader">
+        <img 
+            src="https://i.postimg.cc/5NJPwg5w/download-20260411-125646-0000.webp" 
+            alt="Loading Bee" 
+            class="loading-bee"
+        >
+        <p class="mt-4 text-slate-400 text-sm italic">Loading...</p>
+    </div>
 
     <nav class="fixed w-full z-50 bg-slate-950/50 backdrop-blur-md border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -152,6 +200,20 @@
     </footer>
 
     <script>
+        // Loading Screen Logic
+        window.addEventListener('load', () => {
+            // লোডিং এনিমেশন ৩ সেকেন্ড চলার পর অদৃশ্য হবে
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.classList.add('hidden');
+                // অ্যানিমেশন শেষ হলে স্ক্রল ইনেবল হবে
+                document.body.style.overflow = 'auto';
+            }, 3000); // ৩ সেকেন্ড (৩০০০ মিলি-সেকেন্ড)
+        });
+
+        // Disable scroll during loading
+        document.body.style.overflow = 'hidden';
+
         const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
         const SHEETS_CSV_URL = base_url + '&cache=' + new Date().getTime();
 
