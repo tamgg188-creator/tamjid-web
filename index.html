@@ -39,49 +39,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-
     <style>
         body {
             font-family: 'Hind Siliguri', sans-serif;
             background: radial-gradient(circle at 30% 30%, #1e293b 0%, #0f172a 100%);
             color: #f1f5f9;
         }
-
-        /* Loading Screen CSS */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: #0f172a; /* ওয়েবসাইটের ডার্ক ব্যাকগ্রাউন্ডের সাথে মিলানো */
-            display: flex;
-            flex-direction: column; /* মৌমাছি এবং লেখার জন্য */
-            justify-content: center;
-            align-items: center;
-            z-index: 9999; /* সব কিছুর উপরে থাকবে */
-            transition: opacity 0.5s ease, visibility 0.5s ease; /* সুন্দর ফেড-আউট এফেক্ট */
-        }
-
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loader-text {
-            color: #f1f5f9;
-            margin-top: -20px; /* মৌমাছির ঠিক নিচে আনার জন্য */
-            font-size: 1rem;
-            letter-spacing: 2px;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -99,18 +62,6 @@
     </style>
 </head>
 <body class="selection:bg-blue-500 selection:text-white">
-
-    <div id="preloader">
-        <dotlottie-player 
-            src="https://lottie.host/bcfd6a15-dd4b-4b37-a92b-360a908f3998/z5MUEa19ad.lottie" 
-            background="transparent" 
-            speed="1" 
-            style="width: 100px; height: 100px;" /* মৌমাছিকে ছোট করা হয়েছে */
-            loop 
-            autoplay>
-        </dotlottie-player>
-        <p class="loader-text">Loading...</p>
-    </div>
 
     <nav class="fixed w-full z-50 bg-slate-950/50 backdrop-blur-md border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -201,17 +152,6 @@
     </footer>
 
     <script>
-        // Loading Screen Logic
-        document.body.style.overflow = 'hidden'; // লোডিং এর সময় স্ক্রলিং বন্ধ
-        
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                preloader.classList.add('hidden'); // ৩ সেকেন্ড পর হাইড হবে
-                document.body.style.overflow = 'auto'; // স্ক্রলিং পুনরায় চালু
-            }, 3000); // ৩০০০ মিলি-সেকেন্ড = ৩ সেকেন্ড
-        });
-
         const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
         const SHEETS_CSV_URL = base_url + '&cache=' + new Date().getTime();
 
