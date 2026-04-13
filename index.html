@@ -3,310 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>তামজিদুল ইসলাম অভি | পোর্টফোলিও</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <title> MD Tamjidul Islam| Website Developer & Graphics Designer| Most creative person in Bangladesh </title>
+    <meta name="description" content="তামজিদুল ইসলাম অভি (Tamjidul Islam Ovi) একজন পেশাদার ওয়েবসাইট ডেভেলপার এবং গ্রাফিক্স ডিজাইনার।">
+    <meta name="keywords" content="Tamjidul Islam, Tamjidul Islam Ovi, তামজিদুল ইসলাম অভি, Web Developer Bangladesh, Most creative Person in Bangladesh, Most creative person in Sylhet,  Graphics Designer Bangladesh, Digital Creator, Tamjid Islam">
+    <meta name="author" content="Tamjidul Islam Ovi">
+    
+    <meta name="google-site-verification" content="ভেরিফিকেশন_কোড_এখানে" />
+
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+    <link rel="canonical" href="https://www.tamjidulislam.online/">
+    
+    <meta property="og:title" content="Tamjidul Islam Ovi | Portfolio">
+    <meta property="og:description" content="Website Developer & Graphics Designer. ডিজিটাল ক্রিয়েটর হিসেবে কাজ করছি।">
+    <meta property="og:url" content="https://www.tamjidulislam.online">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --bg-color: #0a0a0a;
-            --text-color: #ffffff;
-            --accent-color: #ff3e3e;
-            --nav-bg: rgba(10, 10, 10, 0.9);
-            --card-bg: #111;
-            --card-border: #222;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            font-family: 'Hind Siliguri', sans-serif;
+            background: radial-gradient(circle at 30% 30%, #1e293b 0%, #0f172a 100%);
+            color: #f1f5f9;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        .privacy-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glow-effect {
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
         }
 
-        /* Loading Screen Animation */
-        #loader {
+        /* --- Preloader CSS --- */
+        #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: var(--bg-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            overflow: hidden;
-        }
-
-        .loader-text {
-            font-size: clamp(2rem, 8vw, 4rem);
-            font-weight: 700;
-            color: var(--accent-color);
-            position: relative;
-            opacity: 0;
-        }
-
-        /* Navbar */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.3s;
-        }
-
-        nav a:hover { color: var(--accent-color); }
-
-        /* Sections */
-        section {
-            min-height: 100vh;
-            padding: 100px 10%;
+            background: #0f172a;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
-        /* Profile */
-        #profile h1 { font-size: clamp(2.5rem, 10vw, 5rem); line-height: 1.1; }
-        .role { font-size: 1.5rem; color: var(--accent-color); margin: 20px 0; }
-        
-        .profile-img-container {
-            width: 200px;
-            height: 200px;
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-bee {
+            width: 150px;
+            height: auto;
             border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid var(--accent-color);
-            margin-bottom: 30px;
-            display: none; /* শিট থেকে লিঙ্ক আসার পর দেখা যাবে */
+            object-fit: contain;
+            /* আপনি চাইলে নিচের অ্যানিমেশনগুলো রাখতে পারেন বা GIF এর নিজস্ব গতির জন্য কমিয়ে দিতে পারেন */
+            animation: beePulse 2.5s infinite ease-in-out, beeFloat 4s infinite ease-in-out;
         }
 
-        .profile-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        @keyframes beePulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.9;
+                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+            }
         }
 
-        /* Watch Me */
-        .work-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
+        @keyframes beeFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
         }
-
-        .work-card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-            transition: 0.4s;
-        }
-
-        .work-card:hover { border-color: var(--accent-color); transform: translateY(-5px); }
-        .work-card h3 { color: var(--accent-color); margin-bottom: 10px; }
-
-        /* Contact */
-        .social-links { margin-top: 30px; }
-        .social-links a {
-            font-size: 1.2rem;
-            color: white;
-            text-decoration: none;
-            margin-right: 25px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid transparent;
-            transition: 0.3s;
-        }
-        .social-links a:hover { border-color: var(--accent-color); color: var(--accent-color); }
-
-        #main-content { opacity: 0; visibility: hidden; }
     </style>
 </head>
-<body>
+<body class="selection:bg-blue-500 selection:text-white">
 
-    <div id="loader">
-        <h1 class="loader-text" id="loader-name">তামজিদুল ইসলাম অভি</h1>
+    <div id="preloader">
+        <img 
+            src="https://i.postimg.cc/fRCSqYJg/output-onlinegiftools-(2).gif" 
+            alt="Loading Animation" 
+            class="loading-bee"
+        >
+        <p class="mt-4 text-slate-400 text-sm italic">Loading...</p>
     </div>
 
-    <nav>
-        <div class="logo" style="font-weight: bold; font-size: 1.5rem; color: var(--accent-color);">TIA.</div>
-        <div class="links">
-            <a href="#profile">Profile</a>
-            <a href="#watch-me">Watch Me</a>
-            <a href="#contact">Contact</a>
+    <nav class="fixed w-full z-50 bg-slate-950/50 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tighter text-blue-500">TAMJID <span class="text-white">2.0</span></h1>
+            <div class="space-x-8 hidden md:flex text-sm font-medium">
+                <a href="#" class="hover:text-blue-400 transition">হোম</a>
+                <a href="#about" class="hover:text-blue-400 transition">আমার সম্পর্কে</a>
+                <a href="#privacy" class="hover:text-red-400 transition">প্রাইভেসি পলিসি</a>
+            </div>
         </div>
     </nav>
 
-    <main id="main-content">
-        <section id="profile">
-            <div class="profile-img-container" id="profile-img-box">
-                <img src="" id="profile-pic" class="profile-img" alt="Profile Photo">
+    <section id="about" class="min-h-screen flex items-center pt-20 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <div class="flex justify-center relative">
+                <div class="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full"></div>
+                <img id="profile_img" src="https://via.placeholder.com/500x600?text=Loading+Image..." 
+                     alt="Tamjidul Islam Ovi" 
+                     class="w-full max-w-md h-auto glow-effect rounded-2xl relative z-10 transition-opacity duration-700 opacity-0"
+                     onload="this.style.opacity='1'">
             </div>
-            <h1>তামজিদুল ইসলাম অভি</h1>
-            <p class="role">ওয়েবসাইট ডেভেলাপার • গ্রাফিক্স ডিজাইনার • ই-কমার্স এক্সপার্ট</p>
-            <p style="max-width: 600px; line-height: 1.6; color: #ccc;">
-                আমি একজন সৃজনশীল ডেভেলাপার এবং ডিজাইনার। ডিজিটাল দুনিয়ায় আপনার ব্যবসাকে সুন্দরভাবে ফুটিয়ে তোলাই আমার কাজ।
-            </p>
-        </section>
 
-        <section id="watch-me">
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">Watch My Work</h2>
-            <div class="work-grid" id="google-sheets-data">
-                <p>ডেটা লোড হচ্ছে...</p>
-            </div>
-        </section>
+            <div class="space-y-6">
+                <div class="glass-card p-8 md:p-12 rounded-2xl shadow-2xl">
+                    <p class="text-2xl text-blue-400 mb-2 font-light">আমি,</p>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">তামজিদুল ইসলাম (অভি)</h1>
+                    
+                    <div class="space-y-4 text-lg text-slate-300 leading-relaxed">
+                        <p>আমি একজন ডিজিটাল ক্রিয়েটর। ওয়েবসাইট ডেভেলপমেন্ট, গ্রাফিক্স ডিজাইন, ও ব্যবসা প্রতিষ্ঠান নিয়ে আমার আগ্রহ রয়েছে।</p>
+                        <p>আমি মূলত একজন বিশ্ববিদ্যালয় শিক্ষার্থী।</p>
+                    </div>
 
-        <section id="contact">
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">যোগাযোগ</h2>
-            <div class="social-links">
-                <a href="https://facebook.com/tamjidul.abhi" target="_blank">Facebook</a>
-                <a href="https://instagram.com/tamjidulabhi" target="_blank">Instagram</a>
-                <a href="https://linkedin.com/in/tamjidulabhi" target="_blank">LinkedIn</a>
+                    <div class="mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
+                        <div class="flex gap-4">
+                            <i class="fas fa-code text-blue-500" title="Web Development"></i>
+                            <i class="fas fa-palette text-purple-500" title="Graphics Design"></i>
+                            <i class="fas fa-briefcase text-orange-500" title="Business"></i>
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="https://www.facebook.com/share/18GPcLtj9h/" target="_blank" class="text-blue-500 hover:text-blue-400 transition text-2xl" title="Facebook">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/tamjidul-islam-ovi-008342401" target="_blank" class="text-blue-600 hover:text-blue-400 transition text-2xl" title="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-400 italic">Developer of Ira AI Assistant</p>
+                </div>
             </div>
-            <p style="margin-top: 40px; font-size: 1.1rem;">
-                Gmail: <span style="color: var(--accent-color);">your-email@gmail.com</span> </p>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <section id="privacy" class="py-24 bg-slate-950/30">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-10 flex items-center gap-3">
+                <span class="w-10 h-10 bg-red-500/20 text-red-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-shield-alt"></i>
+                </span>
+                Privacy Policy
+            </h2>
+            
+            <div class="privacy-card p-8 md:p-10 rounded-3xl space-y-6 text-slate-300">
+                <p class="text-blue-400 font-semibold">কার্যকরী তারিখ: এপ্রিল ২০২৬</p>
+                <p>এই ওয়েবসাইট এবং <strong>Ira AI</strong> মেসেঞ্জার বটটি <strong>MD Tamjidul Islam 2.0</strong> দ্বারা পরিচালিত। আমরা ব্যবহারকারীর গোপনীয়তা রক্ষায় অঙ্গীকারবদ্ধ।</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 mt-4">
+                    <div class="space-y-2">
+                        <h3 class="text-white font-bold flex items-center gap-2">
+                            <i class="fas fa-database text-xs text-blue-500"></i> ডেটা কালেকশন
+                        </h3>
+                        <p class="text-sm">আমরা মেসেঞ্জার বট থেকে কোনো ব্যক্তিগত তথ্য সংরক্ষণ বা শেয়ার করি না।</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-white font-bold flex items-center gap-2">
+                            <i class="fas fa-robot text-xs text-blue-500"></i> থার্ড-পার্টি প্রসেসিং
+                        </h3>
+                        <p class="text-sm">মেসেজ প্রসেস করতে আমরা Google Gemini AI ব্যবহার করি। আমাদের সার্ভারে কোনো ডেটা থাকে না।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-slate-500 text-sm border-t border-white/5">
+        <p>&copy; 2026 MD Tamjidul Islam 2.0. All Rights Reserved. | <a href="/sitemap.xml" class="hover:underline">Sitemap</a></p>
+    </footer>
 
     <script>
-        // --- Loading Screen Animation Logic ---
-        function runLoader() {
-            const loader = document.getElementById('loader');
-            const mainContent = document.getElementById('main-content');
-            const loaderText = document.getElementById('loader-name');
-            const tl = gsap.timeline();
+        // Loading Screen Logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 3000); 
+        });
 
-            tl.to(loaderText, {
-                opacity: 1,
-                duration: 1.5,
-                ease: 'power3.out',
-                delay: 0.5
-            })
-            .to(loaderText, {
-                opacity: 0,
-                duration: 1,
-                ease: 'power3.in',
-                delay: 1.5
-            })
-            .to(loader, {
-                height: 0,
-                duration: 1.5,
-                ease: 'power4.inOut',
-                onComplete: () => {
-                    loader.style.display = 'none';
-                    gsap.set(mainContent, { visibility: 'visible' });
-                    gsap.to(mainContent, { opacity: 1, duration: 1 });
-                }
-            });
-        }
+        document.body.style.overflow = 'hidden';
 
-        // --- Google Sheets Data Handling ---
-        const SHEET_ID = '1qVr_iDWEfwiklF6X6IUFMiaqTLwwL4EEPEPrUFkoLvE';
-        const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+        const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
+        const SHEETS_CSV_URL = base_url + '&cache=' + new Date().getTime();
 
-        // Function to handle Google Drive image links
-        function convertGoogleDriveUrl(driveUrl) {
-            if (driveUrl && (driveUrl.includes('drive.google.com/open?id=') || driveUrl.includes('drive.google.com/file/d/'))) {
-                let fileId = '';
-                if (driveUrl.includes('?id=')) {
-                    fileId = driveUrl.split('?id=')[1].split('&')[0];
-                } else if (driveUrl.includes('/file/d/')) {
-                    fileId = driveUrl.split('/file/d/')[1].split('/')[0];
-                }
-                return `https://drive.google.com/uc?export=view&id=${fileId}`;
-            }
-            return driveUrl; // Return unchanged if not a standard Drive link
-        }
-
-        async function fetchSheetData() {
+        async function loadProfileImage() {
             try {
-                const response = await fetch(SHEET_CSV_URL);
+                const response = await fetch(SHEETS_CSV_URL);
                 const data = await response.text();
-                // Parse CSV into array of arrays
-                const rows = data.split('\n').map(row => {
-                    // Split by comma but respect quotes
-                    const splitRow = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                    return splitRow ? splitRow.map(col => col.replace(/^"(.*)"$/, '$1')) : [];
-                });
+                const rows = data.split('\n');
                 
-                // Skip the header row
-                const contentRows = rows.slice(1); 
-                const grid = document.getElementById('google-sheets-data');
-                grid.innerHTML = '';
-
-                let hasValidData = false;
-
-                contentRows.forEach(columns => {
-                    // Check if the row has enough columns (Title, Description, Review, DemoLink)
-                    if (columns.length >= 4 && columns[0] && columns[1]) {
-                        const title = columns[0];
-                        const description = columns[1];
-                        const review = columns[2] || 'কোনো রিভিউ পাওয়া যায়নি।';
-                        const demoLink = columns[3] || '#';
-
-                        grid.innerHTML += `
-                            <div class="work-card">
-                                <h3>${title}</h3>
-                                <p style="color: #aaa; margin-bottom: 10px;">${description}</p>
-                                <div style="font-style: italic; font-size: 0.9rem; margin-bottom: 15px; color: #ccc;">
-                                    " ${review} "
-                                </div>
-                                ${demoLink !== '#' ? `<a href="${demoLink}" target="_blank" style="color:var(--accent-color); text-decoration: none; font-weight: bold; border-bottom: 1px solid transparent; transition: 0.3s;" onmouseover="this.style.borderColor='${window.getComputedStyle(document.documentElement).getPropertyValue('--accent-color')}'" onmouseout="this.style.borderColor='transparent'">View Demo →</a>` : '<span style="color: #666; font-style: italic;">Demo links not provided</span>'}
-                            </div>
-                        `;
-                        hasValidData = true;
+                rows.forEach(row => {
+                    const columns = row.split(',');
+                    if (columns.length >= 2) {
+                        const key = columns[0].trim();
+                        const value = columns[1].trim();
+                        if (key === 'profile_image') {
+                            document.getElementById('profile_img').src = value;
+                        }
                     }
                 });
-
-                if (!hasValidData) {
-                    grid.innerHTML = '<p style="font-style: italic; color: #666;">কাজগুলো এখনো যোগ করা হয়নি। Google Sheet চেক করুন।</p>';
-                }
-
-                // Profile Image logic - expects image link in the 5th column
-                const profilePicUrlLink = contentRows[0] && contentRows[0][4];
-                const finalProfilePicUrl = convertGoogleDriveUrl(profilePicUrlLink);
-                if(finalProfilePicUrl && finalProfilePicUrl.startsWith('http')) {
-                    const img = document.getElementById('profile-pic');
-                    const imgBox = document.getElementById('profile-img-box');
-                    img.src = finalProfilePicUrl;
-                    img.onload = () => { // Show after image is fully loaded
-                        imgBox.style.display = 'block';
-                    };
-                }
-
             } catch (error) {
-                console.error('Error fetching data from Google Sheet:', error);
-                document.getElementById('google-sheets-data').innerHTML = '<p>ডেটা লোড করা যায়নি। শিটটি "Publish to the web" করা আছে কিনা এবং CSV ফরম্যাট সিলেক্ট করা হয়েছে কিনা নিশ্চিত করুন।</p>';
+                console.error('Error loading image from Sheets:', error);
             }
         }
-
-        // --- Run both sequences ---
-        window.addEventListener('DOMContentLoaded', () => {
-            runLoader();
-            fetchSheetData();
-        });
+        loadProfileImage();
     </script>
 </body>
 </html>
