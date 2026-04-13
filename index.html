@@ -12,6 +12,9 @@
             --bg-color: #0a0a0a;
             --text-color: #ffffff;
             --accent-color: #ff3e3e;
+            --nav-bg: rgba(10, 10, 10, 0.9);
+            --card-bg: #111;
+            --card-border: #222;
         }
 
         * {
@@ -28,8 +31,8 @@
             scroll-behavior: smooth;
         }
 
-        /* Rain Animation Overlay */
-        #intro-overlay {
+        /* Loading Screen Animation */
+        #loader {
             position: fixed;
             top: 0;
             left: 0;
@@ -39,18 +42,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            cursor: pointer;
+            z-index: 1001;
+            overflow: hidden;
         }
 
-        .falling-text {
+        .loader-text {
             font-size: clamp(2rem, 8vw, 4rem);
             font-weight: 700;
-            position: absolute;
-            top: -100px;
-            text-align: center;
-            opacity: 0;
             color: var(--accent-color);
+            position: relative;
+            opacity: 0;
         }
 
         /* Navbar */
@@ -62,7 +63,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 10, 0.9);
+            background: var(--nav-bg);
             backdrop-filter: blur(10px);
             z-index: 100;
         }
@@ -92,14 +93,20 @@
         #profile h1 { font-size: clamp(2.5rem, 10vw, 5rem); line-height: 1.1; }
         .role { font-size: 1.5rem; color: var(--accent-color); margin: 20px 0; }
         
-        .profile-img {
+        .profile-img-container {
             width: 200px;
             height: 200px;
             border-radius: 50%;
-            object-fit: cover;
+            overflow: hidden;
             border: 4px solid var(--accent-color);
             margin-bottom: 30px;
             display: none; /* শিট থেকে লিঙ্ক আসার পর দেখা যাবে */
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Watch Me */
@@ -111,10 +118,10 @@
         }
 
         .work-card {
-            background: #111;
+            background: var(--card-bg);
             padding: 25px;
             border-radius: 12px;
-            border: 1px solid #222;
+            border: 1px solid var(--card-border);
             transition: 0.4s;
         }
 
@@ -134,17 +141,17 @@
         }
         .social-links a:hover { border-color: var(--accent-color); color: var(--accent-color); }
 
-        #main-content { opacity: 0; }
+        #main-content { opacity: 0; visibility: hidden; }
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay" onclick="startExperience()">
-        <div class="falling-text" id="rain-name">তামজিদুল ইসলাম অভি</div>
+    <div id="loader">
+        <h1 class="loader-text" id="loader-name">তামজিদুল ইসলাম অভি</h1>
     </div>
 
     <nav>
-        <div class="logo" style="font-weight: bold; font-size: 1.5rem;">TIA.</div>
+        <div class="logo" style="font-weight: bold; font-size: 1.5rem; color: var(--accent-color);">TIA.</div>
         <div class="links">
             <a href="#profile">Profile</a>
             <a href="#watch-me">Watch Me</a>
@@ -154,7 +161,9 @@
 
     <main id="main-content">
         <section id="profile">
-            <img src="" id="profile-pic" class="profile-img" alt="Profile Photo">
+            <div class="profile-img-container" id="profile-img-box">
+                <img src="" id="profile-pic" class="profile-img" alt="Profile Photo">
+            </div>
             <h1>তামজিদুল ইসলাম অভি</h1>
             <p class="role">ওয়েবসাইট ডেভেলাপার • গ্রাফিক্স ডিজাইনার • ই-কমার্স এক্সপার্ট</p>
             <p style="max-width: 600px; line-height: 1.6; color: #ccc;">
@@ -163,97 +172,141 @@
         </section>
 
         <section id="watch-me">
-            <h2 style="font-size: 3rem;">Watch My Work</h2>
+            <h2 style="font-size: 3rem; margin-bottom: 20px;">Watch My Work</h2>
             <div class="work-grid" id="google-sheets-data">
                 <p>ডেটা লোড হচ্ছে...</p>
             </div>
         </section>
 
         <section id="contact">
-            <h2 style="font-size: 3rem;">যোগাযোগ</h2>
+            <h2 style="font-size: 3rem; margin-bottom: 20px;">যোগাযোগ</h2>
             <div class="social-links">
-                <a href="https://facebook.com/YOUR_PROFILE" target="_blank">Facebook</a>
-                <a href="https://instagram.com/YOUR_PROFILE" target="_blank">Instagram</a>
-                <a href="https://linkedin.com/in/YOUR_PROFILE" target="_blank">LinkedIn</a>
+                <a href="https://facebook.com/tamjidul.abhi" target="_blank">Facebook</a>
+                <a href="https://instagram.com/tamjidulabhi" target="_blank">Instagram</a>
+                <a href="https://linkedin.com/in/tamjidulabhi" target="_blank">LinkedIn</a>
             </div>
             <p style="margin-top: 40px; font-size: 1.1rem;">
-                Gmail: <span style="color: var(--accent-color);">your-email@gmail.com</span>
-            </p>
+                Gmail: <span style="color: var(--accent-color);">your-email@gmail.com</span> </p>
         </section>
     </main>
 
     <script>
-        // --- Intro Animation ---
-        gsap.to("#rain-name", {
-            opacity: 1,
-            top: "50%",
-            duration: 2.5,
-            ease: "bounce.out",
-            delay: 0.5
-        });
+        // --- Loading Screen Animation Logic ---
+        function runLoader() {
+            const loader = document.getElementById('loader');
+            const mainContent = document.getElementById('main-content');
+            const loaderText = document.getElementById('loader-name');
+            const tl = gsap.timeline();
 
-        function startExperience() {
-            gsap.to("#intro-overlay", {
+            tl.to(loaderText, {
+                opacity: 1,
+                duration: 1.5,
+                ease: 'power3.out',
+                delay: 0.5
+            })
+            .to(loaderText, {
                 opacity: 0,
                 duration: 1,
+                ease: 'power3.in',
+                delay: 1.5
+            })
+            .to(loader, {
+                height: 0,
+                duration: 1.5,
+                ease: 'power4.inOut',
                 onComplete: () => {
-                    document.getElementById("intro-overlay").style.display = "none";
-                    gsap.to("#main-content", { opacity: 1, duration: 1.5 });
+                    loader.style.display = 'none';
+                    gsap.set(mainContent, { visibility: 'visible' });
+                    gsap.to(mainContent, { opacity: 1, duration: 1 });
                 }
             });
         }
 
         // --- Google Sheets Data Handling ---
-        // আপনার দেওয়া লিঙ্কটি সরাসরি CSV ফরম্যাটে রূপান্তর করা হয়েছে
         const SHEET_ID = '1qVr_iDWEfwiklF6X6IUFMiaqTLwwL4EEPEPrUFkoLvE';
         const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
+
+        // Function to handle Google Drive image links
+        function convertGoogleDriveUrl(driveUrl) {
+            if (driveUrl && (driveUrl.includes('drive.google.com/open?id=') || driveUrl.includes('drive.google.com/file/d/'))) {
+                let fileId = '';
+                if (driveUrl.includes('?id=')) {
+                    fileId = driveUrl.split('?id=')[1].split('&')[0];
+                } else if (driveUrl.includes('/file/d/')) {
+                    fileId = driveUrl.split('/file/d/')[1].split('/')[0];
+                }
+                return `https://drive.google.com/uc?export=view&id=${fileId}`;
+            }
+            return driveUrl; // Return unchanged if not a standard Drive link
+        }
 
         async function fetchSheetData() {
             try {
                 const response = await fetch(SHEET_CSV_URL);
                 const data = await response.text();
-                const rows = data.split('\n').map(row => row.split(','));
+                // Parse CSV into array of arrays
+                const rows = data.split('\n').map(row => {
+                    // Split by comma but respect quotes
+                    const splitRow = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                    return splitRow ? splitRow.map(col => col.replace(/^"(.*)"$/, '$1')) : [];
+                });
                 
-                // প্রথম রো (Header) বাদ দিয়ে বাকিগুলো নেওয়া হলো
+                // Skip the header row
                 const contentRows = rows.slice(1); 
                 const grid = document.getElementById('google-sheets-data');
                 grid.innerHTML = '';
 
+                let hasValidData = false;
+
                 contentRows.forEach(columns => {
-                    if (columns.length >= 4) {
-                        const title = columns[0].replace(/"/g, "");
-                        const description = columns[1].replace(/"/g, "");
-                        const review = columns[2].replace(/"/g, "");
-                        const demoLink = columns[3].replace(/"/g, "");
+                    // Check if the row has enough columns (Title, Description, Review, DemoLink)
+                    if (columns.length >= 4 && columns[0] && columns[1]) {
+                        const title = columns[0];
+                        const description = columns[1];
+                        const review = columns[2] || 'কোনো রিভিউ পাওয়া যায়নি।';
+                        const demoLink = columns[3] || '#';
 
                         grid.innerHTML += `
                             <div class="work-card">
                                 <h3>${title}</h3>
                                 <p style="color: #aaa; margin-bottom: 10px;">${description}</p>
-                                <div style="font-style: italic; font-size: 0.9rem; margin-bottom: 15px;">
+                                <div style="font-style: italic; font-size: 0.9rem; margin-bottom: 15px; color: #ccc;">
                                     " ${review} "
                                 </div>
-                                <a href="${demoLink}" target="_blank" style="color:var(--accent-color); text-decoration: none; font-weight: bold;">View Demo →</a>
+                                ${demoLink !== '#' ? `<a href="${demoLink}" target="_blank" style="color:var(--accent-color); text-decoration: none; font-weight: bold; border-bottom: 1px solid transparent; transition: 0.3s;" onmouseover="this.style.borderColor='${window.getComputedStyle(document.documentElement).getPropertyValue('--accent-color')}'" onmouseout="this.style.borderColor='transparent'">View Demo →</a>` : '<span style="color: #666; font-style: italic;">Demo links not provided</span>'}
                             </div>
                         `;
+                        hasValidData = true;
                     }
                 });
 
-                // প্রোফাইল পিকচার (ধরে নেওয়া হয়েছে ৫ নম্বর কলামে লিঙ্ক আছে)
-                const profilePicUrl = contentRows[0][4]?.replace(/"/g, "").trim(); 
-                if(profilePicUrl && profilePicUrl.startsWith('http')) {
+                if (!hasValidData) {
+                    grid.innerHTML = '<p style="font-style: italic; color: #666;">কাজগুলো এখনো যোগ করা হয়নি। Google Sheet চেক করুন।</p>';
+                }
+
+                // Profile Image logic - expects image link in the 5th column
+                const profilePicUrlLink = contentRows[0] && contentRows[0][4];
+                const finalProfilePicUrl = convertGoogleDriveUrl(profilePicUrlLink);
+                if(finalProfilePicUrl && finalProfilePicUrl.startsWith('http')) {
                     const img = document.getElementById('profile-pic');
-                    img.src = profilePicUrl;
-                    img.style.display = 'block';
+                    const imgBox = document.getElementById('profile-img-box');
+                    img.src = finalProfilePicUrl;
+                    img.onload = () => { // Show after image is fully loaded
+                        imgBox.style.display = 'block';
+                    };
                 }
 
             } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('google-sheets-data').innerHTML = '<p>ডেটা লোড করা যায়নি। শিটটি "Publish to the web" করা আছে কিনা নিশ্চিত করুন।</p>';
+                console.error('Error fetching data from Google Sheet:', error);
+                document.getElementById('google-sheets-data').innerHTML = '<p>ডেটা লোড করা যায়নি। শিটটি "Publish to the web" করা আছে কিনা এবং CSV ফরম্যাট সিলেক্ট করা হয়েছে কিনা নিশ্চিত করুন।</p>';
             }
         }
 
-        fetchSheetData();
+        // --- Run both sequences ---
+        window.addEventListener('DOMContentLoaded', () => {
+            runLoader();
+            fetchSheetData();
+        });
     </script>
 </body>
 </html>
