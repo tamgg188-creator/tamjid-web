@@ -263,7 +263,7 @@
   .revealed .section-label,
   .revealed .section-title { opacity: 1; transform: none; }
 
-  /* ── ABOUT (অরিজিনাল লেআউট + ইমেজ) ── */
+  /* ── ABOUT ── */
   #about { background: var(--surface); }
   .about-grid {
     display: grid;
@@ -335,7 +335,7 @@
     letter-spacing: 0.05em;
   }
 
-  /* ── SKILLS (অরিজিনাল গ্রিড এবং প্রোগ্রেস বার) ── */
+  /* ── SKILLS ── */
   #skills { background: var(--bg); }
   .skills-grid {
     display: grid;
@@ -404,7 +404,7 @@
   }
   .skill-card.revealed .skill-bar-fill { transform: scaleX(1); }
 
-  /* ── PROJECTS (অরিজিনাল লিস্ট লেআউট) ── */
+  /* ── PROJECTS ── */
   #projects { background: var(--surface); }
   .projects-list {
     display: flex; flex-direction: column; gap: 1px;
@@ -467,13 +467,13 @@
   }
   .project-item:hover .project-arrow { color: var(--cyan); transform: translateX(4px); }
 
-  /* ── CONTACT (সরাসরি ইমেইল সিস্টেম) ── */
+  /* ── CONTACT ── */
   #contact { background: var(--bg); }
   .contact-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 5rem;
-    align-items: start;
+    align-items: center;
   }
   .contact-text p {
     font-size: 1.05rem; line-height: 1.8;
@@ -482,7 +482,7 @@
   }
   .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
   .contact-link {
-    display: flex; align-items: center; gap: 1rem;
+    display: inline-flex; align-items: center; gap: 1rem;
     font-family: var(--font-mono);
     font-size: 0.85rem;
     color: var(--text);
@@ -505,7 +505,6 @@
     background: rgba(10,15,30,0.5); border: 1px dashed var(--cyan); padding: 4rem 2rem;
     clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
   }
-  .direct-email-box p { font-family: var(--font-mono); color: var(--muted); margin-bottom: 1.5rem; font-size: 0.85rem; }
 
   /* ── FOOTER ── */
   footer {
@@ -670,7 +669,7 @@
   </div>
 </section>
 
-<!-- ABOUT (Original Layout) -->
+<!-- ABOUT -->
 <section id="about">
   <div class="section-inner">
     <div class="about-grid">
@@ -695,7 +694,6 @@
         </div>
       </div>
       <div class="about-visual">
-        <!-- Original Floating Avatar Frame with the Requested Image -->
         <div class="avatar-frame" style="animation: float 4s ease-in-out infinite;">
           <div class="avatar-bg"></div>
           <img class="avatar-img" src="https://i.postimg.cc/5y4bwvmk/1000099141-removebg-preview.png" alt="তামজিদুল ইসলাম">
@@ -706,7 +704,7 @@
   </div>
 </section>
 
-<!-- SKILLS (Original Grid Layout with Progress Bars) -->
+<!-- SKILLS -->
 <section id="skills">
   <div class="section-inner">
     <p class="section-label">// ০২. আমার_দক্ষতা</p>
@@ -776,7 +774,7 @@
   </div>
 </section>
 
-<!-- PROJECTS (Original List Layout) -->
+<!-- PROJECTS -->
 <section id="projects">
   <div class="section-inner">
     <p class="section-label">// ০৩. প্রজেক্টসমূহ</p>
@@ -822,7 +820,7 @@
   </div>
 </section>
 
-<!-- CONTACT (Original Layout + Direct Email Button) -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="section-inner">
     <p class="section-label">// ০৪. যোগাযোগ</p>
@@ -834,21 +832,10 @@
           <a href="mailto:tamjidulislamovi@gmail.com" class="contact-link">
             <span class="contact-link-icon">✉</span> tamjidulislamovi@gmail.com
           </a>
-          <a href="https://github.com/" class="contact-link" target="_blank">
-            <span class="contact-link-icon">⌥</span> github.com/tamjidul
-          </a>
-          <a href="https://linkedin.com/" class="contact-link" target="_blank">
-            <span class="contact-link-icon">◈</span> linkedin.com/in/tamjidul
-          </a>
-          <a href="#" class="contact-link">
-            <span class="contact-link-icon">◎</span> সিলেট, বাংলাদেশ
-          </a>
         </div>
       </div>
       
-      <!-- এখানে ফর্মের পরিবর্তে আপনার কাঙ্ক্ষিত ডিরেক্ট ইমেইল সিস্টেম দেওয়া হলো -->
       <div class="direct-email-box">
-        <p>// আপনার ডিফল্ট ইমেইল অ্যাপ ওপেন করে সরাসরি ইনবক্সে মেসেজ পাঠান</p>
         <a href="mailto:tamjidulislamovi@gmail.com" class="btn btn-primary" style="font-size: 1.1rem; padding: 1.2rem 2.5rem; width: 100%;">
           সরাসরি ইমেইল করুন ↗
         </a>
@@ -963,7 +950,7 @@ function loop() {
 }
 loop();
 
-/* ── SCROLL REVEAL (অরিজিনাল লজিক) ── */
+/* ── SCROLL REVEAL ── */
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) {
