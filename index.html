@@ -1,237 +1,639 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title> MD Tamjidul Islam| Website Developer & Graphics Designer| Most creative person in Bangladesh </title>
-    <meta name="description" content="তামজিদুল ইসলাম অভি (Tamjidul Islam Ovi) একজন পেশাদার ওয়েবসাইট ডেভেলপার এবং গ্রাফিক্স ডিজাইনার।">
-    <meta name="keywords" content="Tamjidul Islam, Tamjidul Islam Ovi, তামজিদুল ইসলাম অভি, Web Developer Bangladesh, Most creative Person in Bangladesh, Most creative person in Sylhet,  Graphics Designer Bangladesh, Digital Creator, Tamjid Islam">
-    <meta name="author" content="Tamjidul Islam Ovi">
-    
-    <meta name="google-site-verification" content="ভেরিফিকেশন_কোড_এখানে" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamjidul Islam — Digital Architect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Fira+Code:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #03050a;
+    --surface: #0a0f1e;
+    --cyan: #00f0ff;
+    --magenta: #ff2d6b;
+    --amber: #ffb800;
+    --text: #c8d8f0;
+    --muted: #4a5a7a;
+    --border: rgba(0,240,255,0.15);
+    --glow-cyan: 0 0 25px rgba(0,240,255,0.3);
+    --glow-mag: 0 0 25px rgba(255,45,107,0.3);
+    --font-main: 'Syne', sans-serif;
+    --font-mono: 'Fira Code', monospace;
+    --font-display: 'Syncopate', sans-serif;
+  }
 
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-    <link rel="canonical" href="https://www.tamjidulislam.online/">
-    
-    <meta property="og:title" content="Tamjidul Islam Ovi | Portfolio">
-    <meta property="og:description" content="Website Developer & Graphics Designer. ডিজিটাল ক্রিয়েটর হিসেবে কাজ করছি।">
-    <meta property="og:url" content="https://www.tamjidulislam.online">
-    <meta property="og:type" content="website">
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Hind Siliguri', sans-serif;
-            background: radial-gradient(circle at 30% 30%, #1e293b 0%, #0f172a 100%);
-            color: #f1f5f9;
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #3b82f6;
-        }
-        .privacy-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .glow-effect {
-            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
-        }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
-        /* --- Preloader CSS --- */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: #0f172a;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+    cursor: none;
+    line-height: 1.6;
+  }
 
-        #preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+  /* ── UTILITIES ── */
+  .accent { color: var(--cyan); }
+  .mag { color: var(--magenta); }
+  .amber { color: var(--amber); }
 
-        .loading-bee {
-            width: 150px;
-            height: auto;
-            border-radius: 50%;
-            object-fit: contain;
-            /* আপনি চাইলে নিচের অ্যানিমেশনগুলো রাখতে পারেন বা GIF এর নিজস্ব গতির জন্য কমিয়ে দিতে পারেন */
-            animation: beePulse 2.5s infinite ease-in-out, beeFloat 4s infinite ease-in-out;
-        }
+  /* ── CUSTOM CURSOR ── */
+  #cursor {
+    position: fixed; top: 0; left: 0;
+    width: 8px; height: 8px;
+    background: var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.05s linear;
+  }
+  #cursor-ring {
+    position: fixed; top: 0; left: 0;
+    width: 40px; height: 40px;
+    border: 1px solid var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s, background 0.3s, border-color 0.3s;
+    opacity: 0.5;
+  }
 
-        @keyframes beePulse {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 0.9;
-                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 1;
-                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
-            }
-        }
+  /* ── CANVAS BG ── */
+  #canvas-bg {
+    position: fixed; inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
 
-        @keyframes beeFloat {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
-        }
-    </style>
+  /* ── OVERLAYS ── */
+  .noise {
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .grid-overlay {
+    position: fixed; inset: 0;
+    background-image: 
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 0;
+    mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+    pointer-events: none;
+    opacity: 0.2;
+  }
+
+  /* ── NAV ── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 1.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    background: rgba(3, 5, 10, 0.7);
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cyan);
+    text-decoration: none;
+    letter-spacing: 0.2em;
+  }
+  nav ul { display: flex; gap: 2.5rem; list-style: none; }
+  nav a {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: color 0.3s;
+    position: relative;
+  }
+  nav a:hover, nav a.active { color: var(--cyan); }
+  nav a::after {
+    content: '';
+    position: absolute; bottom: -5px; left: 0;
+    width: 0%; height: 1px;
+    background: var(--cyan);
+    transition: width 0.3s;
+  }
+  nav a:hover::after, nav a.active::after { width: 100%; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 0 10%;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-pre {
+    font-family: var(--font-mono);
+    color: var(--cyan);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-pre::after { content: ''; height: 1px; width: 40px; background: var(--cyan); }
+  
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    font-weight: 800;
+    line-height: 0.9;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .hero-title .outline {
+    -webkit-text-stroke: 1px var(--cyan);
+    color: transparent;
+  }
+
+  .hero-desc {
+    max-width: 600px;
+    font-size: 1.2rem;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+  .hero-desc strong { color: var(--text); }
+
+  .hero-actions { display: flex; gap: 1.5rem; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    font-family: var(--font-mono);
+    padding: 1rem 2.2rem;
+    font-size: 0.85rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    position: relative;
+    transition: all 0.3s;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--cyan);
+    color: var(--bg);
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 100%, 0 100%);
+  }
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-3px);
+    box-shadow: var(--glow-cyan);
+  }
+  .btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--cyan);
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%, 0 30%);
+  }
+  .btn-secondary:hover {
+    background: rgba(0,240,255,0.05);
+    border-color: var(--cyan);
+    transform: translateY(-3px);
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 0; position: relative; z-index: 2; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  
+  .section-head { margin-bottom: 4rem; }
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--magenta);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    text-transform: uppercase;
+  }
+
+  /* ── ABOUT ── */
+  .about-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+    height: 400px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .orb {
+    width: 280px; height: 280px;
+    border: 1px solid var(--cyan);
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    background: radial-gradient(circle at 30% 30%, var(--cyan), transparent);
+    animation: morphing 10s infinite linear alternate;
+    position: relative;
+    opacity: 0.2;
+  }
+  .orb-text {
+    position: absolute;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: rgba(10, 15, 30, 0.4);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    backdrop-filter: blur(5px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-card:hover {
+    border-color: var(--cyan);
+    background: rgba(0, 240, 255, 0.03);
+    transform: translateY(-10px);
+  }
+  .skill-card::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at center, rgba(0,240,255,0.1), transparent 70%);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .skill-card:hover::before { opacity: 1; }
+
+  .skill-title { font-family: var(--font-display); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .skill-list { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.3s;
+  }
+  .skill-card:hover .tag { border-color: rgba(0,240,255,0.4); color: var(--cyan); }
+
+  /* ── PROJECTS ── */
+  .projects-stack { display: flex; flex-direction: column; gap: 2rem; }
+  .project-row {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    align-items: center;
+    padding: 2rem;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.3s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .project-row:hover {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: var(--cyan);
+    padding-left: 3rem;
+  }
+  .project-num { font-family: var(--font-mono); color: var(--muted); font-size: 0.9rem; }
+  .project-name { font-family: var(--font-display); font-size: 1.2rem; }
+  .project-meta { font-family: var(--font-mono); font-size: 0.8rem; color: var(--cyan); text-align: right; }
+
+  /* ── CONTACT ── */
+  .contact-box {
+    background: var(--surface);
+    padding: 4rem;
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+  .input-field {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    color: #fff;
+    font-family: inherit;
+    margin-bottom: 2rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .input-field:focus { border-color: var(--cyan); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem 0;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes morphing {
+    0% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; transform: rotate(0deg); }
+    100% { border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%; transform: rotate(360deg); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+  .reveal.active { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 968px) {
+    header { padding: 1.5rem 2rem; }
+    nav ul { display: none; }
+    .about-content, .contact-box { grid-template-columns: 1fr; }
+    #hero { padding: 0 5%; }
+    .hero-title { font-size: 4rem; }
+  }
+</style>
 </head>
-<body class="selection:bg-blue-500 selection:text-white">
+<body>
 
-    <div id="preloader">
-        <img 
-            src="https://i.postimg.cc/fRCSqYJg/output-onlinegiftools-(2).gif" 
-            alt="Loading Animation" 
-            class="loading-bee"
-        >
-        <p class="mt-4 text-slate-400 text-sm italic">Loading...</p>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="canvas-bg"></canvas>
+<div class="noise"></div>
+<div class="grid-overlay"></div>
+
+<header>
+  <a href="#" class="logo">TI_ARCHITECT</a>
+  <nav>
+    <ul>
+      <li><a href="#hero" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-pre">SYSTEM_READY</div>
+    <h1 class="hero-title">
+      TAMJIDUL<br>
+      <span class="outline">ISLAM</span>
+    </h1>
+    <p class="hero-desc">
+      Computer Science student & <strong>Creative Developer</strong> based in Bangladesh. 
+      Architecting digital systems with performance and aesthetics in mind.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">Discover Work</a>
+      <a href="#contact" class="btn btn-secondary">Init Connection</a>
     </div>
+  </section>
 
-    <nav class="fixed w-full z-50 bg-slate-950/50 backdrop-blur-md border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-tighter text-blue-500">TAMJID <span class="text-white">2.0</span></h1>
-            <div class="space-x-8 hidden md:flex text-sm font-medium">
-                <a href="#" class="hover:text-blue-400 transition">হোম</a>
-                <a href="#about" class="hover:text-blue-400 transition">আমার সম্পর্কে</a>
-                <a href="#privacy" class="hover:text-red-400 transition">প্রাইভেসি পলিসি</a>
-            </div>
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container reveal">
+      <div class="section-head">
+        <span class="section-tag">01 // IDENTITY</span>
+        <h2 class="section-title">Behind the <span class="accent">Code</span></h2>
+      </div>
+      <div class="about-content">
+        <div class="about-text">
+          <p style="margin-bottom: 2rem;">I am a developer who views code as a medium for creative expression. Currently pursuing my degree in CSE, I bridge the gap between rigorous engineering and experimental design.</p>
+          <p>My philosophy is simple: <strong>Minimalism in design, Complexity in logic.</strong> I build tools that are easy to use but powerful enough to handle high-load requirements.</p>
         </div>
-    </nav>
-
-    <section id="about" class="min-h-screen flex items-center pt-20 px-6">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            
-            <div class="flex justify-center relative">
-                <div class="absolute inset-0 bg-blue-500/20 blur-[100px] rounded-full"></div>
-                <img id="profile_img" src="https://via.placeholder.com/500x600?text=Loading+Image..." 
-                     alt="Tamjidul Islam Ovi" 
-                     class="w-full max-w-md h-auto glow-effect rounded-2xl relative z-10 transition-opacity duration-700 opacity-0"
-                     onload="this.style.opacity='1'">
-            </div>
-
-            <div class="space-y-6">
-                <div class="glass-card p-8 md:p-12 rounded-2xl shadow-2xl">
-                    <p class="text-2xl text-blue-400 mb-2 font-light">আমি,</p>
-                    <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">তামজিদুল ইসলাম (অভি)</h1>
-                    
-                    <div class="space-y-4 text-lg text-slate-300 leading-relaxed">
-                        <p>আমি একজন ডিজিটাল ক্রিয়েটর। ওয়েবসাইট ডেভেলপমেন্ট, গ্রাফিক্স ডিজাইন, ও ব্যবসা প্রতিষ্ঠান নিয়ে আমার আগ্রহ রয়েছে।</p>
-                        <p>আমি মূলত একজন বিশ্ববিদ্যালয় শিক্ষার্থী।</p>
-                    </div>
-
-                    <div class="mt-8 pt-6 border-t border-white/10 flex items-center justify-between">
-                        <div class="flex gap-4">
-                            <i class="fas fa-code text-blue-500" title="Web Development"></i>
-                            <i class="fas fa-palette text-purple-500" title="Graphics Design"></i>
-                            <i class="fas fa-briefcase text-orange-500" title="Business"></i>
-                        </div>
-                        <div class="flex gap-4">
-                            <a href="https://www.facebook.com/share/18GPcLtj9h/" target="_blank" class="text-blue-500 hover:text-blue-400 transition text-2xl" title="Facebook">
-                                <i class="fab fa-facebook"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/tamjidul-islam-ovi-008342401" target="_blank" class="text-blue-600 hover:text-blue-400 transition text-2xl" title="LinkedIn">
-                                <i class="fab fa-linkedin"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <p class="mt-4 text-sm text-slate-400 italic">Developer of Ira AI Assistant</p>
-                </div>
-            </div>
+        <div class="about-visual">
+          <div class="orb"></div>
+          <div class="orb-text">TI</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section id="privacy" class="py-24 bg-slate-950/30">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-3xl font-bold mb-10 flex items-center gap-3">
-                <span class="w-10 h-10 bg-red-500/20 text-red-500 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-shield-alt"></i>
-                </span>
-                Privacy Policy
-            </h2>
-            
-            <div class="privacy-card p-8 md:p-10 rounded-3xl space-y-6 text-slate-300">
-                <p class="text-blue-400 font-semibold">কার্যকরী তারিখ: এপ্রিল ২০২৬</p>
-                <p>এই ওয়েবসাইট এবং <strong>Ira AI</strong> মেসেঞ্জার বটটি <strong>MD Tamjidul Islam 2.0</strong> দ্বারা পরিচালিত। আমরা ব্যবহারকারীর গোপনীয়তা রক্ষায় অঙ্গীকারবদ্ধ।</p>
-                
-                <div class="grid md:grid-cols-2 gap-8 mt-4">
-                    <div class="space-y-2">
-                        <h3 class="text-white font-bold flex items-center gap-2">
-                            <i class="fas fa-database text-xs text-blue-500"></i> ডেটা কালেকশন
-                        </h3>
-                        <p class="text-sm">আমরা মেসেঞ্জার বট থেকে কোনো ব্যক্তিগত তথ্য সংরক্ষণ বা শেয়ার করি না।</p>
-                    </div>
-                    <div class="space-y-2">
-                        <h3 class="text-white font-bold flex items-center gap-2">
-                            <i class="fas fa-robot text-xs text-blue-500"></i> থার্ড-পার্টি প্রসেসিং
-                        </h3>
-                        <p class="text-sm">মেসেজ প্রসেস করতে আমরা Google Gemini AI ব্যবহার করি। আমাদের সার্ভারে কোনো ডেটা থাকে না।</p>
-                    </div>
-                </div>
-            </div>
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="container reveal">
+      <div class="section-head">
+        <span class="section-tag">02 // TECH_STACK</span>
+        <h2 class="section-title">Capabilities</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3 class="skill-title">Front-End Architecture</h3>
+          <div class="skill-list">
+            <span class="tag">React.js</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Three.js</span>
+            <span class="tag">TailwindCSS</span>
+          </div>
         </div>
-    </section>
+        <div class="skill-card">
+          <h3 class="skill-title">Back-End Systems</h3>
+          <div class="skill-list">
+            <span class="tag">Node.js</span>
+            <span class="tag">Python</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Redis</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <h3 class="skill-title">DevOps & Tools</h3>
+          <div class="skill-list">
+            <span class="tag">Docker</span>
+            <span class="tag">Git</span>
+            <span class="tag">Vercel</span>
+            <span class="tag">AWS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <footer class="py-12 text-center text-slate-500 text-sm border-t border-white/5">
-        <p>&copy; 2026 MD Tamjidul Islam 2.0. All Rights Reserved. | <a href="/sitemap.xml" class="hover:underline">Sitemap</a></p>
-    </footer>
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="container reveal">
+      <div class="section-head">
+        <span class="section-tag">03 // ARCHIVE</span>
+        <h2 class="section-title">Selected Works</h2>
+      </div>
+      <div class="projects-stack">
+        <a href="#" class="project-row">
+          <div class="project-num">01.</div>
+          <div class="project-name">SYNX // OS</div>
+          <div class="project-meta">WEB_APPLICATION // 2024</div>
+        </a>
+        <a href="#" class="project-row">
+          <div class="project-num">02.</div>
+          <div class="project-name">NEURAL_NET_VISUALIZER</div>
+          <div class="project-meta">ENGINEERING // 2024</div>
+        </a>
+        <a href="#" class="project-row">
+          <div class="project-num">03.</div>
+          <div class="project-name">QUANTUM_API</div>
+          <div class="project-meta">INFRASTRUCTURE // 2023</div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // Loading Screen Logic
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const preloader = document.getElementById('preloader');
-                preloader.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }, 3000); 
-        });
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container reveal">
+      <div class="contact-box">
+        <div>
+          <span class="section-tag">04 // CONNECT</span>
+          <h2 class="section-title">Start a <span class="accent">Project</span></h2>
+          <p style="margin-top: 2rem; color: var(--muted);">Available for freelance opportunities and collaborations.</p>
+        </div>
+        <form>
+          <input type="text" class="input-field" placeholder="FULL_NAME">
+          <input type="email" class="input-field" placeholder="EMAIL_ADDR">
+          <textarea class="input-field" placeholder="PROJECT_DETAILS" rows="4"></textarea>
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Initialize</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
 
-        document.body.style.overflow = 'hidden';
+<footer>
+  <div class="container">
+    <p>TAMJIDUL_ISLAM &copy; 2025 // ENCRYPTED_CONNECTION_SECURE</p>
+  </div>
+</footer>
 
-        const base_url = 'https://docs.google.com/spreadsheets/d/1YdwUDSkKpzlg3Rjqp0fhAaSbVwC5NCySMrvdSR-RDd4/export?format=csv';
-        const SHEETS_CSV_URL = base_url + '&cache=' + new Date().getTime();
+<script>
+/* ── CUSTOM CURSOR ── */
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursor-ring');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
 
-        async function loadProfileImage() {
-            try {
-                const response = await fetch(SHEETS_CSV_URL);
-                const data = await response.text();
-                const rows = data.split('\n');
-                
-                rows.forEach(row => {
-                    const columns = row.split(',');
-                    if (columns.length >= 2) {
-                        const key = columns[0].trim();
-                        const value = columns[1].trim();
-                        if (key === 'profile_image') {
-                            document.getElementById('profile_img').src = value;
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('Error loading image from Sheets:', error);
-            }
-        }
-        loadProfileImage();
-    </script>
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.transform = `translate(${mouseX - 4}px, ${mouseY - 4}px)`;
+});
+
+function tick() {
+  ringX += (mouseX - ringX) * 0.15;
+  ringY += (mouseY - ringY) * 0.15;
+  ring.style.transform = `translate(${ringX - 20}px, ${ringY - 20}px)`;
+  requestAnimationFrame(tick);
+}
+tick();
+
+// Hover Interactions
+const interactives = document.querySelectorAll('a, button, .skill-card, .project-row, input, textarea');
+interactives.forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ring.style.width = '60px';
+    ring.style.height = '60px';
+    ring.style.background = 'rgba(0, 240, 255, 0.1)';
+    ring.style.borderColor = 'var(--cyan)';
+    cursor.style.opacity = '0';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.width = '40px';
+    ring.style.height = '40px';
+    ring.style.background = 'transparent';
+    ring.style.borderColor = 'var(--cyan)';
+    cursor.style.opacity = '1';
+  });
+});
+
+/* ── PARTICLE CANVAS ── */
+const canvas = document.getElementById('canvas-bg');
+const ctx = canvas.getContext('2d');
+let w, h, particles = [];
+
+function initCanvas() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+  particles = [];
+  for(let i=0; i<80; i++) {
+    particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5,
+      size: Math.random() * 2
+    });
+  }
+}
+
+function draw() {
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle = "rgba(0, 240, 255, 0.3)";
+  
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    
+    if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
+    if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
+    
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+    ctx.fill();
+    
+    // Connections
+    particles.forEach(p2 => {
+      let dx = p.x - p2.x;
+      let dy = p.y - p2.y;
+      let dist = Math.sqrt(dx*dx + dy*dy);
+      if(dist < 150) {
+        ctx.strokeStyle = `rgba(0, 240, 255, ${0.1 * (1 - dist/150)})`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    });
+  });
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', initCanvas);
+initCanvas();
+draw();
+
+/* ── REVEAL ENGINE ── */
+const observerOptions = { threshold: 0.1 };
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.classList.add('active');
+  });
+}, observerOptions);
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── ACTIVE LINK SPY ── */
+window.addEventListener('scroll', () => {
+  let fromTop = window.scrollY + 100;
+  document.querySelectorAll('nav a').forEach(link => {
+    let section = document.querySelector(link.hash);
+    if (section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+});
+</script>
 </body>
 </html>
