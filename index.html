@@ -34,6 +34,11 @@
     cursor: none;
   }
 
+  /* ── GPU Acceleration for Smoothness ── */
+  #cursor, #cursor-ring, .hero-name, .hero-tag {
+    will-change: transform;
+  }
+
   /* ── CUSTOM CURSOR ── */
   #cursor {
     position: fixed; top: 0; left: 0;
@@ -42,7 +47,6 @@
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
-    transition: transform 0.1s;
     mix-blend-mode: difference;
   }
   #cursor-ring {
@@ -52,7 +56,7 @@
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
-    transition: transform 0.15s ease, width 0.3s, height 0.3s, opacity 0.3s;
+    transition: width 0.3s, height 0.3s, opacity 0.3s;
     opacity: 0.6;
   }
 
@@ -289,7 +293,7 @@
     align-items: center;
   }
   
-  /* ── NEW POLISHED AVATAR ANIMATION ── */
+  /* ── AVATAR ── */
   .avatar-frame {
     width: 300px; height: 300px;
     position: relative;
@@ -317,6 +321,7 @@
     border-radius: 50%;
     inset: 0;
     pointer-events: none;
+    will-change: transform;
   }
   .orb-ring-1 {
     border: 2px dashed var(--magenta);
@@ -337,8 +342,7 @@
   
   @keyframes spinOrbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes spinOrbitReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
-  /* ──────────────────────────────────── */
-
+  
   .stats-row {
     display: flex; gap: 2rem;
     margin-top: 2rem;
@@ -522,7 +526,7 @@
     justify-content: flex-start;
     gap: 1.5rem;
     margin-top: 2rem;
-    border-bottom: 1px solid rgba(0,240,255,0.15); /* The invisible ground line */
+    border-bottom: 1px solid rgba(0,240,255,0.15); 
     padding-bottom: 10px;
     overflow: visible;
   }
@@ -538,6 +542,7 @@
     opacity: 0;
     transform: translateY(-200px);
     transition: color 0.3s, border-color 0.3s, box-shadow 0.3s;
+    will-change: transform, opacity;
   }
   
   .social-icon svg { width: 26px; height: 26px; fill: currentColor; }
@@ -548,7 +553,6 @@
     box-shadow: var(--glow-cyan); 
   }
 
-  /* Animation triggered when section is revealed */
   #contact.revealed .social-icon {
     animation: 
       dropIn 1s cubic-bezier(0.25, 1, 0.5, 1) forwards, 
@@ -570,7 +574,6 @@
     75% { transform: translate(-4px, -2px) rotate(-3deg); }
     100% { transform: translate(2px, 0) rotate(1deg); }
   }
-  /* ────────────────────────── */
 
   /* ── FOOTER ── */
   footer {
@@ -753,7 +756,6 @@
         </div>
       </div>
       <div class="about-visual">
-        <!-- New Smoothened Avatar Finishing -->
         <div class="avatar-frame">
           <div class="orb-ring-1"></div>
           <div class="orb-ring-2"></div>
@@ -889,7 +891,6 @@
       <div class="contact-text">
         <p>নতুন কোনো প্রজেক্টের আইডিয়া আছে? অথবা আমার কোনো কাজ ভালো লেগেছে? নির্দ্বিধায় আমাকে মেসেজ করুন। আমি সবসময় নতুন কাজের সুযোগ বা কোলাবোরেশনের জন্য প্রস্তুত।</p>
         
-        <!-- Social Media Ground & Raining Animation -->
         <div class="social-ground">
           <a href="https://www.facebook.com/share/18UXfyGTb8/" target="_blank" class="social-icon" style="--delay: 0.1s">
             <svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
@@ -920,23 +921,32 @@
 </footer>
 
 <script>
-/* ── CUSTOM CURSOR ── */
+/* ── OPTIMIZED MOUSE CURSOR ── */
 const cursor = document.getElementById('cursor');
 const ring   = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
+let mx = window.innerWidth/2, my = window.innerHeight/2;
+let cx = mx, cy = my; 
+let rx = mx, ry = my;
 
 document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  mx = e.clientX; 
+  my = e.clientY;
 });
 
-function animRing() {
+function animLoop() {
+  // Cursor dot fast follow
+  cx += (mx - cx) * 0.5;
+  cy += (my - cy) * 0.5;
+  cursor.style.transform = `translate(${cx - 6}px, ${cy - 6}px)`;
+  
+  // Ring delayed follow
   rx += (mx - rx) * 0.14;
   ry += (my - ry) * 0.14;
   ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
-  requestAnimationFrame(animRing);
+  
+  requestAnimationFrame(animLoop);
 }
-animRing();
+animLoop();
 
 document.querySelectorAll('a, button, .skill-card, .project-item, .social-icon').forEach(el => {
   el.addEventListener('mouseenter', () => {
@@ -952,7 +962,7 @@ document.querySelectorAll('a, button, .skill-card, .project-item, .social-icon')
   });
 });
 
-/* ── PARTICLE CANVAS ── */
+/* ── OPTIMIZED PARTICLE CANVAS ── */
 const canvas = document.getElementById('canvas-bg');
 const ctx = canvas.getContext('2d');
 let W, H, particles = [];
@@ -988,20 +998,25 @@ class Particle {
   }
 }
 
-for (let i = 0; i < 120; i++) particles.push(new Particle());
+// Reduced particle count from 120 to 60 to drastically improve performance (less Math processing)
+for (let i = 0; i < 60; i++) particles.push(new Particle());
 
 function drawConnections() {
   for (let i = 0; i < particles.length; i++) {
     for (let j = i + 1; j < particles.length; j++) {
       const dx = particles[i].x - particles[j].x;
       const dy = particles[i].y - particles[j].y;
-      const d  = Math.sqrt(dx * dx + dy * dy);
-      if (d < 120) {
+      
+      // Use squared distance to avoid expensive Math.sqrt calls
+      const distSq = dx * dx + dy * dy;
+      
+      if (distSq < 22500) { // 150 * 150 = 22500
+        const d = Math.sqrt(distSq);
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
         ctx.strokeStyle = '#00f0ff';
-        ctx.globalAlpha = (1 - d / 120) * 0.07;
+        ctx.globalAlpha = (1 - d / 150) * 0.08;
         ctx.lineWidth = 0.5;
         ctx.stroke();
       }
@@ -1024,8 +1039,6 @@ const io = new IntersectionObserver(entries => {
     if (e.isIntersecting) {
       e.target.closest('.section-inner')?.classList.add('revealed');
       e.target.classList.add('revealed');
-      
-      // Add revealed class to specific section for targeted animations (like social icons)
       e.target.closest('section')?.classList.add('revealed');
     }
   });
@@ -1033,7 +1046,7 @@ const io = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.section-label, .section-title, .skill-card, .project-item, .contact-text, .direct-email-box').forEach(el => io.observe(el));
 
-/* ── TYPEWRITER for hero sub ── */
+/* ── TYPEWRITER ── */
 const typeEl = document.querySelector('.hero-name .line2');
 const text = 'ইসলাম';
 typeEl.textContent = '';
@@ -1054,22 +1067,35 @@ function type() {
 }
 setTimeout(type, 900);
 
-/* ── PARALLAX HERO ── */
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  document.querySelector('.hero-name').style.transform = `translateY(${y * 0.25}px)`;
-  document.querySelector('.hero-tag').style.transform  = `translateY(${y * 0.15}px)`;
-});
-
-/* ── ACTIVE NAV ── */
+/* ── OPTIMIZED SCROLL EVENTS (Throttled via requestAnimationFrame) ── */
+let isScrolling = false;
+const heroName = document.querySelector('.hero-name');
+const heroTag = document.querySelector('.hero-tag');
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
+
 window.addEventListener('scroll', () => {
-  let cur = '';
-  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 200) cur = s.id; });
-  navLinks.forEach(a => {
-    a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--cyan)' : '';
-  });
+  if (!isScrolling) {
+    window.requestAnimationFrame(() => {
+      const y = window.scrollY;
+      
+      // Parallax
+      if (y < window.innerHeight) {
+        heroName.style.transform = `translateY(${y * 0.25}px)`;
+        heroTag.style.transform  = `translateY(${y * 0.15}px)`;
+      }
+
+      // Active Nav
+      let cur = '';
+      sections.forEach(s => { if (y >= s.offsetTop - 200) cur = s.id; });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--cyan)' : '';
+      });
+
+      isScrolling = false;
+    });
+    isScrolling = true;
+  }
 });
 </script>
 </body>
