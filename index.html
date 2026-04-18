@@ -2,11 +2,11 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>T a m j i d u l I s l a m | গ্রাফিক্স ডিজাইনার ও ওয়েব ডেভেলপার</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Tamjidul Islam (Ovi) | গ্রাফিক্স ডিজাইনার ও ওয়েব ডেভেলপার</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Syne:wght@600;800&display=swap" rel="stylesheet">
 <style>
 /* ╔══════════════════════════════════════════════════╗
    ║  CSS CUSTOM PROPERTIES                           ║
@@ -27,12 +27,18 @@
   --font-d:  'Bebas Neue', 'Noto Sans Bengali', sans-serif;
   --font-b:  'Barlow', 'Noto Sans Bengali', sans-serif;
   --font-m:  'JetBrains Mono', monospace;
+  --font-genz: 'Syne', sans-serif; /* New Font for Name */
 }
 
 /* ╔══════════════════════════════════════════════════╗
    ║  RESET & GLOBAL                                  ║
    ╚══════════════════════════════════════════════════╝ */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden; /* Fix for horizontal scrolling issue */
+}
 
 html {
   scroll-behavior: smooth;
@@ -47,10 +53,11 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-b);
-  overflow-x: hidden;
-  cursor: none;
+  cursor: default; /* Fallback */
   line-height: 1.75;
 }
+@media (pointer: fine) { body { cursor: none; } } /* Only hide cursor on desktop */
+
 a { text-decoration: none; color: inherit; }
 
 /* ╔══════════════════════════════════════════════════╗
@@ -94,12 +101,13 @@ a { text-decoration: none; color: inherit; }
 #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
 
 .ld-title {
-  font-family: var(--font-d);
+  font-family: var(--font-genz);
+  font-weight: 800;
   font-size: clamp(4rem, 12vw, 9rem);
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   position: relative; overflow: hidden;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.15);
 }
 .ld-fill {
   position: absolute; inset: 0;
@@ -126,7 +134,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ╔══════════════════════════════════════════════════╗
-   ║  CURSOR                                          ║
+   ║  CURSOR (Desktop Only)                           ║
    ╚══════════════════════════════════════════════════╝ */
 #dot {
   position: fixed; width: 8px; height: 8px; border-radius: 50%;
@@ -178,8 +186,8 @@ body.clk #ring { width: 28px; height: 28px; }
   border-color: var(--border);
 }
 .n-logo {
-  font-family: var(--font-d); font-size: 1.7rem;
-  letter-spacing: .15em; position: relative;
+  font-family: var(--font-genz); font-weight: 800; font-size: 1.5rem;
+  letter-spacing: .1em; position: relative;
 }
 .n-logo .dot { color: var(--teal); }
 
@@ -268,24 +276,39 @@ section { position: relative; z-index: 5; }
 
 .h-name {
   display: block;
-  font-family: var(--font-d);
-  font-size: clamp(4.5rem, 11vw, 11rem);
-  line-height: .92;
-  letter-spacing: -.01em;
+  /* Gen Z Font Integration */
+  font-family: var(--font-genz);
+  font-weight: 800;
+  font-size: clamp(3rem, 9.5vw, 9rem); /* Adjusted sizes for wrap */
+  line-height: 1.05;
+  letter-spacing: -.02em;
+  word-wrap: break-word; /* Wrap fix */
+  white-space: normal; /* Wrap fix */
 }
+
+/* Wrapping fix for split chars */
+.hc-word {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 0.3em;
+}
+
 .h-r1 {
   color: transparent;
-  -webkit-text-stroke: 2px rgba(255,255,255,.88);
+  /* Thicker stroke for modern Gen Z aesthetic */
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
 }
 .h-r2 {
-  background: linear-gradient(120deg, var(--teal) 0%, var(--violet) 45%, var(--pink) 100%);
+  /* Gen Z Cyberpunk / Y2K Gradient */
+  background: linear-gradient(108deg, #ccff00 0%, #00ffcc 46%, #ff00ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  padding-right: 10px; /* Prevent clipping */
 }
 .hc {
   display: inline-block;
-  opacity: 0; transform: translateY(130%) rotate(8deg);
+  opacity: 0; transform: translateY(100%) rotate(5deg);
   animation: charIn .65s var(--ease) forwards;
 }
 @keyframes charIn { to { opacity:1; transform: none; } }
@@ -726,38 +749,42 @@ footer span { color: var(--teal); }
 footer em   { color: var(--pink); font-style: normal; }
 
 /* ╔══════════════════════════════════════════════════╗
-   ║  RESPONSIVE                                      ║
+   ║  RESPONSIVE / MOBILE OPTIMIZATIONS               ║
    ╚══════════════════════════════════════════════════╝ */
 @media (max-width: 1024px) {
   .h-decor, .h-dots { display: none; }
   .about-grid { grid-template-columns: 1fr; gap: 4rem; }
   .av-scene { order: -1; }
 }
+
 @media (max-width: 768px) {
+  /* PERFORMANCE OPTIMIZATIONS */
+  .noise { animation: none; opacity: 0.015; } /* Less CPU usage */
+  #nav.on { backdrop-filter: none; background: rgba(4,6,15,0.98); } /* Blur is heavy on mobile */
+  
   .n-links, .n-avail { display: none; }
   .sk-grid { grid-template-columns: repeat(2,1fr); }
   .pj-row { grid-template-columns: 60px 1fr; }
   .pj-arrow { display: none; }
   .ct-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .h-name { font-size: clamp(3.5rem, 18vw, 7rem); }
 }
+
 @media (max-width: 480px) {
   .sk-grid { grid-template-columns: 1fr; }
   .stats-g  { grid-template-columns: 1fr; }
   .av-scene { width: 300px; height: 300px; }
   .inner    { padding: 90px 5%; }
+  
+  .h-name { font-size: clamp(2.8rem, 12vw, 5rem); } /* Better sizing for small screens */
 }
 </style>
 </head>
 <body>
 
-<!-- Noise Grain -->
 <div class="noise" aria-hidden="true"></div>
 
-<!-- Scroll Progress -->
 <div id="progress" aria-hidden="true"></div>
 
-<!-- ══ LOADER ══ -->
 <div id="loader" role="status" aria-live="polite">
   <div class="ld-title">
     TI
@@ -767,17 +794,12 @@ footer em   { color: var(--pink); font-style: normal; }
   <div class="ld-pct" id="lpct" aria-label="লোডিং">0%</div>
 </div>
 
-<!-- ══ CURSOR ══ -->
 <div id="dot" aria-hidden="true"></div>
 <div id="ring" aria-hidden="true"></div>
 
-<!-- ══ CANVAS ══ -->
 <canvas id="cvs" aria-hidden="true"></canvas>
 <div class="grid" aria-hidden="true"></div>
 
-<!-- ══════════════════════════════════
-     NAV
-══════════════════════════════════ -->
 <nav id="nav" role="navigation" aria-label="মূল নেভিগেশন">
   <a href="#hero" class="n-logo" aria-label="হোম">TI<span class="dot">.</span></a>
   <ul class="n-links" role="list">
@@ -792,9 +814,6 @@ footer em   { color: var(--pink); font-style: normal; }
   </div>
 </nav>
 
-<!-- ══════════════════════════════════
-     HERO
-══════════════════════════════════ -->
 <section id="hero" aria-label="হিরো সেকশন">
   <div class="h-eye">
     <span class="hline" aria-hidden="true"></span>
@@ -815,7 +834,6 @@ footer em   { color: var(--pink); font-style: normal; }
     <a href="#contact"  class="mbtn mbtn-o"><span>যোগাযোগ করুন</span></a>
   </div>
 
-  <!-- Decorative -->
   <div class="h-decor" aria-hidden="true">
     <div class="h-orb"></div>
     <div class="h-ring"></div>
@@ -823,7 +841,6 @@ footer em   { color: var(--pink); font-style: normal; }
     <div class="h-ring"></div>
   </div>
 
-  <!-- Dot grid -->
   <div class="h-dots" aria-hidden="true">
     <span style="--di:0"></span><span style="--di:1"></span><span style="--di:2"></span><span style="--di:3"></span><span style="--di:4"></span><span style="--di:5"></span>
     <span style="--di:6"></span><span style="--di:7"></span><span style="--di:8"></span><span style="--di:9"></span><span style="--di:10"></span><span style="--di:11"></span>
@@ -834,7 +851,6 @@ footer em   { color: var(--pink); font-style: normal; }
   <div class="h-scroll" aria-label="নিচে স্ক্রল করুন">স্ক্রল করুন</div>
 </section>
 
-<!-- ══ MARQUEE ══ -->
 <div class="mq-sec" aria-hidden="true">
   <div class="mq-row">
     <span class="mq-item">DESIGN <span class="ms"></span></span><span class="mq-item">ডিজাইন <span class="ms"></span></span>
@@ -842,7 +858,6 @@ footer em   { color: var(--pink); font-style: normal; }
     <span class="mq-item">UI/UX <span class="ms"></span></span><span class="mq-item">ব্র্যান্ডিং <span class="ms"></span></span>
     <span class="mq-item">React.js <span class="ms"></span></span><span class="mq-item">Figma <span class="ms"></span></span>
     <span class="mq-item">DEPLOY <span class="ms"></span></span><span class="mq-item">CREATE <span class="ms"></span></span>
-    <!-- Duplicate for seamless loop -->
     <span class="mq-item">DESIGN <span class="ms"></span></span><span class="mq-item">ডিজাইন <span class="ms"></span></span>
     <span class="mq-item">DEVELOP <span class="ms"></span></span><span class="mq-item">ডেভেলপ <span class="ms"></span></span>
     <span class="mq-item">UI/UX <span class="ms"></span></span><span class="mq-item">ব্র্যান্ডিং <span class="ms"></span></span>
@@ -851,9 +866,6 @@ footer em   { color: var(--pink); font-style: normal; }
   </div>
 </div>
 
-<!-- ══════════════════════════════════
-     ABOUT
-══════════════════════════════════ -->
 <section id="about" aria-label="পরিচয় সেকশন">
   <div class="inner">
     <div class="about-grid">
@@ -907,9 +919,6 @@ footer em   { color: var(--pink); font-style: normal; }
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     SKILLS
-══════════════════════════════════ -->
 <section id="skills" aria-label="দক্ষতা সেকশন">
   <div class="inner">
     <p class="eyebrow rv">০২ — দক্ষতা</p>
@@ -970,9 +979,6 @@ footer em   { color: var(--pink); font-style: normal; }
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     PROJECTS
-══════════════════════════════════ -->
 <section id="projects" aria-label="প্রজেক্ট সেকশন">
   <div class="inner">
     <p class="eyebrow rv">০৩ — কাজসমূহ</p>
@@ -1015,9 +1021,6 @@ footer em   { color: var(--pink); font-style: normal; }
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     CONTACT
-══════════════════════════════════ -->
 <section id="contact" aria-label="যোগাযোগ সেকশন">
   <div class="inner">
     <p class="eyebrow rv">০৪ — যোগাযোগ</p>
@@ -1065,16 +1068,18 @@ footer em   { color: var(--pink); font-style: normal; }
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
 <footer role="contentinfo">
   <p>© ২০২৫ <span>তামজিদুল ইসলাম</span> — সর্বস্বত্ব সংরক্ষিত</p>
   <p class="ft">ডিজাইন ও ডেভেলপমেন্টে <em>♥</em> তামজিদুল</p>
 </footer>
 
-<!-- ══════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════ -->
 <script>
+/* ──────────────────────────────────────────────────
+   DEVICE DETECTION
+────────────────────────────────────────────────── */
+const isMobile = window.innerWidth <= 768;
+const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
+
 /* ──────────────────────────────────────────────────
    LOADER
 ────────────────────────────────────────────────── */
@@ -1104,54 +1109,80 @@ footer em   { color: var(--pink); font-style: normal; }
 })();
 
 /* ──────────────────────────────────────────────────
-   HERO CHARACTER SPLIT
+   HERO CHARACTER SPLIT - Wrap Issue Fixed
 ────────────────────────────────────────────────── */
 function splitChars(el, text, baseDelay) {
   el.innerHTML = '';
-  [...text].forEach((ch, i) => {
-    const s = document.createElement('span');
-    s.className = 'hc';
-    s.textContent = ch === ' ' ? '\u00a0' : ch;
-    s.style.animationDelay = (baseDelay + i * 0.055) + 's';
-    el.appendChild(s);
+  const words = text.split(' ');
+  let charIndex = 0;
+  
+  words.forEach((word, wordIdx) => {
+    // Create word wrapper to prevent horizontal overflow
+    const wordSpan = document.createElement('span');
+    wordSpan.className = 'hc-word';
+    
+    [...word].forEach((ch) => {
+      const s = document.createElement('span');
+      s.className = 'hc';
+      s.textContent = ch;
+      s.style.animationDelay = (baseDelay + charIndex * 0.055) + 's';
+      wordSpan.appendChild(s);
+      charIndex++;
+    });
+    
+    el.appendChild(wordSpan);
+    
+    // Add natural space between words
+    if (wordIdx < words.length - 1) {
+      el.appendChild(document.createTextNode(' '));
+    }
   });
 }
+
 function initHero() {
   splitChars(document.getElementById('hr1'), 'Tamjidul Islam', 0.15);
-  splitChars(document.getElementById('hr2'), '(Ovi)',    0.65);
+  splitChars(document.getElementById('hr2'), 'Ovi', 0.65);
 }
 
 /* ──────────────────────────────────────────────────
-   CUSTOM CURSOR
+   CUSTOM CURSOR (Disabled on Touch for Performance)
 ────────────────────────────────────────────────── */
 const dot  = document.getElementById('dot');
 const ring = document.getElementById('ring');
-let mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0;
 
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-document.addEventListener('mousedown', () => document.body.classList.add('clk'));
-document.addEventListener('mouseup',   () => document.body.classList.remove('clk'));
+if (isTouch) {
+  dot.style.display = 'none';
+  ring.style.display = 'none';
+} else {
+  let mx = 0, my = 0, dx = 0, dy = 0, rx = 0, ry = 0;
 
-// Hover detection
-document.querySelectorAll('a,button,.sk-card,.pj-row,.soc-btn,.mbtn,.ct-email-btn,.ct-big-email,.stat-b').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
-});
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  document.addEventListener('mousedown', () => document.body.classList.add('clk'));
+  document.addEventListener('mouseup',   () => document.body.classList.remove('clk'));
 
-(function cursorLoop() {
-  dx += (mx - dx) * 0.62;
-  dy += (my - dy) * 0.62;
-  dot.style.left = dx + 'px';
-  dot.style.top  = dy + 'px';
-  rx += (mx - rx) * 0.11;
-  ry += (my - ry) * 0.11;
-  ring.style.left = rx + 'px';
-  ring.style.top  = ry + 'px';
-  requestAnimationFrame(cursorLoop);
-})();
+  document.querySelectorAll('a,button,.sk-card,.pj-row,.soc-btn,.mbtn,.ct-email-btn,.ct-big-email,.stat-b').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('hov'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('hov'));
+  });
+
+  (function cursorLoop() {
+    dx += (mx - dx) * 0.62;
+    dy += (my - dy) * 0.62;
+    dot.style.left = dx + 'px';
+    dot.style.top  = dy + 'px';
+    rx += (mx - rx) * 0.11;
+    ry += (my - ry) * 0.11;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(cursorLoop);
+  })();
+
+  document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+  document.addEventListener('mouseenter', () => { dot.style.opacity = ''; ring.style.opacity = ''; });
+}
 
 /* ──────────────────────────────────────────────────
-   CANVAS — Optimized Aurora + Particles
+   CANVAS — Performance Optimized
 ────────────────────────────────────────────────── */
 const cvs = document.getElementById('cvs');
 const ctx  = cvs.getContext('2d');
@@ -1164,15 +1195,16 @@ function resize() {
 resize();
 window.addEventListener('resize', resize, { passive: true });
 
-// Aurora orbs
 const orbs = [
   { x:.18, y:.22, r:.38, rgb:[0,255,204],   vx:.00014, vy:.00009  },
   { x:.82, y:.72, r:.42, rgb:[255,0,102],    vx:-.0001, vy:-.00013 },
   { x:.5,  y:.42, r:.32, rgb:[124,58,255],   vx:.00009, vy:.00014  },
 ];
 
-// Particles
-const PTOT = 38;
+// Significantly reduce particles on mobile to avoid lag
+const PTOT = isMobile ? 12 : 38; 
+const CONN_DIST = isMobile ? 8000 : 14400;
+
 const pts  = Array.from({ length: PTOT }, () => ({
   x: Math.random(), y: Math.random(),
   vx: (Math.random() - .5) * .00028,
@@ -1201,7 +1233,7 @@ const pts  = Array.from({ length: PTOT }, () => ({
     ctx.fill();
   });
 
-  // Particles + connections
+  // Particles
   ctx.lineWidth = .5;
   pts.forEach((p, i) => {
     p.x += p.vx; p.y += p.vy;
@@ -1218,11 +1250,11 @@ const pts  = Array.from({ length: PTOT }, () => ({
       const q   = pts[j];
       const ddx = (p.x - q.x) * W, ddy = (p.y - q.y) * H;
       const ds  = ddx*ddx + ddy*ddy;
-      if (ds < 14400) { // 120px²
+      if (ds < CONN_DIST) {
         ctx.beginPath();
         ctx.moveTo(px, py);
         ctx.lineTo(q.x*W, q.y*H);
-        ctx.strokeStyle = `rgba(255,255,255,${(1 - Math.sqrt(ds)/120) * .1})`;
+        ctx.strokeStyle = `rgba(255,255,255,${(1 - Math.sqrt(ds)/Math.sqrt(CONN_DIST)) * .1})`;
         ctx.stroke();
       }
     }
@@ -1251,26 +1283,20 @@ window.addEventListener('scroll', () => {
     const y    = window.scrollY;
     const maxY = document.documentElement.scrollHeight - innerHeight;
 
-    // Progress bar
     progressEl.style.width = (y / maxY * 100) + '%';
-
-    // Nav scroll class
     navEl.classList.toggle('on', y > 40);
 
-    // Active nav link
     let cur = '';
     secEls.forEach(s => { if (y >= s.offsetTop - 220) cur = s.id; });
     navAs.forEach(a => a.classList.toggle('act', a.getAttribute('href') === '#' + cur));
 
-    // Hero parallax (only when near top)
-    if (y < innerHeight * 1.3) {
+    if (y < innerHeight * 1.3 && !isMobile) {
       const t1 = y * .18, t2 = y * .26;
       if (hr1El) hr1El.style.transform = `translateY(${t1}px)`;
       if (hr2El) hr2El.style.transform = `translateY(${t2}px)`;
       if (hSubEl) hSubEl.style.transform = `translateY(${y * .1}px)`;
       if (hEyeEl) hEyeEl.style.transform = `translateY(${y * .07}px)`;
     }
-
     tick = false;
   });
 }, { passive: true });
@@ -1278,7 +1304,6 @@ window.addEventListener('scroll', () => {
 /* ──────────────────────────────────────────────────
    INTERSECTION OBSERVERS
 ────────────────────────────────────────────────── */
-// Counter animation
 function animCount(el, target) {
   let s = null;
   const step = ts => {
@@ -1292,73 +1317,67 @@ function animCount(el, target) {
   requestAnimationFrame(step);
 }
 
-// Reveal observer
 const revIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
     const el = e.target;
     el.classList.add('in');
-
-    // Stat counters
     el.querySelectorAll('[data-count]').forEach(c => {
       if (!c.dataset.counted) {
         c.dataset.counted = '1';
         setTimeout(() => animCount(c, +c.dataset.count), 350);
       }
     });
-
     revIO.unobserve(el);
   });
 }, { threshold: 0.14 });
 
 document.querySelectorAll('.rv,.rl,.rr,.sk-card,.pj-row').forEach(el => revIO.observe(el));
 
-// Section observer (social rain trigger)
 const secIO = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
 }, { threshold: 0.18 });
 document.querySelectorAll('section').forEach(s => secIO.observe(s));
 
 /* ──────────────────────────────────────────────────
-   3D TILT — Skill Cards
+   3D TILT & MAGNETIC (Disabled on Mobile)
 ────────────────────────────────────────────────── */
-document.querySelectorAll('.sk-card').forEach(card => {
-  const easing = 'transform 0.6s cubic-bezier(0.23,1,0.32,1)';
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width  - .5) * 14;
-    const y = ((e.clientY - r.top)  / r.height - .5) * 14;
-    card.style.transform = `perspective(700px) rotateY(${x}deg) rotateX(${-y}deg) scale(1.025)`;
-    card.style.transition = '';
+if (!isTouch) {
+  document.querySelectorAll('.sk-card').forEach(card => {
+    const easing = 'transform 0.6s cubic-bezier(0.23,1,0.32,1)';
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width  - .5) * 14;
+      const y = ((e.clientY - r.top)  / r.height - .5) * 14;
+      card.style.transform = `perspective(700px) rotateY(${x}deg) rotateX(${-y}deg) scale(1.025)`;
+      card.style.transition = '';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform  = '';
+      card.style.transition = easing;
+      setTimeout(() => card.style.transition = '', 650);
+    });
   });
-  card.addEventListener('mouseleave', () => {
-    card.style.transform  = '';
-    card.style.transition = easing;
-    setTimeout(() => card.style.transition = '', 650);
+
+  document.querySelectorAll('.mbtn').forEach(btn => {
+    const ease = 'transform 0.65s cubic-bezier(0.23,1,0.32,1)';
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width  / 2) * .32;
+      const y = (e.clientY - r.top  - r.height / 2) * .32;
+      btn.style.transform  = `translate(${x}px, ${y}px)`;
+      btn.style.transition = '';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform  = '';
+      btn.style.transition = ease;
+      setTimeout(() => btn.style.transition = '', 700);
+    });
   });
-});
+}
 
 /* ──────────────────────────────────────────────────
-   MAGNETIC BUTTONS
-────────────────────────────────────────────────── */
-document.querySelectorAll('.mbtn').forEach(btn => {
-  const ease = 'transform 0.65s cubic-bezier(0.23,1,0.32,1)';
-  btn.addEventListener('mousemove', e => {
-    const r = btn.getBoundingClientRect();
-    const x = (e.clientX - r.left - r.width  / 2) * .32;
-    const y = (e.clientY - r.top  - r.height / 2) * .32;
-    btn.style.transform  = `translate(${x}px, ${y}px)`;
-    btn.style.transition = '';
-  });
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform  = '';
-    btn.style.transition = ease;
-    setTimeout(() => btn.style.transition = '', 700);
-  });
-});
-
-/* ──────────────────────────────────────────────────
-   TEXT SCRAMBLE — Project Titles on hover
+   TEXT SCRAMBLE
 ────────────────────────────────────────────────── */
 const SC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#%&';
 function scramble(el) {
@@ -1374,23 +1393,12 @@ function scramble(el) {
   }, 32);
 }
 
-document.querySelectorAll('.pj-row').forEach(row => {
-  const title = row.querySelector('.pj-title');
-  row.addEventListener('mouseenter', () => scramble(title));
-  row.addEventListener('keydown',    e => { if (e.key === 'Enter') scramble(title); });
-});
-
-/* ──────────────────────────────────────────────────
-   HIDE CURSOR WHEN LEAVING WINDOW
-────────────────────────────────────────────────── */
-document.addEventListener('mouseleave', () => {
-  dot.style.opacity  = '0';
-  ring.style.opacity = '0';
-});
-document.addEventListener('mouseenter', () => {
-  dot.style.opacity  = '';
-  ring.style.opacity = '';
-});
+if (!isTouch) {
+  document.querySelectorAll('.pj-row').forEach(row => {
+    const title = row.querySelector('.pj-title');
+    row.addEventListener('mouseenter', () => scramble(title));
+  });
+}
 </script>
 </body>
 </html>
