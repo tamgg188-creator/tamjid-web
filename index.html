@@ -2,7 +2,8 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- জুম ইন/আউট বন্ধ করার জন্য viewport আপডেট করা হয়েছে -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>তামজিদুল ইসলাম — গ্রাফিক্স ডিজাইনার ও ওয়েব ডেভেলপার</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Fira+Code:wght@300;400;500&family=Noto+Sans+Bengali:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -24,13 +25,17 @@
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html, body { 
+    max-width: 100vw; /* স্ক্রিনের বাইরে যাওয়া বন্ধ করার জন্য */
+    overflow-x: hidden; 
+  }
+  
   html { scroll-behavior: smooth; }
 
   body {
     background: var(--bg);
     color: var(--text);
     font-family: var(--font-main);
-    overflow-x: hidden;
     cursor: none;
     line-height: 1.8;
   }
@@ -437,13 +442,12 @@
     clip-path: polygon(0 0, calc(100% - 25px) 0, 100% 25px, 100% 100%, 0 100%);
   }
 
-  /* ── SOCIAL RAIN ANIMATION ── */
+  /* ── SOCIAL RAIN ANIMATION (UPDATED FOR BOTTOM PLACEMENT) ── */
   .social-ground {
     position: relative;
     height: 100px;
-    display: flex; align-items: flex-end; justify-content: flex-start; gap: 1.5rem;
-    margin-top: 1rem;
-    border-bottom: 1px solid rgba(0,240,255,0.2); 
+    display: flex; align-items: flex-end; justify-content: center; gap: 1.5rem; /* Centered */
+    margin-top: 4rem; /* Spacing from the boxes */
     padding-bottom: 15px;
     overflow: visible;
   }
@@ -515,12 +519,13 @@
     .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 4rem; }
     .skills-grid { grid-template-columns: repeat(2, 1fr); }
     .project-item { grid-template-columns: 60px 1fr; padding: 1.5rem; } .project-stack { display: none; }
-    .social-ground { justify-content: center; border-bottom: none; }
     footer { flex-direction: column; gap: 1rem; text-align: center; }
   }
   @media (max-width: 600px) {
-    .skills-grid { grid-template-columns: 1fr; } .hero-name { font-size: 3rem; }
-    .avatar-container { width: 280px; height: 280px; }
+    .skills-grid { grid-template-columns: 1fr; } 
+    .hero-name { font-size: clamp(2.5rem, 10vw, 4rem); } /* ওভারফ্লো বন্ধ করতে সাইজ ফিক্স */
+    .avatar-container { width: 280px; height: 280px; max-width: 100%; }
+    .direct-email-box { padding: 3rem 1.5rem; } /* ছোট স্ক্রিনে ইমেইল বক্সের প্যাডিং কমানো হয়েছে */
   }
 </style>
 </head>
@@ -737,30 +742,32 @@
   <div class="section-inner">
     <p class="section-label">// ০৪. যোগাযোগ</p>
     <h2 class="section-title">চলুন <span class="accent">কথা বলি</span></h2>
+    
     <div class="contact-inner">
       <div class="contact-text">
         <p>নতুন কোনো প্রজেক্টের আইডিয়া আছে? অথবা আমার কোনো কাজ ভালো লেগেছে? নির্দ্বিধায় আমাকে মেসেজ করুন। আমি সবসময় নতুন কাজের সুযোগ বা কোলাবোরেশনের জন্য প্রস্তুত।</p>
-        
-        <!-- Social Rain Elements -->
-        <div class="social-ground">
-          <a href="https://www.facebook.com/share/18UXfyGTb8/" target="_blank" class="social-icon" style="--delay: 0.2s">
-            <svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/md_tamjidul_islam?igsh=ODQ3ZTV2d2Z4ejBm" target="_blank" class="social-icon" style="--delay: 0.4s">
-            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/tamjidul-islam-ovi-008342401?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="social-icon" style="--delay: 0.6s">
-            <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-          </a>
-        </div>
       </div>
       
       <div class="direct-email-box">
         <h3 style="color: #fff; margin-bottom: 1rem; font-family: var(--font-main);">সরাসরি মেইল করুন</h3>
-        <a href="mailto:tamjidulislamovi@gmail.com" class="btn btn-primary" style="font-size: 1.1rem; padding: 1.2rem 2.5rem; width: 100%;">
+        <!-- বাটনের সাইজ এবং লেখা রেসপনসিভ করা হয়েছে যাতে ওভারফ্লো না হয় -->
+        <a href="mailto:tamjidulislamovi@gmail.com" class="btn btn-primary" style="font-size: clamp(0.85rem, 3.5vw, 1.1rem); padding: 1.2rem 1rem; width: 100%; word-break: break-word;">
           tamjidulislamovi@gmail.com ↗
         </a>
       </div>
+    </div>
+
+    <!-- Social Icons: জিমেইল বক্সের নিচে নিয়ে আসা হয়েছে এবং সেন্টারে রাখা হয়েছে -->
+    <div class="social-ground">
+      <a href="https://www.facebook.com/share/18UXfyGTb8/" target="_blank" class="social-icon" style="--delay: 0.2s">
+        <svg viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/md_tamjidul_islam?igsh=ODQ3ZTV2d2Z4ejBm" target="_blank" class="social-icon" style="--delay: 0.4s">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/tamjidul-islam-ovi-008342401?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="social-icon" style="--delay: 0.6s">
+        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      </a>
     </div>
   </div>
 </section>
