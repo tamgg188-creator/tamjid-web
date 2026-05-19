@@ -1258,6 +1258,16 @@ details[open] .faq-q{color:var(--teal)}
 }
 .ct-email-btn:hover .ct-email-icon{transform:rotate(-45deg);color:#000}
 
+/* Contact Form Styles */
+.ct-form { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2.5rem; }
+.ct-form-group { display: flex; flex-direction: column; position: relative; }
+.ct-form-label { font-family: var(--font-m); font-size: 0.65rem; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+.ct-form-input { background: var(--surface); border: 1px solid var(--border); padding: 1rem 1.2rem; color: var(--text); font-family: var(--font-b); font-size: 0.95rem; transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease); }
+.ct-form-input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 20px rgba(0, 255, 204, 0.12); }
+textarea.ct-form-input { resize: vertical; min-height: 130px; }
+.mbtn-submit { width: 100%; margin-top: 0.5rem; }
+.form-status { font-family: var(--font-m); font-size: 0.8rem; margin-top: 0.5rem; min-height: 1.2rem; }
+
 .ct-socials{margin-top:3rem}
 .ct-soc-label{
   font-family:var(--font-m);font-size:.68rem;
@@ -1929,12 +1939,38 @@ footer{
             <p>নতুন কোনো প্রজেক্টের আইডিয়া আছে? অথবা আমার কোনো কাজ ভালো লেগেছে? নির্দ্বিধায় আমাকে মেসেজ করুন।</p>
             <p>আমি সবসময় নতুন কাজের সুযোগ বা কোলাবোরেশনের জন্য প্রস্তুত।</p>
           </div>
-          <a href="mailto:tamjidulislamovi@gmail.com" class="ct-email-btn">
+          <a href="mailto:inbox@tamjidulislam.online" class="ct-email-btn">
             <svg class="ct-email-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M7 17L17 7M17 7H7M17 7v10"/>
             </svg>
-            <span>tamjidulislamovi@gmail.com</span>
+            <span>inbox@tamjidulislam.online</span>
           </a>
+
+          <!-- কাস্টম কন্টাক্ট ফর্ম শুরু -->
+          <form id="contactForm" class="ct-form">
+            <div class="ct-form-group">
+              <label class="ct-form-label" for="formName">// আপনার নাম</label>
+              <input class="ct-form-input" type="text" id="formName" name="name" required placeholder="John Doe">
+            </div>
+            
+            <div class="ct-form-group">
+              <label class="ct-form-label" for="formEmail">// আপনার ইমেইল</label>
+              <input class="ct-form-input" type="email" id="formEmail" name="email" required placeholder="name@example.com">
+            </div>
+            
+            <div class="ct-form-group">
+              <label class="ct-form-label" for="formMessage">// মেসেজ</label>
+              <textarea class="ct-form-input" id="formMessage" name="message" required placeholder="আপনার প্রজেক্টের আইডিয়া শেয়ার করুন..."></textarea>
+            </div>
+          
+            <button type="submit" id="submitBtn" class="mbtn mbtn-p mbtn-submit">
+              <span>মেসেজ পাঠান →</span>
+            </button>
+            
+            <div id="formStatus" class="form-status"></div>
+          </form>
+          <!-- কাস্টম কন্টাক্ট ফর্ম শেষ -->
+
           <div class="ct-socials">
             <p class="ct-soc-label">// সোশ্যাল মিডিয়া</p>
             <div class="soc-row">
@@ -2495,6 +2531,51 @@ if (avFrame) {
 if (!isMobile) {
   const h = document.querySelector('.ham');
   if (h) h.style.display = 'none';
+}
+
+/* ══════════════════════════════════════════════════
+   CONTACT FORM SUBMISSION (GOOGLE SHEETS)
+══════════════════════════════════════════════════ */
+const contactForm = document.getElementById('contactForm');
+const submitBtn   = document.getElementById('submitBtn');
+const formStatus  = document.getElementById('formStatus');
+const scriptURL   = 'https://script.google.com/macros/s/AKfycbzkwGFAxH_5Y3g0dVdQLV5p_KtyF25xxTcsIizu6s0NqrLogG-TXXm1OMHCW02ML_Z_/exec';
+
+if (contactForm) {
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    const btnText = submitBtn.querySelector('span');
+    const origText = btnText.textContent;
+    btnText.textContent = 'পাঠানো হচ্ছে...';
+    formStatus.textContent = '';
+
+    // Send data to Google Sheets
+    fetch(scriptURL, { method: 'POST', body: new FormData(contactForm) })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          formStatus.textContent = '// মেসেজটি সফলভাবে পাঠানো হয়েছে! ধন্যবাদ।';
+          formStatus.style.color = 'var(--teal)';
+          contactForm.reset(); // Clear the form
+        } else {
+          formStatus.textContent = '// সমস্যা হয়েছে! অনুগ্রহ করে আবার চেষ্টা করুন।';
+          formStatus.style.color = 'var(--pink)';
+        }
+      })
+      .catch(error => {
+        formStatus.textContent = '// নেটওয়ার্ক এরর! আবার চেষ্টা করুন।';
+        formStatus.style.color = 'var(--pink)';
+        console.error('Error!', error.message);
+      })
+      .finally(() => {
+        // Re-enable button
+        submitBtn.disabled = false;
+        btnText.textContent = origText;
+      });
+  });
 }
 </script>
 </body>
