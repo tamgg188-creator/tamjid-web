@@ -809,7 +809,9 @@ section{position:relative;z-index:5}
 }
 .av-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .av-frame{
-  width:75%;height:75%;border-radius:12px;overflow:hidden;
+  width:75%;height:75%;
+  border-radius:50%; /* UPDATED to make it perfectly circular */
+  overflow:hidden;
   border:1px solid var(--border); background: var(--bg2);
   box-shadow: var(--shadow-lg);
   position:relative;z-index:3;
@@ -1340,6 +1342,25 @@ footer{
   .ft-bottom{flex-direction:column;gap:1.5rem;text-align:center}
   .pj-row{grid-template-columns:1fr;}
   .pj-num{display: none;}
+}
+
+/* ════════════════════════════════════════════════
+   AESTHETIC CLICK ANIMATIONS (Scale & Push Effect)
+════════════════════════════════════════════════ */
+.mbtn:active,
+.float-btn:active,
+.soc-btn:active,
+.ci-email-btn:active,
+.mbtn-submit:active {
+    transform: scale(0.92) translateY(2px) !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.1s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.n-links a:active,
+.mob-link:active {
+    transform: scale(0.90);
+    transition: transform 0.1s ease;
 }
 </style>
 </head>
