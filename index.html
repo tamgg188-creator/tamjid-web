@@ -197,7 +197,7 @@
   --border: #e5e7eb;
   --border2: #d1d5db;
   
-  /* Soft elegant shadows */
+  /* Soft elegant shadows instead of neon glows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
@@ -206,7 +206,7 @@
   --ease: cubic-bezier(.23,1,.32,1);
   --ease2: cubic-bezier(.76,0,.24,1);
   
-  --font-d: 'Syne', 'Noto Sans Bengali', sans-serif;
+  --font-d: 'Syne', 'Noto Sans Bengali', sans-serif; /* Replaced Bebas for a more premium editorial look */
   --font-b: 'Barlow', 'Noto Sans Bengali', sans-serif;
   --font-m: 'JetBrains Mono', monospace;
   --font-s: 'Syne', sans-serif;
@@ -242,11 +242,12 @@ a{text-decoration:none;color:inherit}
 /* ════════════════════════════════════════════════
    SUBTLE BACKGROUND EFFECTS (LIGHT THEME)
 ════════════════════════════════════════════════ */
-/* Soft ambient mouse gradient - OPTIMIZED for GPU */
+/* Soft ambient mouse gradient - OPTIMIZED for GPU Hardware Acceleration */
 #mouse-light {
   position: fixed; top: -400px; left: -400px; width: 800px; height: 800px;
   background: radial-gradient(circle, rgba(13, 148, 136, 0.035), transparent 60%);
   border-radius: 50%; z-index: 2; pointer-events: none;
+  will-change: transform;
 }
 
 /* Subtle editorial noise texture */
@@ -254,6 +255,7 @@ a{text-decoration:none;color:inherit}
   position:fixed;inset:0;z-index:900;pointer-events:none;opacity:0.02;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
   background-size:160px 160px;
+  /* Removed mix-blend-mode for significant scroll performance boost */
 }
 
 /* Clean progress bar */
@@ -261,6 +263,7 @@ a{text-decoration:none;color:inherit}
   position:fixed;top:0;left:0;height:3px;width:0%;
   background:linear-gradient(90deg,var(--teal),var(--violet));
   z-index:9999;pointer-events:none;
+  will-change: width;
 }
 
 /* ════════════════════════════════════════════════
@@ -374,8 +377,8 @@ a{text-decoration:none;color:inherit}
   border-bottom:1px solid transparent;
 }
 #nav.on{
-  background:rgba(255, 255, 255, 0.95); /* Reduced blur dependence for performance */
-  backdrop-filter:blur(10px);
+  background:rgba(255, 255, 255, 0.85);
+  backdrop-filter:blur(16px) saturate(1.2);
   border-color:var(--border);
 }
 .n-logo{
@@ -490,6 +493,7 @@ a{text-decoration:none;color:inherit}
   padding:1.2rem 3rem; border-radius: 4px;
   cursor:pointer;border:none;
   transition:transform .4s var(--ease),box-shadow .4s;
+  will-change: transform;
 }
 .mbtn span{position:relative;z-index:2;transition:color .3s}
 .mbtn-p{
@@ -565,12 +569,12 @@ section{position:relative;z-index:5}
   padding:100px 5% 0;position:relative;overflow:hidden;
 }
 
-/* Subtle Light Theme Orbs - Optimized (Removed will-change causing lag) */
+/* Subtle Light Theme Orbs */
 .h-bg-orbs{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .h-bg-orb{
   position:absolute;border-radius:50%;
   animation:orbDrift 20s ease-in-out infinite;
-  opacity: 0.5;
+  will-change: transform; opacity: 0.5;
 }
 .h-bg-orb:nth-child(1){
   width:600px;height:600px;right:-10%;top:-10%;
@@ -688,10 +692,8 @@ section{position:relative;z-index:5}
 .h-orb{
   position:absolute;inset:15%;
   background:conic-gradient(from 0deg, rgba(13, 148, 136, 0.1), rgba(79, 70, 229, 0.1), rgba(219, 39, 119, 0.1), rgba(13, 148, 136, 0.1));
-  border-radius:50%;
-  /* filter:blur(15px); REMOVED: CSS Filter was causing significant scroll lag */
+  border-radius:50%;filter:blur(15px);
   animation:orbSp 25s linear infinite;
-  opacity: 0.6; /* Softened opacity to compensate for lack of blur */
 }
 .h-ring{
   position:absolute;inset:0;border-radius:50%;
@@ -727,7 +729,7 @@ section{position:relative;z-index:5}
   background:var(--bg2);
   padding:1.5rem 0;
 }
-.mq-row{display:flex;white-space:nowrap;}
+.mq-row{display:flex;white-space:nowrap; will-change: transform;}
 .mq-row:nth-child(1){animation:mqF 28s linear infinite}
 .mq-row:nth-child(2){animation:mqR 35s linear infinite;margin-top:.8rem}
 .mq-item{
@@ -808,7 +810,7 @@ section{position:relative;z-index:5}
 .av-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .av-frame{
   width:75%;height:75%;
-  border-radius:50%; /* PERFECT CIRCLE */
+  border-radius:50%; /* UPDATED to make it perfectly circular */
   overflow:hidden;
   border:1px solid var(--border); background: var(--bg2);
   box-shadow: var(--shadow-lg);
@@ -826,6 +828,7 @@ section{position:relative;z-index:5}
 .av-orbit{
   position:absolute;inset:0;border-radius:50%;
   border:1px solid transparent;pointer-events:none;
+  will-change: transform;
 }
 .ao1{border-top-color:var(--border2);border-bottom-color:var(--border2);animation:avSp 15s linear infinite}
 .ao2{inset:-5%;border-left-color:rgba(13, 148, 136, 0.3);border-right-color:rgba(13, 148, 136, 0.3);animation:avSp 20s linear infinite reverse}
@@ -980,6 +983,7 @@ section{position:relative;z-index:5}
   opacity:0;pointer-events:none;
   top:50%;transform:translateY(-50%);right:5%;
   transition:opacity .6s var(--ease),transform .6s var(--ease);
+  will-change: transform, opacity;
 }
 .pj-row:nth-child(1) .pj-blob{background:radial-gradient(circle, rgba(13, 148, 136, 0.1), transparent 65%)}
 .pj-row:nth-child(2) .pj-blob{background:radial-gradient(circle, rgba(219, 39, 119, 0.06), transparent 65%)}
@@ -1045,6 +1049,7 @@ section{position:relative;z-index:5}
   background:var(--bg2);padding:3.5rem 2.5rem;
   position:relative;overflow:hidden;
   transition:background .4s;
+  will-change: transform;
 }
 .proc-card::before{
   content:'';position:absolute;bottom:0;left:0;right:0;height:3px;
@@ -1886,9 +1891,6 @@ footer{
       <li><a href="#about">পরিচয়</a></li>
       <li><a href="#skills">দক্ষতা</a></li>
       <li><a href="#projects">কাজসমূহ</a></li>
-      <!-- Added Missing Links Here -->
-      <li><a href="#process">প্রক্রিয়া</a></li>
-      <li><a href="#faq">জিজ্ঞাসা</a></li>
       <li><a href="#contact">যোগাযোগ</a></li>
     </ul>
   </div>
@@ -1993,7 +1995,7 @@ document.addEventListener('mousemove', e => {
 }, { passive: true });
 
 /* ══════════════════════════════════════════════════
-   CANVAS (PERFORMANCE OPTIMIZED)
+   CANVAS (Light Theme / Pastel Colors)
 ══════════════════════════════════════════════════ */
 const cvs = document.getElementById('cvs');
 let isCanvasVisible = true;
@@ -2009,6 +2011,7 @@ if(cvs) {
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
+  // Soft light-theme pastel colors instead of dark neon
   const sectionOrbMap = {
     hero:     [[13,148,136],[79,70,229],[219,39,119]],
     about:    [[13,148,136],[14,165,233],[79,70,229]],
@@ -2019,10 +2022,23 @@ if(cvs) {
     contact:  [[13,148,136],[79,70,229],[219,39,119]],
   };
   let currentOrbColors = sectionOrbMap.hero.map(c => [...c]);
+  let targetOrbColors  = sectionOrbMap.hero.map(c => [...c]);
 
-  // FIX: Removed heavy radial gradients that were destroying GPU performance.
-  // Now canvas ONLY handles the lightweight animated dot/line connections.
-  const PTOT    = isMobile ? 8 : 15; 
+  function lerpColor(a, b, t) {
+    return [
+      Math.round(a[0] + (b[0] - a[0]) * t),
+      Math.round(a[1] + (b[1] - a[1]) * t),
+      Math.round(a[2] + (b[2] - a[2]) * t),
+    ];
+  }
+
+  const orbs = [
+    { x:.15, y:.2,  r:.4,  vx:.0001, vy:.00008 },
+    { x:.83, y:.75, r:.44, vx:-.0001,vy:-.0001 },
+    { x:.5,  y:.45, r:.33, vx:.00008,vy:.00012 },
+  ];
+
+  const PTOT    = isMobile ? 0 : 15; 
   const CONN_D2 = 15000;
 
   const pts = Array.from({ length: PTOT }, () => ({
@@ -2040,21 +2056,38 @@ if(cvs) {
     }
 
     ctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < 3; i++) {
+      currentOrbColors[i] = lerpColor(currentOrbColors[i], targetOrbColors[i], .01);
+    }
+
+    orbs.forEach((o, i) => {
+      o.x += o.vx; o.y += o.vy;
+      if (o.x < -.35 || o.x > 1.35) o.vx *= -1;
+      if (o.y < -.35 || o.y > 1.35) o.vy *= -1;
+      const cx = o.x * W, cy = o.y * H, rad = o.r * Math.min(W, H);
+      const g  = ctx.createRadialGradient(cx, cy, 0, cx, cy, rad);
+      const rgb = currentOrbColors[i].join(',');
+      g.addColorStop(0, `rgba(${rgb},.04)`); // Much softer for light theme
+      g.addColorStop(.5, `rgba(${rgb},.01)`);
+      g.addColorStop(1,  `rgba(${rgb},0)`);
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
     ctx.lineWidth = .5;
-    
     pts.forEach((p, i) => {
       p.x += p.vx; p.y += p.vy;
       if (p.x < 0) p.x = 1; else if (p.x > 1) p.x = 0;
       if (p.y < 0) p.y = 1; else if (p.y > 1) p.y = 0;
-      
       const px = p.x * W, py = p.y * H;
       const rgb = currentOrbColors[p.ci].join(',');
-      
       ctx.beginPath();
       ctx.arc(px, py, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${rgb},.4)`;
+      ctx.fillStyle = `rgba(${rgb},.4)`; // slightly darker dots
       ctx.fill();
-      
       for (let j = i + 1; j < pts.length; j++) {
         const q  = pts[j];
         const ddx = (p.x - q.x) * W, ddy = (p.y - q.y) * H;
@@ -2064,7 +2097,7 @@ if(cvs) {
           ctx.beginPath();
           ctx.moveTo(px, py);
           ctx.lineTo(q.x * W, q.y * H);
-          ctx.strokeStyle = `rgba(0,0,0,${alpha})`;
+          ctx.strokeStyle = `rgba(0,0,0,${alpha})`; // Dark connecting lines
           ctx.stroke();
         }
       }
@@ -2093,6 +2126,10 @@ const navObserver = new IntersectionObserver((entries) => {
       const cur = entry.target.id;
       navAs.forEach(a => a.classList.toggle('act', a.getAttribute('href') === '#' + cur));
       secDotEls.forEach(d => d.classList.toggle('act', d.getAttribute('href') === '#' + cur));
+      
+      if (typeof targetOrbColors !== 'undefined' && typeof sectionOrbMap !== 'undefined' && sectionOrbMap[cur]) {
+        targetOrbColors = sectionOrbMap[cur].map(c => [...c]);
+      }
       isCanvasVisible = (cur === 'hero' || cur === 'about');
     }
   });
