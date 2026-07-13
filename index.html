@@ -250,7 +250,7 @@ a{text-decoration:none;color:inherit; -webkit-tap-highlight-color: transparent;}
 .mbtn-p:hover::before{transform:scaleX(1);transform-origin:left}
 .mbtn-p:hover{box-shadow:var(--shadow-teal)}
 .mbtn-o{ background:transparent;color:var(--text-dark); border:1px solid var(--border2); }
-.mbtn-o::before{ content:'position:absolute;inset:0; background:var(--bg3); transform:scaleY(0);transform-origin:bottom; transition:transform .4s var(--ease); }
+.mbtn-o::before{ content:'';position:absolute;inset:0; background:var(--bg3); transform:scaleY(0);transform-origin:bottom; transition:transform .4s var(--ease); }
 .mbtn-o:hover::before{transform:scaleY(1)}
 main { display: block; }
 section{position:relative;z-index:5}
@@ -544,20 +544,21 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
     max-width: 280px;
     background: #ffffff;
     color: #000000;
-    padding: 15px 20px;
+    padding: 12px 25px 12px 18px; /* Extra padding for close button */
     border-radius: 12px;
-    border: 2px solid #000000; /* Darker border matching image */
+    border: 2px solid #000000; 
     font-size: 0.95rem;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    font-family: var(--font-b); /* better readability for Bengali */
+    font-family: var(--font-b); 
     font-weight: 600;
     line-height: 1.5;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.6s var(--ease);
+    transition: all 0.4s var(--ease);
     text-align: center;
     z-index: 10;
     transform-origin: bottom center;
+    cursor: pointer;
 }
 #chat-welcome-popup::before {
     content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
@@ -571,6 +572,25 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
     opacity: 1;
     transform: translate(-50%, calc(-100% - 10px)) scale(1);
 }
+#chat-welcome-popup.show {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 15px)) scale(1);
+    pointer-events: auto; /* Make clickable */
+}
+
+/* Close button for popup */
+.close-popup-btn {
+    position: absolute;
+    top: 2px;
+    right: 8px;
+    cursor: pointer;
+    color: #666;
+    font-size: 1.4rem;
+    line-height: 1;
+    transition: color 0.3s;
+    font-family: var(--font-s);
+}
+.close-popup-btn:hover { color: #000; }
 
 /* Chat Window */
 #chat-window { 
@@ -622,8 +642,9 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
   <!-- Interactive Bubble -->
   <div id="chat-bubble">
     <img src="/avatar.png" alt="Ovi AI Avatar" id="avatar-img" onerror="this.src='https://i.postimg.cc/5y4bwvmk/1000099141-removebg-preview.png'">
-    <div id="chat-welcome-popup">
-      <p>আপনাকে স্বাগত, অন্যতম সৃজনশীল ও রুচিসম্পন্ন ওয়েবসাইট ক্রিয়েটর অভির জগতে</p>
+    <div id="chat-welcome-popup" onclick="toggleChatWindow()">
+      <p id="chat-popup-text">আপনাকে স্বাগতম! আমি তামজিদুল ইসলাম (অভি)-এর এআই অ্যাসিস্ট্যান্ট।</p>
+      <span id="chat-popup-close" class="close-popup-btn" onclick="closePopup(event)" style="display:none;">×</span>
     </div>
   </div>
 
@@ -1074,7 +1095,7 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
       <div class="ct-grid">
         <div class="rl" style="transition-delay:.2s">
           <div class="ct-body">
-            <p>নতুন কোনো প্রজেক্টের আইডিয়া আছে? অথবা আমার কোনো কাজ ভালো লেগেছে? নির্দ্বিধ অফিসে মেসেজ করুন।</p>
+            <p>নতুন কোনো প্রজেক্টের আইডিয়া আছে? অথবা আমার কোনো কাজ ভালো লেগেছে? নির্দ্বিধায় আমাকে মেসেজ করুন।</p>
             <p>আমি সবসময় নতুন কাজের সুযোগ বা কোলাবোরেশনের জন্য প্রস্তুত।</p>
           </div>
           
@@ -1201,8 +1222,14 @@ function toggleChatWindow() {
   const chatWindow = document.getElementById('chat-window');
   chatWindow.classList.toggle('chat-hidden');
   if (!chatWindow.classList.contains('chat-hidden')) {
+    document.getElementById('chat-welcome-popup').classList.remove('show');
     document.getElementById('user-msg-input').focus();
   }
+}
+
+function closePopup(event) {
+  event.stopPropagation();
+  document.getElementById('chat-welcome-popup').classList.remove('show');
 }
 
 function handleEnter(e) {
@@ -1280,11 +1307,16 @@ function initBubble() {
 
 function playBubbleIntro() {
   chatBubble.style.opacity = '1';
-  // Include all transitions needed to switch smoothly between giant and normal modes
   chatBubble.style.transition = 'left 0.8s var(--ease), top 0.8s var(--ease), width 0.6s var(--ease), height 0.6s var(--ease), box-shadow 0.6s var(--ease), background 0.6s var(--ease), border-color 0.6s var(--ease), border-radius 0.6s var(--ease)';
   chatBubble.classList.add('giant-mode');
 
-  // After 4.5 seconds (gives time to read), shrink and move to the corner
+  const popupText = document.getElementById('chat-popup-text');
+  const popupClose = document.getElementById('chat-popup-close');
+  
+  popupText.innerHTML = "আপনাকে স্বাগতম! আমি তামজিদুল ইসলাম (অভি)-এর এআই অ্যাসিস্ট্যান্ট।";
+  popupClose.style.display = 'none';
+
+  // After 2 seconds, shrink and move to the corner
   setTimeout(() => {
     chatBubble.classList.remove('giant-mode');
     const radius = 32.5; 
@@ -1294,14 +1326,24 @@ function playBubbleIntro() {
     setBubblePos(targetX, targetY);
 
     setTimeout(() => {
-      // Remove heavy transitions so dragging is snappy
       chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
       bubbleIntroDone = true;
-    }, 800);
-  }, 4500); 
+
+      // Now show the "How can I help you?" text
+      popupText.innerHTML = "কীভাবে সাহায্য করতে পারি?";
+      popupClose.style.display = 'block';
+      document.getElementById('chat-welcome-popup').classList.add('show');
+      
+      // Auto-hide popup after 5 seconds if ignored
+      setTimeout(() => {
+         document.getElementById('chat-welcome-popup').classList.remove('show');
+      }, 5000);
+
+    }, 800); 
+  }, 2000); 
 }
 
-// ─── DRAGGABLE MESSENGER BUBBLE LOGIC ────────────────────
+// ─── DRAGGABLE BUBBLE LOGIC ────────────────────
 let isDragging = false, dragStartX = 0, dragStartY = 0;
 let initialBubbleX = 0, initialBubbleY = 0, hasMoved = false;
 
@@ -1309,6 +1351,10 @@ function onDragStart(e) {
   if (!bubbleIntroDone) return;
   isDragging = true;
   hasMoved = false;
+  
+  // Hide popup if interacting
+  document.getElementById('chat-welcome-popup').classList.remove('show');
+  
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
   const clientY = e.touches ? e.touches[0].clientY : e.clientY;
   dragStartX = clientX;
