@@ -5,42 +5,47 @@ module.exports = async function (req, res) {
   
   try {
     const { message, context } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
     
-    // যদি API Key Vercel-এ ঠিকমতো সেট না থাকে, তবে এরর দেখাবে
+    // আপনি যেহেতু নাম পাল্টাতে চান না, তাই আগের GEMINI_API_KEY নামেই কাজ করবে
+    const apiKey = process.env.GEMINI_API_KEY; 
+    
     if (!apiKey) {
       return res.status(500).json({ error: 'API Key missing in Vercel' });
     }
     
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    // Groq API Call (GEMINI_API_KEY এর ভ্যালু হিসেবে Groq এর Key থাকতে হবে)
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
       body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `তুমি এই ওয়েবসাইটের একজন পার্সোনাল অ্যাসিস্ট্যান্ট। নিচে দেওয়া ওয়েবসাইটের তথ্য (Context) খুব ভালো করে পড়ো। ভিজিটর যখন কোনো প্রশ্ন করবে, তুমি শুধুমাত্র এবং শুধুমাত্র এই তথ্যের ওপর ভিত্তি করে সংক্ষিপ্ত ও বন্ধুবৎসল ভাষায় উত্তর দেবে। 
-
-যদি ভিজিটরের প্রশ্নের উত্তর নিচের তথ্যের মধ্যে সরাসরি দেওয়া না থাকে, তবে নিজের থেকে কোনো তথ্য বানিয়ে বা বানিয়ে উত্তর দেবে না। প্রশ্নের উত্তর না জানা থাকলে তুমি হুবহু এই কথাটি বলবে: "আমি জানিনা"।
-
-ওয়েবসাইটের তথ্য (Context):
-"""
-${context}
-"""
-
-ভিজিটরের প্রশ্ন: ${message}`
-          }]
-        }]
+        model: 'llama3-8b-8192', 
+        messages: [
+          {
+            role: 'system',
+            content: `তুমি তামজিদুল ইসলাম (অভি)-এর ওয়েবসাইটের একজন পার্সোনাল অ্যাসিস্ট্যান্ট। নিচে দেওয়া ওয়েবসাইটের তথ্য (Context) খুব ভালো করে পড়ো। ভিজিটর যখন কোনো প্রশ্ন করবে, তুমি শুধুমাত্র এই তথ্যের ওপর ভিত্তি করে সংক্ষিপ্ত, বাংলায় ও বন্ধুবৎসল ভাষায় উত্তর দেবে। তথ্যের বাইরে কিছু বানাবে না। উত্তর না জানা থাকলে বলবে: "আমি জানিনা"।\n\nওয়েবসাইটের তথ্য:\n${context}`
+          },
+          {
+            role: 'user',
+            content: message
+          }
+        ],
+        temperature: 0.2, 
       })
     });
     
     const data = await response.json();
     
-    // Google API থেকে কোনো এরর আসলে সেটা হ্যান্ডেল করা
     if (data.error) {
        return res.status(500).json({ error: data.error.message });
     }
     
-    res.status(200).json(data);
+    // Groq-এর রেসপন্স ফরম্যাট
+    const replyText = data.choices[0].message.content;
+    
+    res.status(200).json({ reply: replyText });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
