@@ -178,7 +178,6 @@
   --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
   --shadow-teal: 0 8px 20px rgba(13, 148, 136, 0.15);
   --ease: cubic-bezier(.23,1,.32,1);
-  --ease2: cubic-bezier(.76,0,.24,1);
   --font-d: 'Syne', 'Noto Sans Bengali', sans-serif;
   --font-b: 'Barlow', 'Noto Sans Bengali', sans-serif;
   --font-m: 'JetBrains Mono', monospace;
@@ -492,19 +491,98 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 </style>
 
 <!-- ========================================== -->
-<!-- AI CHATBOT UI (frontend, no API key here)  -->
+<!-- AI CHATBOT UI & DRAGGABLE BUBBLE STYLES    -->
 <!-- ========================================== -->
 <style>
-#ai-chat-container { position: fixed; bottom: 20px; left: 20px; z-index: 9999; font-family: var(--font-b), sans-serif; }
-#chat-bubble { width: 65px; height: 65px; border-radius: 50%; background: var(--bg2); box-shadow: var(--shadow-lg); cursor: pointer; overflow: hidden; border: 2px solid var(--teal); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
-#chat-bubble:hover { transform: scale(1.1) translateY(-5px); box-shadow: var(--shadow-teal); }
-#avatar-img { width: 100%; height: 100%; object-fit: cover; }
-#chat-welcome-popup { position: absolute; bottom: 85px; left: 0; width: 220px; background: var(--text-dark); color: var(--bg2); padding: 12px 15px; border-radius: 12px; font-size: 0.9rem; box-shadow: var(--shadow-md); display: none; font-family: var(--font-m); line-height: 1.5; }
-#chat-welcome-popup::after { content: ''; position: absolute; bottom: -8px; left: 20px; border-width: 8px 8px 0; border-style: solid; border-color: var(--text-dark) transparent transparent transparent; }
-#chat-welcome-popup.show { display: block; animation: fadeInChat 0.5s var(--ease); }
-.close-popup-btn { position: absolute; top: 2px; right: 8px; cursor: pointer; color: var(--muted2); font-size: 1.2rem; transition: color 0.3s; }
-.close-popup-btn:hover { color: var(--bg2); }
-#chat-window { position: absolute; bottom: 85px; left: 0; width: 320px; max-width: calc(100vw - 40px); height: 420px; background: var(--bg2); border-radius: 16px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom left; transition: all 0.4s var(--ease); }
+#ai-chat-container { z-index: 9999; font-family: var(--font-b), sans-serif; }
+
+/* Draggable Bubble */
+#chat-bubble {
+    position: fixed;
+    width: 65px; 
+    height: 65px; 
+    border-radius: 50%;
+    background: var(--bg2); 
+    box-shadow: var(--shadow-lg); 
+    cursor: grab; 
+    border: 2px solid var(--teal); 
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none; /* Prevent scroll on touch drag */
+    will-change: transform, left, top;
+}
+#chat-bubble:active { cursor: grabbing; }
+#chat-bubble img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; pointer-events: none; }
+
+/* Giant Mode Intro Styles */
+#chat-bubble.giant-mode {
+    width: 130px;
+    height: 130px;
+    border-width: 4px;
+    box-shadow: 0 20px 40px rgba(13, 148, 136, 0.3);
+}
+
+/* Tooltip Popup */
+#chat-welcome-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: max-content;
+    max-width: 280px;
+    background: var(--text-dark);
+    color: var(--bg2);
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    box-shadow: var(--shadow-md);
+    font-family: var(--font-m);
+    line-height: 1.5;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.6s var(--ease);
+    text-align: center;
+    z-index: -1;
+}
+#chat-welcome-popup::after {
+    content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+    border-width: 8px 8px 0; border-style: solid; border-color: var(--text-dark) transparent transparent transparent;
+}
+#chat-bubble.giant-mode #chat-welcome-popup {
+    opacity: 1;
+    transform: translate(-50%, calc(-50% - 100px)) scale(1); /* Popping up above */
+}
+
+/* Chat Window */
+#chat-window { 
+    position: fixed; 
+    bottom: 20px; 
+    left: 20px; 
+    width: 320px; 
+    max-width: calc(100vw - 40px); 
+    height: 420px; 
+    background: var(--bg2); 
+    border-radius: 16px; 
+    box-shadow: var(--shadow-lg); 
+    border: 1px solid var(--border); 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden; 
+    transform-origin: bottom left; 
+    transition: all 0.4s var(--ease); 
+    z-index: 9998;
+}
+@media(max-width: 480px) {
+    #chat-window {
+        left: 50%;
+        bottom: 95px;
+        transform: translateX(-50%);
+        transform-origin: bottom center;
+    }
+    #chat-window.chat-hidden { transform: translateX(-50%) scale(0.8); }
+}
 .chat-hidden { opacity: 0; transform: scale(0.8); pointer-events: none; }
 .chat-header { background: var(--teal); color: var(--bg2); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
 .chat-header h4 { margin: 0; font-family: var(--font-s); font-size: 1.1rem; }
@@ -518,22 +596,21 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 .chat-input-container button { background: var(--text-dark); color: var(--bg2); border: none; padding: 0 15px; margin-left: 8px; border-radius: 50px; cursor: pointer; font-family: var(--font-m); font-weight: 600; transition: background 0.3s; }
 .chat-input-container button:hover { background: var(--teal); }
 .chat-input-container button:disabled { opacity: .5; cursor: not-allowed; }
-@keyframes fadeInChat { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 <body>
 
 <!-- AI Chat UI -->
 <div id="ai-chat-container">
-  <div id="chat-welcome-popup">
-    <p>হ্যালো! আমি অভি'র এআই অ্যাসিস্ট্যান্ট। কীভাবে সহযোগিতা করতে পারি?</p>
-    <span class="close-popup-btn" onclick="closePopup(event)">×</span>
-  </div>
-
-  <div id="chat-bubble" onclick="toggleChatWindow()">
+  <!-- Interactive Bubble -->
+  <div id="chat-bubble">
     <img src="/avatar.png" alt="Ovi AI Avatar" id="avatar-img" onerror="this.src='https://i.postimg.cc/5y4bwvmk/1000099141-removebg-preview.png'">
+    <div id="chat-welcome-popup">
+      <p>হ্যালো! আমি অভি'র এআই অ্যাসিস্ট্যান্ট। কীভাবে সহযোগিতা করতে পারি?</p>
+    </div>
   </div>
 
+  <!-- Main Chat Window -->
   <div id="chat-window" class="chat-hidden">
     <div class="chat-header">
       <h4>Ovi's AI Assistant</h4>
@@ -624,6 +701,7 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 
 <main>
   <section id="hero" aria-label="Hero">
+    <!-- Hero content same as before -->
     <div class="h-bg-orbs" aria-hidden="true">
       <div class="h-bg-orb"></div>
       <div class="h-bg-orb"></div>
@@ -1094,24 +1172,20 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 
 <script>
 // ========================================== //
-// AI CHATBOT — calls the secure /api/chat     //
-// serverless endpoint. NO API key is stored   //
-// or exposed anywhere in this file.           //
+// AI CHATBOT SYSTEM & DRAG LOGIC             //
 // ========================================== //
+
+let currentBubbleX = window.innerWidth / 2;
+let currentBubbleY = window.innerHeight / 2;
+let bubbleIntroDone = false;
+const chatBubble = document.getElementById('chat-bubble');
 
 function toggleChatWindow() {
   const chatWindow = document.getElementById('chat-window');
-  const welcomePopup = document.getElementById('chat-welcome-popup');
   chatWindow.classList.toggle('chat-hidden');
   if (!chatWindow.classList.contains('chat-hidden')) {
-    welcomePopup.classList.remove('show');
     document.getElementById('user-msg-input').focus();
   }
-}
-
-function closePopup(event) {
-  event.stopPropagation();
-  document.getElementById('chat-welcome-popup').classList.remove('show');
 }
 
 function handleEnter(e) {
@@ -1124,9 +1198,7 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// শেষ কয়েকটি মেসেজ context হিসেবে সার্ভারে পাঠানো হয়, যাতে ফলোআপ প্রশ্ন বুঝতে পারে
 const CHAT_HISTORY = [];
-
 async function getAIResponse(userMessage) {
   try {
     const response = await fetch('/api/chat', {
@@ -1134,16 +1206,12 @@ async function getAIResponse(userMessage) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ message: userMessage, history: CHAT_HISTORY })
     });
-
-    if (!response.ok) {
-      throw new Error('API responded with status ' + response.status);
-    }
-
+    if (!response.ok) throw new Error('API Error');
     const data = await response.json();
     return data.reply || 'দুঃখিত, এই মুহূর্তে উত্তর দিতে পারছি না।';
   } catch (err) {
     console.error('Chat error:', err);
-    return 'দুঃখিত, সার্ভারের সাথে সংযোগ করতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন, অথবা সরাসরি যোগাযোগ ফর্ম ব্যবহার করুন।';
+    return 'দুঃখিত, সার্ভারের সাথে সংযোগ করতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।';
   }
 }
 
@@ -1180,14 +1248,116 @@ async function handleUserMessage() {
   inputEl.focus();
 }
 
-window.addEventListener('load', () => {
+// ─── BUBBLE POSITIONING & INTRO ──────────────────────────
+function setBubblePos(x, y) {
+  currentBubbleX = x; currentBubbleY = y;
+  chatBubble.style.left = x + 'px';
+  chatBubble.style.top = y + 'px';
+}
+
+function initBubble() {
+  setBubblePos(window.innerWidth / 2, window.innerHeight / 2);
+  chatBubble.style.opacity = '0';
+  chatBubble.style.transform = 'translate(-50%, -50%)';
+}
+
+function playBubbleIntro() {
+  chatBubble.style.opacity = '1';
+  chatBubble.style.transition = 'left 0.8s var(--ease), top 0.8s var(--ease), width 0.6s var(--ease), height 0.6s var(--ease), box-shadow 0.3s';
+  chatBubble.classList.add('giant-mode');
+
+  // After 3.5 seconds, shrink and move to the corner
   setTimeout(() => {
-    const chatWindow = document.getElementById('chat-window');
-    if (chatWindow && chatWindow.classList.contains('chat-hidden')) {
-      const popup = document.getElementById('chat-welcome-popup');
-      if (popup) popup.classList.add('show');
-    }
-  }, 3000);
+    chatBubble.classList.remove('giant-mode');
+    const radius = 32.5; 
+    const targetX = 20 + radius;
+    const targetY = window.innerHeight - 20 - radius;
+    
+    setBubblePos(targetX, targetY);
+
+    setTimeout(() => {
+      // Remove heavy transitions so dragging is snappy
+      chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
+      bubbleIntroDone = true;
+    }, 800);
+  }, 3500);
+}
+
+// ─── DRAGGABLE MESSENGER BUBBLE LOGIC ────────────────────
+let isDragging = false, dragStartX = 0, dragStartY = 0;
+let initialBubbleX = 0, initialBubbleY = 0, hasMoved = false;
+
+function onDragStart(e) {
+  if (!bubbleIntroDone) return;
+  isDragging = true;
+  hasMoved = false;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  dragStartX = clientX;
+  dragStartY = clientY;
+  initialBubbleX = currentBubbleX;
+  initialBubbleY = currentBubbleY;
+  chatBubble.style.transform = 'translate(-50%, -50%) scale(1.05)';
+  
+  if(!e.touches) e.preventDefault();
+}
+
+function onDragMove(e) {
+  if (!isDragging) return;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  const dx = clientX - dragStartX;
+  const dy = clientY - dragStartY;
+
+  if (Math.abs(dx) > 4 || Math.abs(dy) > 4) hasMoved = true;
+
+  let newX = initialBubbleX + dx;
+  let newY = initialBubbleY + dy;
+
+  const radius = 32.5;
+  newX = Math.max(radius, Math.min(window.innerWidth - radius, newX));
+  newY = Math.max(radius, Math.min(window.innerHeight - radius, newY));
+
+  setBubblePos(newX, newY);
+  if(e.touches) e.preventDefault(); 
+}
+
+function onDragEnd(e) {
+  if (!isDragging) return;
+  isDragging = false;
+  chatBubble.style.transform = 'translate(-50%, -50%) scale(1)';
+
+  if (hasMoved) {
+    // Snap to left or right edge
+    const radius = 32.5;
+    const snapX = currentBubbleX < window.innerWidth / 2 ? 20 + radius : window.innerWidth - 20 - radius;
+    chatBubble.style.transition = 'left 0.4s var(--ease), top 0.4s var(--ease), transform 0.3s';
+    setBubblePos(snapX, currentBubbleY);
+    
+    setTimeout(() => {
+      chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
+    }, 400);
+  } else {
+    // Treat as click
+    toggleChatWindow();
+  }
+}
+
+chatBubble.addEventListener('mousedown', onDragStart);
+document.addEventListener('mousemove', onDragMove);
+document.addEventListener('mouseup', onDragEnd);
+
+chatBubble.addEventListener('touchstart', onDragStart, {passive: false});
+document.addEventListener('touchmove', onDragMove, {passive: false});
+document.addEventListener('touchend', onDragEnd);
+
+// Reset bounds on window resize
+window.addEventListener('resize', () => {
+    if(!bubbleIntroDone) return;
+    const radius = 32.5;
+    let newX = Math.max(radius, Math.min(window.innerWidth - radius, currentBubbleX));
+    let newY = Math.max(radius, Math.min(window.innerHeight - radius, currentBubbleY));
+    setBubblePos(newX, newY);
 });
 </script>
 
@@ -1206,13 +1376,20 @@ const isTouch  = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   const lbar   = document.getElementById('lbar');
   const lpct   = document.getElementById('lpct');
   let p = 0;
+  
+  initBubble(); // Pre-setup bubble position while loader runs
+
   const iv = setInterval(() => {
     p += Math.random() * 25 + 10;
     if (p >= 100) {
       p = 100; clearInterval(iv);
       lbar.style.width = '100%'; lpct.textContent = '100%';
       loader.classList.add('done');
-      setTimeout(() => { loader.classList.add('out'); initHero(); }, 600);
+      setTimeout(() => { 
+        loader.classList.add('out'); 
+        initHero(); 
+        setTimeout(playBubbleIntro, 600); // Play bubble animation after loader 
+      }, 600);
     } else {
       lbar.style.width = p + '%';
       lpct.textContent = Math.floor(p) + '%';
@@ -1275,14 +1452,12 @@ document.addEventListener('mousemove', e => {
   }
 }, { passive: true });
 
-
 /* ══════════════════════════════════════════════════
    SCROLL HANDLING (OPTIMIZED)
 ══════════════════════════════════════════════════ */
 const progressEl  = document.getElementById('progress');
 const navEl       = document.getElementById('nav');
 const floatCta    = document.querySelector('.float-cta');
-let lastScrollY   = 0;
 let tick = false;
 
 const secEls = document.querySelectorAll('section[id]');
@@ -1463,3 +1638,4 @@ if (contactForm) {
 </script>
 </body>
 </html>
+
