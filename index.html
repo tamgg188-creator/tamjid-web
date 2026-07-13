@@ -534,7 +534,7 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
     object-fit: contain;
 }
 
-/* Tooltip Popup (Comic speech bubble style) */
+/* Tooltip Popup (Dark styling matching image) */
 #chat-welcome-popup {
     position: absolute;
     top: 0;
@@ -542,16 +542,15 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
     transform: translate(-50%, 0) scale(0.5);
     width: max-content;
     max-width: 280px;
-    background: #ffffff;
-    color: #000000;
-    padding: 12px 25px 12px 18px; /* Extra padding for close button */
+    background: #000000;
+    color: #ffffff;
+    padding: 15px 25px 15px 20px; /* Extra padding for close button */
     border-radius: 12px;
-    border: 2px solid #000000; 
     font-size: 0.95rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    font-family: var(--font-b); 
-    font-weight: 600;
-    line-height: 1.5;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    font-family: var(--font-b); /* better readability for Bengali */
+    font-weight: 500;
+    line-height: 1.6;
     opacity: 0;
     pointer-events: none;
     transition: all 0.4s var(--ease);
@@ -560,13 +559,9 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
     transform-origin: bottom center;
     cursor: pointer;
 }
-#chat-welcome-popup::before {
-    content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
-    border-width: 11px 11px 0; border-style: solid; border-color: #000000 transparent transparent transparent;
-}
 #chat-welcome-popup::after {
-    content: ''; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%);
-    border-width: 10px 10px 0; border-style: solid; border-color: #ffffff transparent transparent transparent;
+    content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+    border-width: 11px 11px 0; border-style: solid; border-color: #000000 transparent transparent transparent;
 }
 #chat-bubble.giant-mode #chat-welcome-popup {
     opacity: 1;
@@ -581,16 +576,16 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 /* Close button for popup */
 .close-popup-btn {
     position: absolute;
-    top: 2px;
-    right: 8px;
+    top: 4px;
+    right: 10px;
     cursor: pointer;
-    color: #666;
+    color: #999;
     font-size: 1.4rem;
     line-height: 1;
     transition: color 0.3s;
     font-family: var(--font-s);
 }
-.close-popup-btn:hover { color: #000; }
+.close-popup-btn:hover { color: #fff; }
 
 /* Chat Window */
 #chat-window { 
@@ -621,7 +616,7 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
     #chat-window.chat-hidden { transform: translateX(-50%) scale(0.8); }
 }
 .chat-hidden { opacity: 0; transform: scale(0.8); pointer-events: none; }
-.chat-header { background: var(--teal); color: var(--bg2); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+.chat-header { background: var(--text-dark); color: var(--bg2); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
 .chat-header h4 { margin: 0; font-family: var(--font-s); font-size: 1.1rem; }
 #chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; font-size: 0.95rem; background: var(--bg); }
 .bot-message, .user-message { padding: 10px 14px; border-radius: 12px; max-width: 85%; line-height: 1.5; white-space: pre-wrap; }
@@ -640,10 +635,10 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 <!-- AI Chat UI -->
 <div id="ai-chat-container">
   <!-- Interactive Bubble -->
-  <div id="chat-bubble">
+  <div id="chat-bubble" onclick="handleBubbleClick(event)">
     <img src="/avatar.png" alt="Ovi AI Avatar" id="avatar-img" onerror="this.src='https://i.postimg.cc/5y4bwvmk/1000099141-removebg-preview.png'">
-    <div id="chat-welcome-popup" onclick="toggleChatWindow()">
-      <p id="chat-popup-text">আপনাকে স্বাগতম! আমি তামজিদুল ইসলাম (অভি)-এর এআই অ্যাসিস্ট্যান্ট।</p>
+    <div id="chat-welcome-popup">
+      <p id="chat-popup-text">আপনাকে স্বাগত, অন্যতম সৃজনশীল ও রুচিসম্পন্ন ওয়েবসাইট ক্রিয়েটর অভির জগতে</p>
       <span id="chat-popup-close" class="close-popup-btn" onclick="closePopup(event)" style="display:none;">×</span>
     </div>
   </div>
@@ -1305,6 +1300,35 @@ function initBubble() {
   chatBubble.style.transform = 'translate(-50%, -50%)';
 }
 
+let introTimeout1, introTimeout2, introTimeout3;
+
+function forceEndIntro() {
+  clearTimeout(introTimeout1);
+  clearTimeout(introTimeout2);
+  clearTimeout(introTimeout3);
+  chatBubble.classList.remove('giant-mode');
+  const radius = 32.5; 
+  const targetX = 20 + radius;
+  const targetY = window.innerHeight - 20 - radius;
+  setBubblePos(targetX, targetY);
+  chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
+  document.getElementById('chat-welcome-popup').classList.remove('show');
+  bubbleIntroDone = true;
+}
+
+function handleBubbleClick(e) {
+  if (hasMoved) {
+    if(e) e.preventDefault();
+    return;
+  }
+  
+  if (!bubbleIntroDone) {
+    forceEndIntro();
+  }
+  
+  toggleChatWindow();
+}
+
 function playBubbleIntro() {
   chatBubble.style.opacity = '1';
   chatBubble.style.transition = 'left 0.8s var(--ease), top 0.8s var(--ease), width 0.6s var(--ease), height 0.6s var(--ease), box-shadow 0.6s var(--ease), background 0.6s var(--ease), border-color 0.6s var(--ease), border-radius 0.6s var(--ease)';
@@ -1313,11 +1337,11 @@ function playBubbleIntro() {
   const popupText = document.getElementById('chat-popup-text');
   const popupClose = document.getElementById('chat-popup-close');
   
-  popupText.innerHTML = "আপনাকে স্বাগতম! আমি তামজিদুল ইসলাম (অভি)-এর এআই অ্যাসিস্ট্যান্ট।";
+  popupText.innerHTML = "আপনাকে স্বাগত, অন্যতম সৃজনশীল ও রুচিসম্পন্ন ওয়েবসাইট ক্রিয়েটর অভির জগতে";
   popupClose.style.display = 'none';
 
-  // After 2 seconds, shrink and move to the corner
-  setTimeout(() => {
+  // Wait 2 seconds, then shrink
+  introTimeout1 = setTimeout(() => {
     chatBubble.classList.remove('giant-mode');
     const radius = 32.5; 
     const targetX = 20 + radius;
@@ -1325,17 +1349,16 @@ function playBubbleIntro() {
     
     setBubblePos(targetX, targetY);
 
-    setTimeout(() => {
+    introTimeout2 = setTimeout(() => {
       chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
       bubbleIntroDone = true;
 
-      // Now show the "How can I help you?" text
+      // Show "How can I help you?" text
       popupText.innerHTML = "কীভাবে সাহায্য করতে পারি?";
       popupClose.style.display = 'block';
       document.getElementById('chat-welcome-popup').classList.add('show');
       
-      // Auto-hide popup after 5 seconds if ignored
-      setTimeout(() => {
+      introTimeout3 = setTimeout(() => {
          document.getElementById('chat-welcome-popup').classList.remove('show');
       }, 5000);
 
@@ -1348,11 +1371,12 @@ let isDragging = false, dragStartX = 0, dragStartY = 0;
 let initialBubbleX = 0, initialBubbleY = 0, hasMoved = false;
 
 function onDragStart(e) {
-  if (!bubbleIntroDone) return;
+  if (e.target.closest('.close-popup-btn')) return; 
+  if (!bubbleIntroDone) return; 
+
   isDragging = true;
   hasMoved = false;
   
-  // Hide popup if interacting
   document.getElementById('chat-welcome-popup').classList.remove('show');
   
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -1362,8 +1386,7 @@ function onDragStart(e) {
   initialBubbleX = currentBubbleX;
   initialBubbleY = currentBubbleY;
   chatBubble.style.transform = 'translate(-50%, -50%) scale(1.05)';
-  
-  if(!e.touches) e.preventDefault();
+  chatBubble.style.transition = 'none'; // remove transition for real-time drag
 }
 
 function onDragMove(e) {
@@ -1373,17 +1396,20 @@ function onDragMove(e) {
   const dx = clientX - dragStartX;
   const dy = clientY - dragStartY;
 
-  if (Math.abs(dx) > 4 || Math.abs(dy) > 4) hasMoved = true;
+  // Threshold to avoid accidental drag when tapping
+  if (Math.abs(dx) > 10 || Math.abs(dy) > 10) hasMoved = true;
 
-  let newX = initialBubbleX + dx;
-  let newY = initialBubbleY + dy;
+  if (hasMoved) {
+    let newX = initialBubbleX + dx;
+    let newY = initialBubbleY + dy;
 
-  const radius = 32.5;
-  newX = Math.max(radius, Math.min(window.innerWidth - radius, newX));
-  newY = Math.max(radius, Math.min(window.innerHeight - radius, newY));
+    const radius = 32.5;
+    newX = Math.max(radius, Math.min(window.innerWidth - radius, newX));
+    newY = Math.max(radius, Math.min(window.innerHeight - radius, newY));
 
-  setBubblePos(newX, newY);
-  if(e.touches) e.preventDefault(); 
+    setBubblePos(newX, newY);
+    if(e.touches) e.preventDefault(); 
+  }
 }
 
 function onDragEnd(e) {
@@ -1392,7 +1418,7 @@ function onDragEnd(e) {
   chatBubble.style.transform = 'translate(-50%, -50%) scale(1)';
 
   if (hasMoved) {
-    // Snap to left or right edge
+    // Snap to edge
     const radius = 32.5;
     const snapX = currentBubbleX < window.innerWidth / 2 ? 20 + radius : window.innerWidth - 20 - radius;
     chatBubble.style.transition = 'left 0.4s var(--ease), top 0.4s var(--ease), transform 0.3s';
@@ -1401,21 +1427,17 @@ function onDragEnd(e) {
     setTimeout(() => {
       chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
     }, 400);
-  } else {
-    // Treat as click
-    toggleChatWindow();
   }
 }
 
 chatBubble.addEventListener('mousedown', onDragStart);
-document.addEventListener('mousemove', onDragMove);
+document.addEventListener('mousemove', onDragMove, {passive: false});
 document.addEventListener('mouseup', onDragEnd);
 
-chatBubble.addEventListener('touchstart', onDragStart, {passive: false});
+chatBubble.addEventListener('touchstart', onDragStart, {passive: true});
 document.addEventListener('touchmove', onDragMove, {passive: false});
 document.addEventListener('touchend', onDragEnd);
 
-// Reset bounds on window resize
 window.addEventListener('resize', () => {
     if(!bubbleIntroDone) return;
     const radius = 32.5;
@@ -1441,7 +1463,7 @@ const isTouch  = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   const lpct   = document.getElementById('lpct');
   let p = 0;
   
-  initBubble(); // Pre-setup bubble position while loader runs
+  initBubble(); 
 
   const iv = setInterval(() => {
     p += Math.random() * 25 + 10;
@@ -1452,7 +1474,7 @@ const isTouch  = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
       setTimeout(() => { 
         loader.classList.add('out'); 
         initHero(); 
-        setTimeout(playBubbleIntro, 600); // Play bubble animation after loader 
+        setTimeout(playBubbleIntro, 600); 
       }, 600);
     } else {
       lbar.style.width = p + '%';
