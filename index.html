@@ -522,55 +522,79 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 
 /* Giant Mode Intro Styles */
 #chat-bubble.giant-mode {
-    width: 320px;
-    height: 320px;
+    width: 300px;
+    height: 300px;
     border-color: transparent;
     background: transparent;
     box-shadow: none;
     border-radius: 0;
 }
+@media(max-width: 480px) {
+    #chat-bubble.giant-mode {
+        width: 260px;
+        height: 260px;
+    }
+}
 #chat-bubble.giant-mode img {
     border-radius: 0;
     object-fit: contain;
+    object-position: bottom center; /* This attaches the image exactly to the bottom */
 }
 
-/* Tooltip Popup (Dark styling matching image) */
+/* Tooltip Popup */
 #chat-welcome-popup {
     position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0) scale(0.5);
-    width: max-content;
-    max-width: 280px;
-    background: #000000;
-    color: #ffffff;
-    padding: 15px 25px 15px 20px; /* Extra padding for close button */
+    bottom: 100%;
+    right: -10px; 
+    width: 220px;
+    background: #ffffff;
+    color: #000000;
+    padding: 12px 25px 12px 18px; 
     border-radius: 12px;
+    border: 2px solid #000000; 
     font-size: 0.95rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    font-family: var(--font-b); /* better readability for Bengali */
-    font-weight: 500;
-    line-height: 1.6;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    font-family: var(--font-b);
+    font-weight: 600;
+    line-height: 1.5;
     opacity: 0;
     pointer-events: none;
     transition: all 0.4s var(--ease);
-    text-align: center;
+    text-align: left;
     z-index: 10;
-    transform-origin: bottom center;
+    transform-origin: bottom right;
+    transform: translateY(0) scale(0.5);
     cursor: pointer;
 }
-#chat-welcome-popup::after {
-    content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+#chat-welcome-popup::before {
+    content: ''; position: absolute; bottom: -13px; right: 30px;
     border-width: 11px 11px 0; border-style: solid; border-color: #000000 transparent transparent transparent;
 }
-#chat-bubble.giant-mode #chat-welcome-popup {
-    opacity: 1;
-    transform: translate(-50%, calc(-100% - 10px)) scale(1);
+#chat-welcome-popup::after {
+    content: ''; position: absolute; bottom: -10px; right: 31px;
+    border-width: 10px 10px 0; border-style: solid; border-color: #ffffff transparent transparent transparent;
 }
+
 #chat-welcome-popup.show {
     opacity: 1;
-    transform: translate(-50%, calc(-100% - 15px)) scale(1);
-    pointer-events: auto; /* Make clickable */
+    transform: translateY(-15px) scale(1);
+    pointer-events: auto; 
+}
+
+/* Tooltip Giant Mode Positioning */
+#chat-bubble.giant-mode #chat-welcome-popup {
+    right: 50%;
+    width: max-content;
+    max-width: 320px;
+    text-align: center;
+    transform: translate(50%, -10px) scale(1);
+    transform-origin: bottom center;
+}
+#chat-bubble.giant-mode #chat-welcome-popup::before,
+#chat-bubble.giant-mode #chat-welcome-popup::after {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* Close button for popup */
@@ -585,7 +609,7 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
     transition: color 0.3s;
     font-family: var(--font-s);
 }
-.close-popup-btn:hover { color: #fff; }
+.close-popup-btn:hover { color: #000; }
 
 /* Chat Window */
 #chat-window { 
@@ -1295,9 +1319,14 @@ function setBubblePos(x, y) {
 }
 
 function initBubble() {
-  setBubblePos(window.innerWidth / 2, window.innerHeight / 2);
+  const isMob = window.innerWidth <= 480;
+  const giantSize = isMob ? 260 : 300;
+  const giantRadius = giantSize / 2;
+  
+  // সেট পজিশন: একদম নিচে
+  setBubblePos(window.innerWidth / 2, window.innerHeight - giantRadius);
   chatBubble.style.opacity = '0';
-  chatBubble.style.transform = 'translate(-50%, -50%)';
+  chatBubble.style.transform = 'translate(-50%, 50%)'; // স্টার্ট হবে নিচে থেকে
 }
 
 let introTimeout1, introTimeout2, introTimeout3;
@@ -1308,7 +1337,7 @@ function forceEndIntro() {
   clearTimeout(introTimeout3);
   chatBubble.classList.remove('giant-mode');
   const radius = 32.5; 
-  const targetX = 20 + radius;
+  const targetX = window.innerWidth - 20 - radius;
   const targetY = window.innerHeight - 20 - radius;
   setBubblePos(targetX, targetY);
   chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
@@ -1331,7 +1360,8 @@ function handleBubbleClick(e) {
 
 function playBubbleIntro() {
   chatBubble.style.opacity = '1';
-  chatBubble.style.transition = 'left 0.8s var(--ease), top 0.8s var(--ease), width 0.6s var(--ease), height 0.6s var(--ease), box-shadow 0.6s var(--ease), background 0.6s var(--ease), border-color 0.6s var(--ease), border-radius 0.6s var(--ease)';
+  chatBubble.style.transform = 'translate(-50%, -50%)'; // নিচ থেকে উপরে উঠবে
+  chatBubble.style.transition = 'left 0.8s var(--ease), top 0.8s var(--ease), width 0.6s var(--ease), height 0.6s var(--ease), box-shadow 0.6s var(--ease), background 0.6s var(--ease), border-color 0.6s var(--ease), border-radius 0.6s var(--ease), transform 0.8s var(--ease), opacity 0.8s var(--ease)';
   chatBubble.classList.add('giant-mode');
 
   const popupText = document.getElementById('chat-popup-text');
@@ -1340,11 +1370,11 @@ function playBubbleIntro() {
   popupText.innerHTML = "আপনাকে স্বাগত, অন্যতম সৃজনশীল ও রুচিসম্পন্ন ওয়েবসাইট ক্রিয়েটর অভির জগতে";
   popupClose.style.display = 'none';
 
-  // Wait 2 seconds, then shrink
+  // ২.৫ সেকেন্ড পর (০.৫ সেকেন্ড অ্যানিমেশন + ২ সেকেন্ড রিডিং টাইম) বাবল ছোট হবে
   introTimeout1 = setTimeout(() => {
     chatBubble.classList.remove('giant-mode');
     const radius = 32.5; 
-    const targetX = 20 + radius;
+    const targetX = window.innerWidth - 20 - radius; // ডান পাশে আসবে
     const targetY = window.innerHeight - 20 - radius;
     
     setBubblePos(targetX, targetY);
@@ -1353,7 +1383,7 @@ function playBubbleIntro() {
       chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
       bubbleIntroDone = true;
 
-      // Show "How can I help you?" text
+      // পপআপ মেসেজ পরিবর্তন করে দেখানো
       popupText.innerHTML = "কীভাবে সাহায্য করতে পারি?";
       popupClose.style.display = 'block';
       document.getElementById('chat-welcome-popup').classList.add('show');
@@ -1363,7 +1393,7 @@ function playBubbleIntro() {
       }, 5000);
 
     }, 800); 
-  }, 2000); 
+  }, 2500); 
 }
 
 // ─── DRAGGABLE BUBBLE LOGIC ────────────────────
