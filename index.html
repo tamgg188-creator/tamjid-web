@@ -1149,7 +1149,7 @@ textarea.ct-form-input { resize: vertical; min-height: 150px; }
 }
 .soc-btn svg{width:22px;height:22px;fill:currentColor;position:relative;z-index:1}
 .soc-btn::before{
-  content:'position:absolute;inset:0;
+  content:'';position:absolute;inset:0;
   background:var(--text-dark);transform:scaleY(0);transform-origin:bottom;
   transition:transform .4s var(--ease);
 }
@@ -1553,7 +1553,7 @@ footer{
               হ্যালো! আমি <strong>তামজিদুল ইসলাম (অভি)</strong> — সিলেট, বাংলাদেশের একজন প্যাশনেট গ্রাফিক্স ডিজাইনার এবং ওয়েব ডেভেলপার। আমি ডিজাইন এবং প্রযুক্তির মেলবন্ধনে কাজ করতে ভালোবাসি।
             </p>
             <p class="rv" style="transition-delay:.3s">
-              আমি শুধু দেখতে সুন্দর ডিজাইনই তৈরি করি ক্যাম্পাস, বরং আধুনিক <strong>ওয়েব টেকনোলজি</strong> ব্যবহার করে সেগুলোকে একটি ফাংশনাল ও রেসপনসিভ সিস্টেমে রূপান্তর করি। 
+              আমি শুধু দেখতে সুন্দর ডিজাইনই তৈরি করি না, বরং আধুনিক <strong>ওয়েব টেকনোলজি</strong> ব্যবহার করে সেগুলোকে একটি ফাংশনাল ও রেসপনসিভ সিস্টেমে রূপান্তর করি। 
               Recognised by <strong>David J. Malan, Harvard University</strong>, I build modern frontend applications using React.js and Tailwind CSS.
             </p>
           </div>
@@ -1918,218 +1918,6 @@ footer{
   </div>
 </footer>
 
-
-<!-- ========================================== -->
-<!-- AI CHAT POPUP SYSTEM CODE START            -->
-<!-- ========================================== -->
-<style>
-/* AI Chat Specific CSS - LEFT ALIGNED */
-#ai-chat-container {
-  position: fixed; bottom: 20px; left: 20px; z-index: 9999;
-  font-family: var(--font-b), sans-serif;
-}
-#chat-bubble {
-  width: 65px; height: 65px; border-radius: 50%;
-  background: var(--bg2); box-shadow: var(--shadow-lg);
-  cursor: pointer; overflow: hidden; border: 2px solid var(--teal);
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
-}
-#chat-bubble:hover { transform: scale(1.1) translateY(-5px); box-shadow: var(--shadow-teal); }
-#avatar-img { width: 100%; height: 100%; object-fit: cover; }
-
-#chat-welcome-popup {
-  position: absolute; bottom: 85px; left: 0; width: 220px;
-  background: var(--text-dark); color: var(--bg2);
-  padding: 12px 15px; border-radius: 12px; font-size: 0.9rem;
-  box-shadow: var(--shadow-md); display: none;
-  font-family: var(--font-m); line-height: 1.5;
-}
-#chat-welcome-popup::after {
-  content: ''; position: absolute; bottom: -8px; left: 20px;
-  border-width: 8px 8px 0; border-style: solid;
-  border-color: var(--text-dark) transparent transparent transparent;
-}
-#chat-welcome-popup.show { display: block; animation: fadeInChat 0.5s var(--ease); }
-.close-popup-btn {
-  position: absolute; top: 2px; right: 8px;
-  cursor: pointer; color: var(--muted2); font-size: 1.2rem;
-  transition: color 0.3s;
-}
-.close-popup-btn:hover { color: var(--bg2); }
-
-#chat-window {
-  position: absolute; bottom: 85px; left: 0;
-  width: 320px; max-width: calc(100vw - 40px); height: 420px;
-  background: var(--bg2); border-radius: 16px;
-  box-shadow: var(--shadow-lg); border: 1px solid var(--border);
-  display: flex; flex-direction: column; overflow: hidden;
-  transform-origin: bottom left; transition: all 0.4s var(--ease);
-}
-.chat-hidden { opacity: 0; transform: scale(0.8); pointer-events: none; }
-.chat-header {
-  background: var(--teal); color: var(--bg2);
-  padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-}
-.chat-header h4 { margin: 0; font-family: var(--font-s); font-size: 1.1rem; }
-#chat-messages {
-  flex: 1; padding: 15px; overflow-y: auto;
-  display: flex; flex-direction: column; gap: 12px; font-size: 0.95rem;
-  background: var(--bg);
-}
-.bot-message, .user-message { padding: 10px 14px; border-radius: 12px; max-width: 85%; line-height: 1.5; }
-.bot-message { background: var(--bg2); color: var(--text); border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
-.user-message { background: var(--teal); color: var(--bg2); align-self: flex-end; border-bottom-right-radius: 4px; }
-.chat-input-container {
-  display: flex; padding: 12px; background: var(--bg2); border-top: 1px solid var(--border);
-}
-.chat-input-container input {
-  flex: 1; padding: 10px 15px; border: 1px solid var(--border);
-  border-radius: 50px; outline: none; font-family: var(--font-b);
-  transition: border-color 0.3s;
-}
-.chat-input-container input:focus { border-color: var(--teal); }
-.chat-input-container button {
-  background: var(--text-dark); color: var(--bg2);
-  border: none; padding: 0 15px; margin-left: 8px;
-  border-radius: 50px; cursor: pointer; font-family: var(--font-m); font-weight: 600;
-  transition: background 0.3s;
-}
-.chat-input-container button:hover { background: var(--teal); }
-@keyframes fadeInChat { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-</style>
-
-<div id="ai-chat-container">
-  <!-- ওয়েলকাম বাবল পপআপ -->
-  <div id="chat-welcome-popup">
-    <p>হ্যালো! আমি অভি'র এআই অ্যাসিস্ট্যান্ট। কীভাবে সহযোগিতা করতে পারি?</p>
-    <span class="close-popup-btn" onclick="closePopup(event)">×</span>
-  </div>
-
-  <!-- চ্যাট বাবল -->
-  <div id="chat-bubble" onclick="toggleChatWindow()">
-    <img src="/avatar.png" alt="Ovi AI Avatar" id="avatar-img">
-  </div>
-
-  <!-- চ্যাট উইন্ডো -->
-  <div id="chat-window" class="chat-hidden">
-    <div class="chat-header">
-      <h4>Ovi's AI Assistant</h4>
-      <span onclick="toggleChatWindow()" style="cursor:pointer; font-size: 1.5rem; line-height: 1;">×</span>
-    </div>
-    <div id="chat-messages">
-      <div class="bot-message">হাই! তামজিদুল ইসলাম (অভি) এবং তার প্রজেক্ট বা দক্ষতা সম্পর্কে যেকোনো প্রশ্ন করতে পারেন।</div>
-    </div>
-    <div class="chat-input-container">
-      <input type="text" id="user-msg-input" placeholder="এখানে লিখুন..." onkeypress="handleEnter(event)">
-      <button onclick="askGemini()">Send</button>
-    </div>
-  </div>
-</div>
-
-<script>
-// ========================================== //
-// DIRECT API SETUP (NO BACKEND REQUIRED)     //
-// ========================================== //
-const DIRECT_GEMINI_API_KEY = "AQ.Ab8RN6LF5Hu962feDI-LS6BBVUs_pcwrDSATkbrnFXH1RAJ5sQ"; // <-- আপনার API Key বসানো হয়েছে
-
-function toggleChatWindow() {
-  const chatWindow = document.getElementById('chat-window');
-  const welcomePopup = document.getElementById('chat-welcome-popup');
-  chatWindow.classList.toggle('chat-hidden');
-  if (!chatWindow.classList.contains('chat-hidden')) {
-    welcomePopup.classList.remove('show');
-    document.getElementById('user-msg-input').focus();
-  }
-}
-
-function closePopup(event) {
-  event.stopPropagation();
-  document.getElementById('chat-welcome-popup').classList.remove('show');
-}
-
-function handleEnter(e) {
-  if (e.key === 'Enter') askGemini();
-}
-
-// Extract website text dynamically
-function getWebsiteContext() {
-  try {
-    let context = "";
-    const srOnly = document.querySelector('.sr-only');
-    if (srOnly) context += srOnly.innerText + " \n";
-    const mainContent = document.querySelector('main');
-    if (mainContent) context += mainContent.innerText + " \n";
-    return context.replace(/\s+/g, ' ').trim().substring(0, 4000); 
-  } catch(e) {
-    return document.body.innerText.substring(0, 4000);
-  }
-}
-
-async function askGemini() {
-  const inputEl = document.getElementById('user-msg-input');
-  const messageText = inputEl.value.trim();
-  if (!messageText) return;
-
-  const chatMessages = document.getElementById('chat-messages');
-  chatMessages.innerHTML += `<div class="user-message">${messageText}</div>`;
-  inputEl.value = '';
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-
-  const loadingId = 'loading-' + Date.now();
-  chatMessages.innerHTML += `<div class="bot-message" id="${loadingId}">টাইপ করছে...</div>`;
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-
-  try {
-    const siteContext = getWebsiteContext();
-    
-    // Direct API Call to Google 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${DIRECT_GEMINI_API_KEY}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `তুমি এই ওয়েবসাইটের একজন পার্সোনাল অ্যাসিস্ট্যান্ট। নিচে দেওয়া ওয়েবসাইটের তথ্য (Context) খুব ভালো করে পড়ো। ভিজিটর যখন কোনো প্রশ্ন করবে, তুমি শুধুমাত্র এবং শুধুমাত্র এই তথ্যের ওপর ভিত্তি করে সংক্ষিপ্ত ও বন্ধুবৎসল ভাষায় উত্তর দেবে। 
-
-যদি ভিজিটরের প্রশ্নের উত্তর নিচের তথ্যের মধ্যে সরাসরি দেওয়া না থাকে, তবে নিজের থেকে কোনো তথ্য বানিয়ে বা বানিয়ে উত্তর দেবে না। প্রশ্নের উত্তর না জানা থাকলে তুমি হুবহু এই কথাটি বলবে: "আমি জানিনা"।
-
-ওয়েবসাইটের তথ্য (Context):
-"""
-${siteContext}
-"""
-
-ভিজিটরের প্রশ্ন: ${messageText}`
-          }]
-        }]
-      })
-    });
-
-    if (!response.ok) throw new Error('API Error');
-    const data = await response.json();
-    const reply = data.candidates[0].content.parts[0].text;
-    document.getElementById(loadingId).innerHTML = reply.replace(/\n/g, '<br>');
-  } catch (error) {
-    document.getElementById(loadingId).innerText = "দুঃখিত, কোনো একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।";
-    console.error("AI Error:", error);
-  }
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const chatWindow = document.getElementById('chat-window');
-    if (chatWindow && chatWindow.classList.contains('chat-hidden')) {
-      const popup = document.getElementById('chat-welcome-popup');
-      if (popup) popup.classList.add('show');
-    }
-  }, 3000);
-});
-</script>
-<!-- ========================================== -->
-<!-- AI CHAT POPUP SYSTEM CODE END              -->
-<!-- ========================================== -->
-
-
 <script>
 /* ══════════════════════════════════════════════════
    DEVICE DETECTION & UTILS
@@ -2402,5 +2190,3 @@ if (contactForm) {
 </script>
 </body>
 </html>
-
-
