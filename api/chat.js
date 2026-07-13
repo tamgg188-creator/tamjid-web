@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function (req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -6,6 +6,11 @@ export default async function handler(req, res) {
   try {
     const { message, context } = req.body;
     const apiKey = process.env.GEMINI_API_KEY;
+    
+    // যদি API Key Vercel-এ ঠিকমতো সেট না থাকে, তবে এরর দেখাবে
+    if (!apiKey) {
+      return res.status(500).json({ error: 'API Key missing in Vercel' });
+    }
     
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
@@ -29,8 +34,14 @@ ${context}
     });
     
     const data = await response.json();
+    
+    // Google API থেকে কোনো এরর আসলে সেটা হ্যান্ডেল করা
+    if (data.error) {
+       return res.status(500).json({ error: data.error.message });
+    }
+    
     res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
