@@ -250,7 +250,7 @@ a{text-decoration:none;color:inherit; -webkit-tap-highlight-color: transparent;}
 .mbtn-p:hover::before{transform:scaleX(1);transform-origin:left}
 .mbtn-p:hover{box-shadow:var(--shadow-teal)}
 .mbtn-o{ background:transparent;color:var(--text-dark); border:1px solid var(--border2); }
-.mbtn-o::before{ content:'';position:absolute;inset:0; background:var(--bg3); transform:scaleY(0);transform-origin:bottom; transition:transform .4s var(--ease); }
+.mbtn-o::before{ content:'position:absolute;inset:0; background:var(--bg3); transform:scaleY(0);transform-origin:bottom; transition:transform .4s var(--ease); }
 .mbtn-o:hover::before{transform:scaleY(1)}
 main { display: block; }
 section{position:relative;z-index:5}
@@ -496,7 +496,7 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 <style>
 #ai-chat-container { z-index: 9999; font-family: var(--font-b), sans-serif; }
 
-/* Draggable Bubble */
+/* Draggable Bubble (Default small state) */
 #chat-bubble {
     position: fixed;
     width: 65px; 
@@ -511,48 +511,65 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
     align-items: center;
     justify-content: center;
     touch-action: none; /* Prevent scroll on touch drag */
-    will-change: transform, left, top;
+    will-change: transform, left, top, width, height;
+    transition: width 0.6s var(--ease), height 0.6s var(--ease), border-color 0.6s var(--ease), background 0.6s var(--ease), border-radius 0.6s var(--ease), box-shadow 0.6s var(--ease);
 }
 #chat-bubble:active { cursor: grabbing; }
-#chat-bubble img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; pointer-events: none; }
+#chat-bubble img { 
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%; pointer-events: none;
+    transition: border-radius 0.6s var(--ease), object-fit 0.6s var(--ease);
+}
 
 /* Giant Mode Intro Styles */
 #chat-bubble.giant-mode {
-    width: 130px;
-    height: 130px;
-    border-width: 4px;
-    box-shadow: 0 20px 40px rgba(13, 148, 136, 0.3);
+    width: 320px;
+    height: 320px;
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+#chat-bubble.giant-mode img {
+    border-radius: 0;
+    object-fit: contain;
 }
 
-/* Tooltip Popup */
+/* Tooltip Popup (Comic speech bubble style) */
 #chat-welcome-popup {
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, 0) scale(0.5);
     width: max-content;
     max-width: 280px;
-    background: var(--text-dark);
-    color: var(--bg2);
-    padding: 12px 18px;
+    background: #ffffff;
+    color: #000000;
+    padding: 15px 20px;
     border-radius: 12px;
+    border: 2px solid #000000; /* Darker border matching image */
     font-size: 0.95rem;
-    box-shadow: var(--shadow-md);
-    font-family: var(--font-m);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    font-family: var(--font-b); /* better readability for Bengali */
+    font-weight: 600;
     line-height: 1.5;
     opacity: 0;
     pointer-events: none;
     transition: all 0.6s var(--ease);
     text-align: center;
-    z-index: -1;
+    z-index: 10;
+    transform-origin: bottom center;
+}
+#chat-welcome-popup::before {
+    content: ''; position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
+    border-width: 11px 11px 0; border-style: solid; border-color: #000000 transparent transparent transparent;
 }
 #chat-welcome-popup::after {
-    content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
-    border-width: 8px 8px 0; border-style: solid; border-color: var(--text-dark) transparent transparent transparent;
+    content: ''; position: absolute; bottom: -9px; left: 50%; transform: translateX(-50%);
+    border-width: 10px 10px 0; border-style: solid; border-color: #ffffff transparent transparent transparent;
 }
 #chat-bubble.giant-mode #chat-welcome-popup {
     opacity: 1;
-    transform: translate(-50%, calc(-50% - 100px)) scale(1); /* Popping up above */
+    transform: translate(-50%, calc(-100% - 10px)) scale(1);
 }
 
 /* Chat Window */
@@ -606,7 +623,7 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
   <div id="chat-bubble">
     <img src="/avatar.png" alt="Ovi AI Avatar" id="avatar-img" onerror="this.src='https://i.postimg.cc/5y4bwvmk/1000099141-removebg-preview.png'">
     <div id="chat-welcome-popup">
-      <p>হ্যালো! আমি অভি'র এআই অ্যাসিস্ট্যান্ট। কীভাবে সহযোগিতা করতে পারি?</p>
+      <p>আপনাকে স্বাগত, অন্যতম সৃজনশীল ও রুচিসম্পন্ন ওয়েবসাইট ক্রিয়েটর অভির জগতে</p>
     </div>
   </div>
 
@@ -1057,7 +1074,7 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
       <div class="ct-grid">
         <div class="rl" style="transition-delay:.2s">
           <div class="ct-body">
-            <p>নতুন কোনো প্রজেক্টের আইডিয়া আছে? অথবা আমার কোনো কাজ ভালো লেগেছে? নির্দ্বিধায় আমাকে মেসেজ করুন।</p>
+            <p>নতুন কোনো প্রজেক্টের আইডিয়া আছে? অথবা আমার কোনো কাজ ভালো লেগেছে? নির্দ্বিধ অফিসে মেসেজ করুন।</p>
             <p>আমি সবসময় নতুন কাজের সুযোগ বা কোলাবোরেশনের জন্য প্রস্তুত।</p>
           </div>
           
@@ -1263,10 +1280,11 @@ function initBubble() {
 
 function playBubbleIntro() {
   chatBubble.style.opacity = '1';
-  chatBubble.style.transition = 'left 0.8s var(--ease), top 0.8s var(--ease), width 0.6s var(--ease), height 0.6s var(--ease), box-shadow 0.3s';
+  // Include all transitions needed to switch smoothly between giant and normal modes
+  chatBubble.style.transition = 'left 0.8s var(--ease), top 0.8s var(--ease), width 0.6s var(--ease), height 0.6s var(--ease), box-shadow 0.6s var(--ease), background 0.6s var(--ease), border-color 0.6s var(--ease), border-radius 0.6s var(--ease)';
   chatBubble.classList.add('giant-mode');
 
-  // After 3.5 seconds, shrink and move to the corner
+  // After 4.5 seconds (gives time to read), shrink and move to the corner
   setTimeout(() => {
     chatBubble.classList.remove('giant-mode');
     const radius = 32.5; 
@@ -1280,7 +1298,7 @@ function playBubbleIntro() {
       chatBubble.style.transition = 'width 0.3s, height 0.3s, box-shadow 0.3s, transform 0.3s';
       bubbleIntroDone = true;
     }, 800);
-  }, 3500);
+  }, 4500); 
 }
 
 // ─── DRAGGABLE MESSENGER BUBBLE LOGIC ────────────────────
@@ -1638,4 +1656,5 @@ if (contactForm) {
 </script>
 </body>
 </html>
+
 
