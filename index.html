@@ -2005,9 +2005,8 @@ footer{
     <span class="close-popup-btn" onclick="closePopup(event)">×</span>
   </div>
 
-  <!-- চ্যাট বাবল (আপনার ছবি) -->
+  <!-- চ্যাট বাবল -->
   <div id="chat-bubble" onclick="toggleChatWindow()">
-    <!-- সরাসরি গিটহাবে আপলোড করা avatar.png যুক্ত করা হলো -->
     <img src="/avatar.png" alt="Ovi AI Avatar" id="avatar-img">
   </div>
 
@@ -2085,7 +2084,9 @@ async function askGemini() {
 
     if (!response.ok) throw new Error('API Error');
     const data = await response.json();
-    const reply = data.candidates[0].content.parts[0].text;
+    
+    // UPDATED FOR GROQ RESPONSE FORMAT
+    const reply = data.reply || "দুঃখিত, কোনো উত্তর পাওয়া যায়নি।";
     document.getElementById(loadingId).innerHTML = reply.replace(/\n/g, '<br>');
   } catch (error) {
     document.getElementById(loadingId).innerText = "দুঃখিত, আমি জানিনা। (সার্ভার এরর)";
@@ -2381,3 +2382,5 @@ if (contactForm) {
 </script>
 </body>
 </html>
+
+
