@@ -496,15 +496,21 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 <!-- ========================================== -->
 <style>
 #ai-chat-container { position: fixed; bottom: 20px; left: 20px; z-index: 9999; font-family: var(--font-b), sans-serif; touch-action: none; }
-#chat-bubble { width: 65px; height: 65px; border-radius: 50%; background: var(--bg2); box-shadow: var(--shadow-lg); cursor: grab; overflow: hidden; border: 2px solid var(--teal); transition: box-shadow 0.3s var(--ease); user-select: none; -webkit-user-select: none; }
+#chat-bubble { width: 65px; height: 65px; border-radius: 50%; background: var(--bg2); box-shadow: var(--shadow-lg); cursor: grab; overflow: hidden; border: 2px solid var(--teal); transition: box-shadow 0.3s var(--ease); user-select: none; -webkit-user-select: none; position: relative; }
 #chat-bubble:active { cursor: grabbing; }
 #chat-bubble:hover { box-shadow: var(--shadow-teal); }
 #avatar-img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
-#chat-welcome-popup { position: absolute; bottom: 85px; left: 0; width: 220px; background: var(--text-dark); color: var(--bg2); padding: 12px 15px; border-radius: 12px; font-size: 0.9rem; box-shadow: var(--shadow-md); display: none; font-family: var(--font-m); line-height: 1.5; }
-#chat-welcome-popup::after { content: ''; position: absolute; bottom: -8px; left: 20px; border-width: 8px 8px 0; border-style: solid; border-color: var(--text-dark) transparent transparent transparent; }
-#chat-welcome-popup.show { display: block; animation: fadeInChat 0.5s var(--ease); }
-.close-popup-btn { position: absolute; top: 2px; right: 8px; cursor: pointer; color: var(--muted2); font-size: 1.2rem; transition: color 0.3s; }
-.close-popup-btn:hover { color: var(--bg2); }
+.eye-lid { position: absolute; top: var(--eye-y, 44%); width: var(--eye-w, 9px); height: 2px; background: rgba(35,25,20,0.9); border-radius: 2px; opacity: 0; pointer-events: none; z-index: 2; transition: opacity 0.06s linear; }
+.eye-lid.left { left: var(--eye-lx, 24%); }
+.eye-lid.right { left: var(--eye-rx, 60%); }
+.eye-lid.blink { opacity: 1; }
+#chat-welcome-popup { position: absolute; bottom: 85px; left: 0; width: 235px; background: var(--bg2); color: var(--text-dark); padding: 14px 18px; border-radius: 24px 24px 24px 6px; font-size: 0.85rem; font-weight: 600; border: 2.5px solid var(--teal); box-shadow: var(--shadow-lg), 0 0 0 5px rgba(13,148,136,0.07); display: none; font-family: var(--font-b), sans-serif; line-height: 1.55; }
+#chat-welcome-popup p { position: relative; z-index: 1; margin: 0; padding-right: 14px; }
+#chat-welcome-popup::before { content: ''; position: absolute; bottom: -12px; left: 16px; width: 20px; height: 20px; background: var(--bg2); border-right: 2.5px solid var(--teal); border-bottom: 2.5px solid var(--teal); border-radius: 0 0 6px 0; transform: rotate(35deg) skew(6deg, 6deg); z-index: 0; }
+#chat-welcome-popup.show { display: block; animation: bubblePop 0.55s cubic-bezier(.34,1.56,.64,1); }
+@keyframes bubblePop { 0% { opacity: 0; transform: scale(0.35) translateY(18px); } 55% { opacity: 1; transform: scale(1.07) translateY(-4px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+.close-popup-btn { position: absolute; top: 4px; right: 10px; cursor: pointer; color: var(--muted2); font-size: 1.1rem; font-weight: 400; transition: color 0.3s; z-index: 2; }
+.close-popup-btn:hover { color: var(--pink); }
 #chat-window { position: absolute; bottom: 85px; left: 0; width: 320px; max-width: calc(100vw - 40px); height: 420px; background: var(--bg2); border-radius: 16px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; transition: opacity 0.35s var(--ease), transform 0.35s var(--ease); }
 .chat-hidden { opacity: 0; transform: scale(0.85); pointer-events: none; }
 .chat-quick-row { display: flex; gap: .5rem; padding: 10px 12px; flex-wrap: wrap; background: var(--bg2); border-top: 1px solid var(--border); }
@@ -536,6 +542,8 @@ footer{ padding:5rem 5% 2rem; background:var(--text-dark); color: var(--bg2); }
 
   <div id="chat-bubble" aria-label="AI Assistant, drag to move, click to open">
     <img src="/avatar.png" alt="Ovi AI Avatar" id="avatar-img" onerror="this.src='https://i.postimg.cc/5y4bwvmk/1000099141-removebg-preview.png'">
+    <span class="eye-lid left" aria-hidden="true"></span>
+    <span class="eye-lid right" aria-hidden="true"></span>
   </div>
 
   <div id="chat-window" class="chat-hidden">
@@ -1231,6 +1239,23 @@ window.addEventListener('load', () => {
 });
 
 /* ══════════════════════════════════════════════════
+   চোখ ব্লিংক — একটু পর পর স্বাভাবিক গতিতে (৩-৭ সেকেন্ড
+   randomly) বাবলের অ্যাভাটারে ছোট্ট ব্লিংক ইফেক্ট দেখায়।
+   অবস্থান আনুমানিক (--eye-y/--eye-lx/--eye-rx CSS variable
+   দিয়ে প্রয়োজনে ঠিক করে নেওয়া যাবে)।
+══════════════════════════════════════════════════ */
+(function initEyeBlink() {
+  const lids = document.querySelectorAll('.eye-lid');
+  if (!lids.length) return;
+  function blinkOnce() {
+    lids.forEach(l => l.classList.add('blink'));
+    setTimeout(() => lids.forEach(l => l.classList.remove('blink')), 140);
+    setTimeout(blinkOnce, 3000 + Math.random() * 4000);
+  }
+  setTimeout(blinkOnce, 2000 + Math.random() * 2000);
+})();
+
+/* ══════════════════════════════════════════════════
    AI বাবল — মেসেঞ্জারের মতো পুরো স্ক্রিন জুড়ে টেনে
    (drag) সরানো যায়। মাউস ও টাচ দুটোই সাপোর্ট করে।
    হালকা টান (click) দিলে চ্যাট খোলে, বেশি সরালে (drag)
@@ -1244,7 +1269,7 @@ window.addEventListener('load', () => {
 
   const MARGIN = 14;
   const BUBBLE = 65;
-  const DRAG_THRESHOLD = 6;
+  const DRAG_THRESHOLD = 10;
 
   function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
@@ -1320,7 +1345,10 @@ window.addEventListener('load', () => {
     const p = getPoint(e);
     if (e.touches) e.preventDefault();
     const dx = p.clientX - startX, dy = p.clientY - startY;
-    if (Math.abs(dx) > DRAG_THRESHOLD || Math.abs(dy) > DRAG_THRESHOLD) moved = true;
+    if (!moved && Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) {
+      return; // সামান্য কাঁপুনি — এটা ড্র্যাগ না, ট্যাপ হিসেবেই গণ্য হবে
+    }
+    moved = true;
     applyPosition(p.clientX - offsetX, p.clientY - offsetY, false);
   }
 
