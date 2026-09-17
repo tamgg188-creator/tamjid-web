@@ -1,24 +1,6 @@
-// Loader
+// Initialize Hero Animation directly (Without Loader)
 document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('loader');
-    const lbar = document.getElementById('lbar');
-    const lpct = document.getElementById('lpct');
-    let p = 0;
-    const iv = setInterval(() => {
-        p += Math.random() * 25 + 10;
-        if (p >= 100) {
-            p = 100; clearInterval(iv);
-            if(lbar) lbar.style.width = '100%';
-            if(lpct) lpct.textContent = '100%';
-            if(loader) {
-                loader.classList.add('done');
-                setTimeout(() => { loader.classList.add('out'); initHero(); }, 600);
-            }
-        } else {
-            if(lbar) lbar.style.width = p + '%';
-            if(lpct) lpct.textContent = Math.floor(p) + '%';
-        }
-    }, 40);
+    initHero();
 });
 
 // Hero Typing Animation
@@ -53,7 +35,7 @@ function startSlot() {
     let idx = 0;
     setInterval(() => {
         idx = (idx + 1) % 3;
-        inner.style.transform = `translateY(${-idx * 1.4}em)`; // <-- এখানে Backtick (`) যোগ করা হয়েছে
+        inner.style.transform = `translateY(${-idx * 1.4}em)`;
     }, 2800);
 }
 
@@ -64,7 +46,7 @@ document.addEventListener('mousemove', e => {
     if (!mouseUpdatePending && mouseLight) {
         mouseUpdatePending = true;
         requestAnimationFrame(() => {
-            mouseLight.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`; // <-- এখানে Backtick (`) যোগ করা হয়েছে
+            mouseLight.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
             mouseUpdatePending = false;
         });
     }
@@ -170,6 +152,6 @@ function updateClock() {
     const h = String(t.getHours()).padStart(2,'0');
     const m = String(t.getMinutes()).padStart(2,'0');
     const s = String(t.getSeconds()).padStart(2,'0');
-    el.textContent = `${h}:${m}:${s} BST`; // <-- এখানে Backtick (`) যোগ করা হয়েছে
+    el.textContent = `${h}:${m}:${s} BST`;
 }
 setInterval(updateClock, 1000); updateClock();
