@@ -582,3 +582,77 @@ textarea:focus-visible,
   }
 
 }
+/* =========================================
+   ACCESSIBILITY — SKIP LINK FIX
+   Keeps the Bengali "মূল কনটেন্টে যান" link
+   hidden until keyboard focus.
+   ========================================= */
+
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10001;
+  transform: translateY(-200%);
+  opacity: 0;
+  pointer-events: none;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--teal);
+  border-radius: 4px;
+  background: var(--bg2);
+  color: var(--text-dark);
+  font-family: var(--font-b);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  transition:
+    transform 0.25s var(--ease),
+    opacity 0.25s var(--ease);
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  outline: 2px solid var(--teal);
+  outline-offset: 4px;
+}
+
+/* Prevent accidental horizontal overflow from long Bengali/English text. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+span,
+li {
+  overflow-wrap: anywhere;
+}
+
+/* Make interactive controls consistently show the pointer cursor. */
+button,
+a,
+[role="button"] {
+  cursor: pointer;
+}
+
+/* Avoid animation-related layout issues on very small screens. */
+@media (max-width: 480px) {
+  .h-role-wrap {
+    max-width: 100%;
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  .h-slot {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .h-cta .mbtn {
+    min-height: 58px;
+  }
+}
