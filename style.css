@@ -391,8 +391,7 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
 
 
 /* =========================================
-   HERO IMAGE — FORCE CENTER
-   Works for Tablet + Desktop
+   OPTIMIZED HERO LAYOUT
    ========================================= */
 
 @media (min-width: 769px) {
@@ -401,39 +400,185 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .h-content {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .h-eye,
+  .h-role-wrap,
+  .h-cta,
+  .h-stats {
+    justify-content: center;
+  }
+
+  .h-sub {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
   }
 
   .h-decor {
-    position: relative !important;
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
 
-    /* Remove right-side positioning */
-    top: auto !important;
-    right: auto !important;
-    left: auto !important;
+    width: min(500px, 40vw);
+    height: min(500px, 40vw);
 
-    /* Fixed centered container */
-    width: min(500px, 80vw) !important;
-    height: min(500px, 80vw) !important;
+    margin: 3rem auto 0;
+    transform: none;
 
-    margin: 3rem auto 0 !important;
-
-    transform: none !important;
-
-    /* Prevent unwanted flex positioning */
-    align-self: center !important;
+    align-self: center;
     flex-shrink: 0;
   }
 
   .h-my-img {
-    position: absolute !important;
+    position: absolute;
+    left: 50%;
+    bottom: -5%;
+    width: 120%;
+    height: auto;
+    transform: translateX(-50%);
+  }
 
-    left: 50% !important;
-    bottom: -5% !important;
+}
 
-    width: 120% !important;
-    height: auto !important;
 
-    transform: translateX(-50%) !important;
+/* =========================================
+   REDUCED MOTION ACCESSIBILITY
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+}
+
+
+/* =========================================
+   PERFORMANCE OPTIMIZATION
+   ========================================= */
+
+img {
+  max-width: 100%;
+}
+
+.h-bg-orb,
+.h-orb,
+.h-ring,
+.av-orbit {
+  will-change: transform;
+}
+
+
+/* =========================================
+   ACCESSIBILITY & FOCUS STATES
+   ========================================= */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 4px;
+}
+
+
+/* =========================================
+   FORM OPTIMIZATION
+   ========================================= */
+
+.ct-form-input {
+  width: 100%;
+  min-width: 0;
+}
+
+.ct-form-input::placeholder {
+  color: var(--muted2);
+  opacity: 1;
+}
+
+
+/* =========================================
+   MOBILE OPTIMIZATION
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  .h-sub {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .h-cta {
+    width: 100%;
+  }
+
+  .h-cta .mbtn {
+    flex: 1;
+    min-width: 0;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+  }
+
+  .n-avail {
+    max-width: 210px;
+    white-space: nowrap;
+  }
+
+  .h-decor {
+    overflow: visible;
+  }
+
+  .h-my-img {
+    max-width: none;
+  }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE SCREENS
+   ========================================= */
+
+@media (max-width: 480px) {
+
+  .n-avail span {
+    font-size: 0.58rem;
+  }
+
+  .n-avail {
+    padding: 0.35rem 0.6rem;
+  }
+
+  .h-cta {
+    gap: 0.8rem;
+  }
+
+  .h-cta .mbtn {
+    font-size: 0.7rem;
+  }
+
+  .h-stats {
+    gap: 1.5rem;
   }
 
 }
