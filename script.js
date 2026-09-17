@@ -1,528 +1,173 @@
-
-/* =========================================
-   GLOBAL UTILITIES
-========================================= */
-
-'use strict';
-
-const $ = (selector, parent = document) =>
-  parent.querySelector(selector);
-
-const $$ = (selector, parent = document) =>
-  [...parent.querySelectorAll(selector)];
-
-
-/* =========================================
-   LOADER
-========================================= */
-
+// Loader
 window.addEventListener('load', () => {
-  const loader = $('#loader');
-  const progressBar = $('#lbar');
-  const progressText = $('#lpct');
-
-  let progress = 0;
-  let animationFrame;
-
-  const updateLoader = () => {
-    progress += Math.random() * 25 + 10;
-    progress = Math.min(progress, 100);
-
-    if (progressBar) {
-      progressBar.style.width = `${progress}%`;
-    }
-
-    if (progressText) {
-      progressText.textContent = `${Math.floor(progress)}%`;
-    }
-
-    if (progress >= 100) {
-      cancelAnimationFrame(animationFrame);
-
-      if (progressBar) {
-        progressBar.style.width = '100%';
-      }
-
-      if (progressText) {
-        progressText.textContent = '100%';
-      }
-
-      if (loader) {
-        loader.classList.add('done');
-
-        window.setTimeout(() => {
-          loader.classList.add('out');
-
-          if (typeof initHero === 'function') {
-            initHero();
-          }
-        }, 600);
-      } else {
-        initHero();
-      }
-
-      return;
-    }
-
-    animationFrame = requestAnimationFrame(() => {
-      window.setTimeout(updateLoader, 40);
-    });
-  };
-
-  updateLoader();
-});
-
-
-/* =========================================
-   HERO TYPING ANIMATION
-========================================= */
-
-function splitChars(element, text, baseDelay = 0) {
-  if (!element) return;
-
-  element.replaceChildren();
-
-  let characterIndex = 0;
-
-  text.split(' ').forEach((word, wordIndex, words) => {
-    const wordWrapper = document.createElement('span');
-
-    wordWrapper.className = 'hc-word';
-
-    [...word].forEach((character) => {
-      const characterElement = document.createElement('span');
-
-      characterElement.className = 'hc';
-      characterElement.textContent = character;
-
-      characterElement.style.animationDelay =
-        `${baseDelay + characterIndex * 0.04}s`;
-
-      wordWrapper.appendChild(characterElement);
-      characterIndex++;
-    });
-
-    element.appendChild(wordWrapper);
-
-    if (wordIndex < words.length - 1) {
-      element.appendChild(document.createTextNode(' '));
-      characterIndex++;
-    }
-  });
+const loader = document.getElementById('loader');
+const lbar = document.getElementById('lbar');
+const lpct = document.getElementById('lpct');
+let p = 0;
+const iv = setInterval(() => {
+p += Math.random() * 25 + 10;
+if (p >= 100) {
+p = 100; clearInterval(iv);
+if(lbar) lbar.style.width = '100%';
+if(lpct) lpct.textContent = '100%';
+if(loader) {
+loader.classList.add('done');
+setTimeout(() => { loader.classList.add('out'); initHero(); }, 600);
 }
-
-
-let heroInitialized = false;
-
-function initHero() {
-  if (heroInitialized) return;
-
-  heroInitialized = true;
-
-  splitChars(
-    $('#hr1'),
-    'Tamjidul Islam',
-    0.1
-  );
-
-  splitChars(
-    $('#hr2'),
-    'Ovi',
-    0.5
-  );
-
-  startSlot();
-}
-
-
-/* =========================================
-   HERO ROLE SLOT
-========================================= */
-
-let slotInterval = null;
-
-function startSlot() {
-  const slotInner = $('#slotInner');
-
-  if (!slotInner || slotInterval) return;
-
-  const prefersReducedMotion =
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (prefersReducedMotion) return;
-
-  let index = 0;
-
-  slotInterval = window.setInterval(() => {
-    index = (index + 1) % 3;
-
-    slotInner.style.transform =
-      `translateY(${-index * 1.4}em)`;
-  }, 2800);
-}
-
-
-/* =========================================
-   MOUSE LIGHT
-========================================= */
-
-const mouseLight = $('#mouse-light');
-
-let mouseFramePending = false;
-let mouseX = 0;
-let mouseY = 0;
-
-if (mouseLight) {
-  document.addEventListener(
-    'mousemove',
-    (event) => {
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-
-      if (mouseFramePending) return;
-
-      mouseFramePending = true;
-
-      requestAnimationFrame(() => {
-        mouseLight.style.transform =
-          `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-
-        mouseFramePending = false;
-      });
-    },
-    { passive: true }
-  );
-}
-
-
-/* =========================================
-   SCROLL HANDLING
-========================================= */
-
-const progressElement = $('#progress');
-const navigationElement = $('#nav');
-const floatingCta = $('.float-cta');
-
-let scrollFramePending = false;
-
-function updateScrollUI() {
-  const scrollY = window.scrollY;
-  const viewportHeight = window.innerHeight;
-
-  const documentHeight =
-    document.documentElement.scrollHeight;
-
-  const maxScroll =
-    Math.max(documentHeight - viewportHeight, 1);
-
-  const progress =
-    Math.min((scrollY / maxScroll) * 100, 100);
-
-  if (progressElement) {
-    progressElement.style.width = `${progress}%`;
-  }
-
-  if (navigationElement) {
-    navigationElement.classList.toggle(
-      'on',
-      scrollY > 80
-    );
-  }
-
-  if (floatingCta) {
-    floatingCta.classList.toggle(
-      'show',
-      scrollY > viewportHeight * 0.6
-    );
-  }
-
-  scrollFramePending = false;
-}
-
-window.addEventListener(
-  'scroll',
-  () => {
-    if (scrollFramePending) return;
-
-    scrollFramePending = true;
-    requestAnimationFrame(updateScrollUI);
-  },
-  { passive: true }
-);
-
-window.addEventListener(
-  'resize',
-  updateScrollUI,
-  { passive: true }
-);
-
-updateScrollUI();
-
-
-/* =========================================
-   MOBILE MENU
-========================================= */
-
-const hamburger = $('#ham');
-const mobileMenu = $('#mobMenu');
-
-function closeMob() {
-  if (hamburger) {
-    hamburger.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-  }
-
-  if (mobileMenu) {
-    mobileMenu.classList.remove('open');
-  }
-
-  document.body.style.overflow = '';
-}
-
-function toggleMobileMenu() {
-  if (!hamburger || !mobileMenu) return;
-
-  const isOpen =
-    hamburger.classList.toggle('open');
-
-  mobileMenu.classList.toggle('open', isOpen);
-
-  hamburger.setAttribute(
-    'aria-expanded',
-    String(isOpen)
-  );
-
-  document.body.style.overflow =
-    isOpen ? 'hidden' : '';
-}
-
-if (hamburger) {
-  hamburger.setAttribute('aria-expanded', 'false');
-  hamburger.setAttribute('aria-controls', 'mobMenu');
-
-  hamburger.addEventListener(
-    'click',
-    toggleMobileMenu
-  );
-}
-
-$$('#mobMenu a').forEach((link) => {
-  link.addEventListener('click', closeMob);
-});
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    closeMob();
-  }
-});
-
-window.addEventListener('resize', () => {
-  if (window.innerWidth > 768) {
-    closeMob();
-  }
-});
-
-
-/* =========================================
-   INTERSECTION ANIMATIONS
-========================================= */
-
-function animateCounter(element, target) {
-  if (!element || element.dataset.animating === 'true') {
-    return;
-  }
-
-  element.dataset.animating = 'true';
-
-  const duration = 1500;
-  const startTime = performance.now();
-
-  function updateCounter(currentTime) {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-
-    const easing =
-      1 - Math.pow(1 - progress, 3);
-
-    const currentValue =
-      Math.round(easing * target);
-
-    element.textContent = `${currentValue}+`;
-
-    if (progress < 1) {
-      requestAnimationFrame(updateCounter);
-    } else {
-      element.textContent = `${target}+`;
-      element.dataset.completed = 'true';
-    }
-  }
-
-  requestAnimationFrame(updateCounter);
-}
-
-const revealElements = $$('.rv, .rl, .rr, .sk-card, .ai-overview-block');
-
-if ('IntersectionObserver' in window) {
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-
-        const element = entry.target;
-
-        element.classList.add('in');
-
-        $$('.line-reveal-inner', element).forEach(
-          (line, index) => {
-            window.setTimeout(() => {
-              line.classList.add('in');
-            }, index * 80);
-          }
-        );
-
-        $$('[data-count]', element).forEach((counter) => {
-          if (
-            counter.dataset.counted === 'true' ||
-            counter.dataset.completed === 'true'
-          ) {
-            return;
-          }
-
-          counter.dataset.counted = 'true';
-
-          const target =
-            Number(counter.dataset.count);
-
-          if (Number.isFinite(target)) {
-            window.setTimeout(() => {
-              animateCounter(counter, target);
-            }, 300);
-          }
-        });
-
-        observer.unobserve(element);
-      });
-    },
-    {
-      threshold: 0.1
-    }
-  );
-
-  revealElements.forEach((element) => {
-    revealObserver.observe(element);
-  });
 } else {
-  revealElements.forEach((element) => {
-    element.classList.add('in');
-  });
+if(lbar) lbar.style.width = p + '%';
+if(lpct) lpct.textContent = Math.floor(p) + '%';
 }
-
-
-/* =========================================
-   CONTACT FORM
-========================================= */
-
-const contactForm = $('#contactForm');
-const submitButton = $('#submitBtn');
-const formStatus = $('#formStatus');
-
-const scriptURL =
-  'https://script.google.com/macros/s/AKfycbzkwGFAxH_5Y3g0dVdQLV5p_KtyF25xxTcsIizu6s0NqrLogG-TXXm1OMHCW02ML_Z_/exec';
-
-if (contactForm) {
-  contactForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    if (!submitButton) return;
-
-    const buttonText = $('span', submitButton);
-    const originalText = buttonText?.textContent || '';
-
-    submitButton.disabled = true;
-
-    if (buttonText) {
-      buttonText.textContent = 'পাঠানো হচ্ছে...';
-    }
-
-    if (formStatus) {
-      formStatus.textContent = '';
-      formStatus.style.color = '';
-    }
-
-    try {
-      const response = await fetch(scriptURL, {
-        method: 'POST',
-        body: new FormData(contactForm)
-      });
-
-      if (!response.ok) {
-        throw new Error('Network response failed');
-      }
-
-      const data = await response.json();
-
-      if (data.status === 'success') {
-        if (formStatus) {
-          formStatus.textContent =
-            'সফলভাবে পাঠানো হয়েছে!';
-
-          formStatus.style.color = 'var(--teal)';
-        }
-
-        contactForm.reset();
-      } else {
-        throw new Error('Form submission failed');
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
-
-      if (formStatus) {
-        formStatus.textContent =
-          'সমস্যা হয়েছে। আবার চেষ্টা করুন।';
-
-        formStatus.style.color = 'var(--pink)';
-      }
-    } finally {
-      submitButton.disabled = false;
-
-      if (buttonText) {
-        buttonText.textContent = originalText;
-      }
-    }
-  });
-}
-
-
-/* =========================================
-   FOOTER CLOCK
-========================================= */
-
-const clockElement = $('#ftTime');
-
-function updateClock() {
-  if (!clockElement) return;
-
-  const now = new Date();
-
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-
-  clockElement.textContent =
-    `${hours}:${minutes}:${seconds} BST`;
-}
-
-updateClock();
-
-window.setInterval(updateClock, 1000);
-
-
-/* =========================================
-   GLOBAL CLEANUP
-========================================= */
-
-window.addEventListener('beforeunload', () => {
-  if (slotInterval) {
-    clearInterval(slotInterval);
-  }
+}, 40);
 });
+
+// Hero Typing Animation
+function splitChars(el, text, base) {
+if (!el) return;
+el.innerHTML = '';
+text.split(' ').forEach((word, wi, arr) => {
+const wrap = document.createElement('span');
+wrap.className = 'hc-word';
+let ci = el.querySelectorAll('.hc').length;
+[...word].forEach((ch, j) => {
+const s = document.createElement('span');
+s.className = 'hc';
+s.textContent = ch === ' ' ? '\u00A0' : ch;
+s.style.animationDelay = (base + (ci + j) * .04) + 's';
+wrap.appendChild(s);
+});
+el.appendChild(wrap);
+if (wi < arr.length - 1) el.appendChild(document.createTextNode(' '));
+});
+}
+function initHero() {
+splitChars(document.getElementById('hr1'), 'Tamjidul Islam', .1);
+splitChars(document.getElementById('hr2'), 'Ovi', .5);
+startSlot();
+}
+function startSlot() {
+const inner = document.getElementById('slotInner');
+if (!inner) return;
+let idx = 0;
+setInterval(() => {
+idx = (idx + 1) % 3;
+inner.style.transform = translateY(${-idx * 1.4}em);
+}, 2800);
+}
+
+// Scroll & Mouse Events
+const mouseLight = document.getElementById('mouse-light');
+let mouseUpdatePending = false;
+document.addEventListener('mousemove', e => {
+if (!mouseUpdatePending && mouseLight) {
+mouseUpdatePending = true;
+requestAnimationFrame(() => {
+mouseLight.style.transform = translate3d(${e.clientX}px, ${e.clientY}px, 0);
+mouseUpdatePending = false;
+});
+}
+}, { passive: true });
+
+const progressEl = document.getElementById('progress');
+const navEl = document.getElementById('nav');
+const floatCta = document.querySelector('.float-cta');
+window.addEventListener('scroll', () => {
+requestAnimationFrame(() => {
+const y = window.scrollY;
+const maxY = document.documentElement.scrollHeight - innerHeight;
+if(progressEl) progressEl.style.width = (y / maxY * 100) + '%';
+if(navEl) navEl.classList.toggle('on', y > 80);
+if(floatCta) floatCta.classList.toggle('show', y > innerHeight * .6);
+});
+}, { passive: true });
+
+// Mobile Menu
+const hamEl = document.getElementById('ham');
+const mobMenuEl = document.getElementById('mobMenu');
+function closeMob() {
+if(hamEl) hamEl.classList.remove('open');
+if(mobMenuEl) mobMenuEl.classList.remove('open');
+document.body.style.overflow = '';
+}
+if (hamEl) {
+hamEl.addEventListener('click', () => {
+const isOpen = hamEl.classList.toggle('open');
+if(mobMenuEl) mobMenuEl.classList.toggle('open', isOpen);
+document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+}
+
+// Intersection Animations
+function animCount(el, target) {
+let s = null;
+(function step(ts) {
+if (!s) s = ts;
+const prog = Math.min((ts - s) / 1500, 1);
+const ease = 1 - Math.pow(1 - prog, 3);
+el.textContent = Math.round(ease * target) + '+';
+if (prog < 1) requestAnimationFrame(step);
+else el.textContent = target + '+';
+})(performance.now());
+}
+const revIO = new IntersectionObserver(entries => {
+entries.forEach(e => {
+if (!e.isIntersecting) return;
+const el = e.target;
+el.classList.add('in');
+el.querySelectorAll('.line-reveal-inner').forEach((li, i) => {
+setTimeout(() => li.classList.add('in'), i * 80);
+});
+el.querySelectorAll('[data-count]').forEach(c => {
+if (!c.dataset.counted) {
+c.dataset.counted = '1';
+setTimeout(() => animCount(c, +c.dataset.count), 300);
+}
+});
+revIO.unobserve(el);
+});
+}, { threshold: .1 });
+document.querySelectorAll('.rv,.rl,.rr,.sk-card,.ai-overview-block').forEach(el => revIO.observe(el));
+
+// Form Submission
+const contactForm = document.getElementById('contactForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzkwGFAxH_5Y3g0dVdQLV5p_KtyF25xxTcsIizu6s0NqrLogG-TXXm1OMHCW02ML_Z_/exec';
+if (contactForm) {
+contactForm.addEventListener('submit', e => {
+e.preventDefault();
+submitBtn.disabled = true;
+const btnText = submitBtn.querySelector('span');
+const origText = btnText.textContent;
+btnText.textContent = 'পাঠানো হচ্ছে...';
+formStatus.textContent = '';
+fetch(scriptURL, { method: 'POST', body: new FormData(contactForm) })
+.then(response => response.json())
+.then(data => {
+if (data.status === 'success') {
+formStatus.textContent = 'সফলভাবে পাঠানো হয়েছে!';
+formStatus.style.color = 'var(--teal)';
+contactForm.reset();
+} else {
+formStatus.textContent = 'সমস্যা হয়েছে!';
+formStatus.style.color = 'var(--pink)';
+}
+})
+.finally(() => {
+submitBtn.disabled = false;
+btnText.textContent = origText;
+});
+});
+}
+
+// Footer Clock
+function updateClock() {
+const el = document.getElementById('ftTime');
+if (!el) return;
+const t = new Date();
+const h = String(t.getHours()).padStart(2,'0');
+const m = String(t.getMinutes()).padStart(2,'0');
+const s = String(t.getSeconds()).padStart(2,'0');
+el.textContent = ${h}:${m}:${s} BST;
+}
+setInterval(updateClock, 1000); updateClock();
