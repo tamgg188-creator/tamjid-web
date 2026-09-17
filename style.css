@@ -32,7 +32,10 @@
 }
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html,body{max-width:100vw;overflow-x:hidden;touch-action:manipulation;scroll-behavior:smooth}
+
+/* ওভারফ্লো ইস্যু ফিক্স করার জন্য বডি ম্যাক্স-উইডথ 100% দেওয়া হয়েছে */
+html,body{max-width:100%;overflow-x:hidden;touch-action:manipulation;scroll-behavior:smooth}
+
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border2); border-radius:10px;}
@@ -196,7 +199,8 @@ section{position:relative;z-index:5}
 .a-tag{ font-family:var(--font-m);font-size:.75rem; font-weight:500; padding:.4rem 1rem; border-radius: 50px; background: var(--bg2); border:1px solid var(--border); color:var(--muted); transition:all .3s var(--ease); }
 .a-tag:hover{color:var(--teal);border-color:var(--teal); background: rgba(20, 184, 166, 0.1);}
 
-.av-scene{ position:relative;width:450px;height:450px;margin:0 auto; }
+/* About Image Framework (Fixing Mobile Overflow) */
+.av-scene{ position:relative;width:450px;height:450px;margin:0 auto; max-width:100%; }
 .av-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .av-frame{ display: block; width:75%;height:75%; border-radius:50%; overflow:hidden; border:1px solid var(--border); background: var(--bg2); position:relative;z-index:3; transition:transform .6s; }
 .av-frame:hover{ transform: translateY(-10px); }
@@ -272,7 +276,8 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
 
 /* Responsive */
 @media(max-width:1100px){ 
-  .about-grid{grid-template-columns:1fr;gap:4rem} 
+  /* গ্রিড কলাম ফিক্স করা হয়েছে যেন টেক্সট ওভারফ্লো না হয় */
+  .about-grid{grid-template-columns:minmax(0, 1fr);gap:4rem} 
   .sk-bento{grid-template-columns:1fr 1fr} 
   .ft-top{flex-direction:column;gap:3rem} 
 }
@@ -287,7 +292,7 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
   .h-name { font-size: clamp(2.2rem, 11vw, 3.5rem); padding-right: 5px; }
 
   .ham{display:flex} 
-  .ct-grid{grid-template-columns:1fr;gap:4rem} 
+  .ct-grid{grid-template-columns:minmax(0, 1fr);gap:4rem} 
   .h-stats{gap:2rem; flex-wrap: wrap;} 
   .sk-bento{grid-template-columns:1fr} 
   .ct-info-grid{grid-template-columns:1fr} 
@@ -310,4 +315,11 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
   .h-orb, .h-ring { 
     opacity: 0.15; 
   }
+
+  /* মোবাইলে ছবি যেন গ্রিডকে ওভারফ্লো না করে তার জন্য সাইজ ফিক্সড */
+  .av-scene { width: 280px; height: 280px; }
+}
+
+@media(max-width:480px) {
+  .av-scene { width: 240px; height: 240px; }
 }
