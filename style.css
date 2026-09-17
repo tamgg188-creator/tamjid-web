@@ -320,19 +320,24 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
   .av-scene { width: 240px; height: 240px; }
 }
 
-/* ডেস্কটপ বা বড় স্ক্রিনের জন্য পুরো হিরো সেকশন সেন্টারে আনার পারফেক্ট ফিক্স */
-@media(min-width: 992px) {
+
+/* =========================================
+   DESKTOP HERO — CENTERED IMAGE FIX
+   ========================================= */
+
+@media (min-width: 992px) {
+
   #hero {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 140px 5% 100px;
     text-align: center;
     min-height: 100vh;
   }
-  
+
   .h-content {
+    width: 100%;
     max-width: 800px;
     margin: 0 auto;
     display: flex;
@@ -340,44 +345,60 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
     align-items: center;
   }
 
-  .h-eye {
-    justify-content: center;
-  }
-
-  .h-role-wrap {
-    justify-content: center;
-  }
-
-  .h-sub {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .h-cta {
-    justify-content: center;
-  }
-
+  .h-eye,
+  .h-role-wrap,
+  .h-cta,
   .h-stats {
     justify-content: center;
   }
 
-  .h-decor {
-    position: relative !important;
-    right: auto !important;
-    top: auto !important;
-    transform: none !important;
-    width: 450px !important;
-    height: 450px !important;
-    display: block !important;
-    margin: 3rem auto 0 !important;
-    float: none !important;
+  .h-sub {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
   }
 
+  /* Image container: exact center */
+  .h-decor {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+
+    width: min(500px, 40vw) !important;
+    height: min(500px, 40vw) !important;
+
+    margin: 3rem auto 0 !important;
+
+    transform: none !important;
+    flex-shrink: 0;
+  }
+
+  /* Image: centered inside container */
   .h-my-img {
-    width: 120% !important;
-    bottom: -5% !important;
+    position: absolute !important;
+
     left: 50% !important;
+    bottom: -5% !important;
+
+    width: 120% !important;
+    height: auto !important;
+
     transform: translateX(-50%) !important;
   }
+
+}
+
+
+/* =========================================
+   MOBILE — KEEP CENTERED LAYOUT
+   ========================================= */
+
+@media (max-width: 991px) {
+
+  .h-decor {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
 }
