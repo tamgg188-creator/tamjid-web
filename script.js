@@ -19,6 +19,15 @@ window.addEventListener('load', () => {
       if(lpct) lpct.textContent = Math.floor(p) + '%';
     }
   }, 40);
+
+  // চ্যাট পপ-আপ ৩ সেকেন্ড পর দেখানো (যদি চ্যাট উইন্ডো বন্ধ থাকে)
+  setTimeout(() => {
+    const popup = document.getElementById('chat-welcome-popup');
+    const chatWindow = document.getElementById('chat-window');
+    if(popup && chatWindow && chatWindow.classList.contains('chat-hidden')) {
+      popup.classList.add('show');
+    }
+  }, 3000);
 });
 
 // Hero Typing Animation
@@ -127,20 +136,6 @@ const revIO = new IntersectionObserver(entries => {
   });
 }, { threshold: .1 });
 document.querySelectorAll('.rv,.rl,.rr,.sk-card,.ai-overview-block').forEach(el => revIO.observe(el));
-
-const skRingIO = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const fill = e.target.querySelector('.sk-ring-fill');
-    if (fill) {
-      const pct = parseFloat(fill.closest('.sk-card')?.style.getPropertyValue('--sw') || 1) || 0.95;
-      const circumference = 2 * Math.PI * 60;
-      fill.style.strokeDashoffset = circumference * (1 - pct);
-    }
-    skRingIO.unobserve(e.target);
-  });
-}, { threshold: .3 });
-document.querySelectorAll('.sk-card.sk-featured').forEach(c => skRingIO.observe(c));
 
 // Form Submission
 const contactForm = document.getElementById('contactForm');
@@ -261,7 +256,7 @@ document.querySelectorAll('.chat-chip').forEach(btn => {
   setTimeout(blinkOnce, 2000 + Math.random() * 2000);
 })();
 
-// Chat Bubble Drag
+// Chat Bubble Drag & Touch Fix
 (function initDraggableBubble() {
   const container = document.getElementById('ai-chat-container');
   const bubble = document.getElementById('chat-bubble');
@@ -286,7 +281,8 @@ document.querySelectorAll('.chat-chip').forEach(btn => {
     if (!dragging) return;
     const p = getPoint(e);
     const dx = p.clientX - startX, dy = p.clientY - startY;
-    if (!moved && Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+    // সেনসিটিভিটি কমানো হয়েছে, যেন টাচ করলেই ড্র্যাগ না ধরে (১০ থেকে বাড়িয়ে ১৫ করা হয়েছে)
+    if (!moved && Math.abs(dx) < 15 && Math.abs(dy) < 15) return;
     moved = true;
     if (e.touches) e.preventDefault();
     container.style.left = (p.clientX - offsetX) + 'px';
