@@ -1,280 +1,306 @@
-/* ==========================================
-   LOADER & INITIAL ANIMATION
-========================================== */
+// Loader
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
   const lbar = document.getElementById('lbar');
   const lpct = document.getElementById('lpct');
   let p = 0;
-  
   const iv = setInterval(() => {
     p += Math.random() * 25 + 10;
     if (p >= 100) {
-      p = 100;
-      clearInterval(iv);
-      if (lbar) lbar.style.width = '100%';
-      if (lpct) lpct.textContent = '100%';
-      if (loader) {
+      p = 100; clearInterval(iv);
+      if(lbar) lbar.style.width = '100%';
+      if(lpct) lpct.textContent = '100%';
+      if(loader) {
         loader.classList.add('done');
-        setTimeout(() => { loader.classList.add('out'); }, 600);
+        setTimeout(() => { loader.classList.add('out'); initHero(); }, 600);
       }
     } else {
-      if (lbar) lbar.style.width = p + '%';
-      if (lpct) lpct.textContent = Math.floor(p) + '%';
+      if(lbar) lbar.style.width = p + '%';
+      if(lpct) lpct.textContent = Math.floor(p) + '%';
     }
   }, 40);
 });
 
-/* ==========================================
-   SCROLL NAVIGATION & ACTIVE LINKS
-========================================== */
-const navEl = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  if (navEl) navEl.classList.toggle('on', window.scrollY > 80);
-});
-
-/* ==========================================
-   MOBILE MENU TOGGLE
-========================================== */
-const hamEl = document.getElementById('ham');
-const mobMenuEl = document.getElementById('mobMenu');
-
-function closeMob() {
-  if (hamEl) hamEl.classList.remove('open');
-  if (mobMenuEl) mobMenuEl.classList.remove('open');
-  document.body.style.overflow = '';
+// Hero Typing Animation
+function splitChars(el, text, base) {
+  if (!el) return;
+  el.innerHTML = '';
+  text.split(' ').forEach((word, wi, arr) => {
+    const wrap = document.createElement('span');
+    wrap.className = 'hc-word';
+    let ci = el.querySelectorAll('.hc').length;
+    [...word].forEach((ch, j) => {
+      const s = document.createElement('span');
+      s.className = 'hc';
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      s.style.animationDelay = (base + (ci + j) * .04) + 's';
+      wrap.appendChild(s);
+    });
+    el.appendChild(wrap);
+    if (wi < arr.length - 1) el.appendChild(document.createTextNode(' '));
+  });
+}
+function initHero() {
+  splitChars(document.getElementById('hr1'), 'Tamjidul Islam', .1);
+  splitChars(document.getElementById('hr2'), 'Ovi', .5);
+  startSlot();
+}
+function startSlot() {
+  const inner = document.getElementById('slotInner');
+  if (!inner) return;
+  let idx = 0;
+  setInterval(() => {
+    idx = (idx + 1) % 3;
+    inner.style.transform = `translateY(${-idx * 1.4}em)`;
+  }, 2800);
 }
 
+// Scroll & Mouse Events
+const mouseLight = document.getElementById('mouse-light');
+let mouseUpdatePending = false;
+document.addEventListener('mousemove', e => {
+  if (!mouseUpdatePending && mouseLight) {
+    mouseUpdatePending = true;
+    requestAnimationFrame(() => {
+      mouseLight.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      mouseUpdatePending = false;
+    });
+  }
+}, { passive: true });
+
+const progressEl = document.getElementById('progress');
+const navEl = document.getElementById('nav');
+const floatCta = document.querySelector('.float-cta');
+window.addEventListener('scroll', () => {
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    const maxY = document.documentElement.scrollHeight - innerHeight;
+    if(progressEl) progressEl.style.width = (y / maxY * 100) + '%';
+    if(navEl) navEl.classList.toggle('on', y > 80);
+    if(floatCta) floatCta.classList.toggle('show', y > innerHeight * .6);
+  });
+}, { passive: true });
+
+// Mobile Menu
+const hamEl = document.getElementById('ham');
+const mobMenuEl = document.getElementById('mobMenu');
+function closeMob() {
+  if(hamEl) hamEl.classList.remove('open');
+  if(mobMenuEl) mobMenuEl.classList.remove('open');
+  document.body.style.overflow = '';
+}
 if (hamEl) {
   hamEl.addEventListener('click', () => {
     const isOpen = hamEl.classList.toggle('open');
-    if (mobMenuEl) mobMenuEl.classList.toggle('open', isOpen);
+    if(mobMenuEl) mobMenuEl.classList.toggle('open', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
   });
 }
 
-/* ==========================================
-   INTERSECTION OBSERVER (Scroll Animations)
-========================================== */
-const observerOptions = { threshold: 0.1 };
-
+// Intersection Animations
+function animCount(el, target) {
+  let s = null;
+  (function step(ts) {
+    if (!s) s = ts;
+    const prog = Math.min((ts - s) / 1500, 1);
+    const ease = 1 - Math.pow(1 - prog, 3);
+    el.textContent = Math.round(ease * target) + '+';
+    if (prog < 1) requestAnimationFrame(step);
+    else el.textContent = target + '+';
+  })(performance.now());
+}
 const revIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0) translateX(0)';
-      revIO.unobserve(e.target);
-    }
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    el.classList.add('in');
+    el.querySelectorAll('.line-reveal-inner').forEach((li, i) => {
+      setTimeout(() => li.classList.add('in'), i * 80);
+    });
+    el.querySelectorAll('[data-count]').forEach(c => {
+      if (!c.dataset.counted) {
+        c.dataset.counted = '1';
+        setTimeout(() => animCount(c, +c.dataset.count), 300);
+      }
+    });
+    revIO.unobserve(el);
   });
-}, observerOptions);
+}, { threshold: .1 });
+document.querySelectorAll('.rv,.rl,.rr,.sk-card,.ai-overview-block').forEach(el => revIO.observe(el));
 
-// Set initial states for elements
-document.querySelectorAll('.rv, .rl, .rr').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transition = 'all 0.8s ease';
-  
-  if (el.classList.contains('rv')) el.style.transform = 'translateY(30px)';
-  if (el.classList.contains('rl')) el.style.transform = 'translateX(-30px)';
-  if (el.classList.contains('rr')) el.style.transform = 'translateX(30px)';
-  
-  revIO.observe(el);
-});
+const skRingIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const fill = e.target.querySelector('.sk-ring-fill');
+    if (fill) {
+      const pct = parseFloat(fill.closest('.sk-card')?.style.getPropertyValue('--sw') || 1) || 0.95;
+      const circumference = 2 * Math.PI * 60;
+      fill.style.strokeDashoffset = circumference * (1 - pct);
+    }
+    skRingIO.unobserve(e.target);
+  });
+}, { threshold: .3 });
+document.querySelectorAll('.sk-card.sk-featured').forEach(c => skRingIO.observe(c));
 
-/* ==========================================
-   CONTACT FORM LOGIC
-========================================== */
+// Form Submission
 const contactForm = document.getElementById('contactForm');
-const submitBtn   = document.getElementById('submitBtn');
-const formStatus  = document.getElementById('formStatus');
-const scriptURL   = 'https://script.google.com/macros/s/AKfycbzkwGFAxH_5Y3g0dVdQLV5p_KtyF25xxTcsIizu6s0NqrLogG-TXXm1OMHCW02ML_Z_/exec';
-
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzkwGFAxH_5Y3g0dVdQLV5p_KtyF25xxTcsIizu6s0NqrLogG-TXXm1OMHCW02ML_Z_/exec';
 if (contactForm) {
   contactForm.addEventListener('submit', e => {
     e.preventDefault();
     submitBtn.disabled = true;
-    const origText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending...';
+    const btnText = submitBtn.querySelector('span');
+    const origText = btnText.textContent;
+    btnText.textContent = 'পাঠানো হচ্ছে...';
     formStatus.textContent = '';
-    
     fetch(scriptURL, { method: 'POST', body: new FormData(contactForm) })
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {
-          formStatus.textContent = 'Message sent successfully! Thank you.';
-          formStatus.style.color = 'var(--primary-blue)';
+          formStatus.textContent = 'সফলভাবে পাঠানো হয়েছে!';
+          formStatus.style.color = 'var(--teal)';
           contactForm.reset();
         } else {
-          formStatus.textContent = 'Something went wrong! Please try again.';
-          formStatus.style.color = '#ef4444';
+          formStatus.textContent = 'সমস্যা হয়েছে!';
+          formStatus.style.color = 'var(--pink)';
         }
-      })
-      .catch(error => {
-        formStatus.textContent = 'Network error! Please try again.';
-        formStatus.style.color = '#ef4444';
       })
       .finally(() => {
         submitBtn.disabled = false;
-        submitBtn.textContent = origText;
+        btnText.textContent = origText;
       });
   });
 }
 
-/* ==========================================
-   AI CHATBOT LOGIC
-========================================== */
+// Footer Clock
+function updateClock() {
+  const el = document.getElementById('ftTime');
+  if (!el) return;
+  const t = new Date();
+  const h = String(t.getHours()).padStart(2,'0');
+  const m = String(t.getMinutes()).padStart(2,'0');
+  const s = String(t.getSeconds()).padStart(2,'0');
+  el.textContent = `${h}:${m}:${s} BST`;
+}
+setInterval(updateClock, 1000); updateClock();
+
+// AI Chatbot Logic
 function toggleChatWindow() {
   const chatWindow = document.getElementById('chat-window');
-  const welcomePopup = document.getElementById('chat-welcome-popup');
-  
-  if (chatWindow) {
-    chatWindow.classList.toggle('chat-hidden');
-    if (!chatWindow.classList.contains('chat-hidden')) {
-      if (welcomePopup) welcomePopup.style.display = 'none';
-      document.getElementById('user-msg-input').focus();
-    }
+  const popup = document.getElementById('chat-welcome-popup');
+  if(chatWindow) chatWindow.classList.toggle('chat-hidden');
+  if (!chatWindow.classList.contains('chat-hidden')) {
+    if(popup) popup.classList.remove('show');
+    document.getElementById('user-msg-input').focus();
   }
 }
-
-function closePopup(event) {
-  event.stopPropagation();
-  const popup = document.getElementById('chat-welcome-popup');
-  if (popup) popup.style.display = 'none';
-}
-
-function handleEnter(e) {
-  if (e.key === 'Enter') handleUserMessage();
-}
-
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-function getPageContext() {
-  return document.body.innerText.trim().slice(0, 12000);
-}
+function closePopup(e) { e.stopPropagation(); document.getElementById('chat-welcome-popup').classList.remove('show'); }
+function handleEnter(e) { if (e.key === 'Enter') handleUserMessage(); }
+function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
+function getPageContext() { return document.body.innerText.trim().slice(0, 12000); }
 
 const CHAT_HISTORY = [];
-
 async function getAIResponse(userMessage) {
   try {
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: userMessage,
-        history: CHAT_HISTORY,
-        pageContent: getPageContext()
-      })
+      body: JSON.stringify({ message: userMessage, history: CHAT_HISTORY, pageContent: getPageContext() })
     });
     if (!response.ok) throw new Error('API Error');
     const data = await response.json();
-    return data.reply || 'দুঃখিত, এই মুহূর্তে উত্তর দিতে পারছি না। বিস্তারিত জানতে ইমেইল করুন: inbox@tamjidulislam.online';
+    return data.reply || 'দুঃখিত, উত্তর দিতে পারছি না।';
   } catch (err) {
-    return 'দুঃখিত, সার্ভারের সাথে সংযোগ করতে সমস্যা হচ্ছে। একটু পর আবার চেষ্টা করুন।';
+    return 'সার্ভার সমস্যা। দয়া করে ইমেইল করুন।';
   }
 }
 
 async function handleUserMessage() {
   const inputEl = document.getElementById('user-msg-input');
   const sendBtn = document.getElementById('chat-send-btn');
-  const messageText = inputEl.value.trim();
-  
-  if (!messageText) return;
-
+  const msg = inputEl.value.trim();
+  if (!msg) return;
   const chatMessages = document.getElementById('chat-messages');
   const quickRow = document.getElementById('chatQuickRow');
   if (quickRow) quickRow.style.display = 'none';
 
-  chatMessages.innerHTML += `<div class="user-message">${escapeHtml(messageText)}</div>`;
-  inputEl.value = '';
-  inputEl.disabled = true;
-  sendBtn.disabled = true;
+  chatMessages.innerHTML += `<div class="user-message">${escapeHtml(msg)}</div>`;
+  inputEl.value = ''; inputEl.disabled = true; sendBtn.disabled = true;
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
   const loadingId = 'loading-' + Date.now();
   chatMessages.innerHTML += `<div class="bot-message" id="${loadingId}">টাইপ করছে...</div>`;
   chatMessages.scrollTop = chatMessages.scrollHeight;
 
-  const reply = await getAIResponse(messageText);
-
-  CHAT_HISTORY.push({ role: 'user', content: messageText });
-  CHAT_HISTORY.push({ role: 'assistant', content: reply });
-  if (CHAT_HISTORY.length > 10) CHAT_HISTORY.splice(0, CHAT_HISTORY.length - 10);
-
-  const loadingEl = document.getElementById(loadingId);
-  if (loadingEl) loadingEl.innerHTML = escapeHtml(reply);
+  const reply = await getAIResponse(msg);
+  CHAT_HISTORY.push({ role: 'user', content: msg }, { role: 'assistant', content: reply });
+  
+  document.getElementById(loadingId).innerHTML = escapeHtml(reply);
   chatMessages.scrollTop = chatMessages.scrollHeight;
-
-  inputEl.disabled = false;
-  sendBtn.disabled = false;
-  inputEl.focus();
+  inputEl.disabled = false; sendBtn.disabled = false; inputEl.focus();
 }
 
-// Quick Chips Setup
 document.querySelectorAll('.chat-chip').forEach(btn => {
   btn.addEventListener('click', () => {
-    const inputEl = document.getElementById('user-msg-input');
-    inputEl.value = btn.dataset.q;
+    document.getElementById('user-msg-input').value = btn.dataset.q;
     handleUserMessage();
   });
 });
 
-// Draggable AI Bubble
+// Chat Eye Blink
+(function initEyeBlink() {
+  const lids = document.querySelectorAll('.eye-lid');
+  if (!lids.length) return;
+  function blinkOnce() {
+    lids.forEach(l => l.classList.add('blink'));
+    setTimeout(() => lids.forEach(l => l.classList.remove('blink')), 140);
+    setTimeout(blinkOnce, 3000 + Math.random() * 4000);
+  }
+  setTimeout(blinkOnce, 2000 + Math.random() * 2000);
+})();
+
+// Chat Bubble Drag
 (function initDraggableBubble() {
   const container = document.getElementById('ai-chat-container');
   const bubble = document.getElementById('chat-bubble');
   if (!container || !bubble) return;
-
-  let isDragging = false, initialX, initialY;
+  let dragging = false, moved = false, startX, startY, offsetX, offsetY;
   
-  bubble.addEventListener('mousedown', dragStart);
-  bubble.addEventListener('touchstart', dragStart, { passive: true });
-
-  function dragStart(e) {
-    initialX = e.clientX || e.touches[0].clientX;
-    initialY = e.clientY || e.touches[0].clientY;
-    isDragging = false; 
-    
-    document.addEventListener('mousemove', drag);
-    document.addEventListener('touchmove', drag, { passive: false });
-    document.addEventListener('mouseup', dragEnd);
-    document.addEventListener('touchend', dragEnd);
+  function getPoint(e) { return e.touches ? e.touches[0] : e; }
+  
+  function onDown(e) {
+    dragging = true; moved = false;
+    const rect = container.getBoundingClientRect();
+    const p = getPoint(e);
+    offsetX = p.clientX - rect.left;
+    offsetY = p.clientY - rect.top;
+    startX = p.clientX; startY = p.clientY;
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onUp);
   }
-
-  function drag(e) {
-    const currentX = e.clientX || e.touches[0].clientX;
-    const currentY = e.clientY || e.touches[0].clientY;
-    
-    const dx = currentX - initialX;
-    const dy = currentY - initialY;
-    
-    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-      isDragging = true;
-      if (e.cancelable) e.preventDefault();
-      
-      let newLeft = container.offsetLeft + dx;
-      let newTop = container.offsetTop + dy;
-      
-      container.style.left = newLeft + 'px';
-      container.style.top = newTop + 'px';
-      container.style.bottom = 'auto';
-      container.style.right = 'auto';
-      
-      initialX = currentX;
-      initialY = currentY;
-    }
+  function onMove(e) {
+    if (!dragging) return;
+    const p = getPoint(e);
+    const dx = p.clientX - startX, dy = p.clientY - startY;
+    if (!moved && Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+    moved = true;
+    if (e.touches) e.preventDefault();
+    container.style.left = (p.clientX - offsetX) + 'px';
+    container.style.top = (p.clientY - offsetY) + 'px';
+    container.style.bottom = 'auto';
   }
-
-  function dragEnd() {
-    document.removeEventListener('mousemove', drag);
-    document.removeEventListener('touchmove', drag);
-    document.removeEventListener('mouseup', dragEnd);
-    document.removeEventListener('touchend', dragEnd);
-    
-    if (!isDragging) {
-      toggleChatWindow();
-    }
+  function onUp() {
+    dragging = false;
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    document.removeEventListener('touchmove', onMove);
+    document.removeEventListener('touchend', onUp);
+    if (!moved) toggleChatWindow();
   }
+  bubble.addEventListener('mousedown', onDown);
+  bubble.addEventListener('touchstart', onDown, { passive: true });
 })();
