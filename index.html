@@ -2,7 +2,6 @@
 <html lang="en-BD">
 <head>
 <meta charset="UTF-8">
-<!-- জুম বন্ধ করার জন্য viewport আপডেট করা হয়েছে -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Tamjidul Islam Ovi | Full Stack Developer</title>
 
@@ -16,37 +15,6 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- AI Chat UI -->
-<div id="ai-chat-container">
-  <div id="chat-welcome-popup">
-    <p>হ্যালো! আমি অভি'র এআই অ্যাসিস্ট্যান্ট। কীভাবে সহযোগিতা করতে পারি?</p>
-    <span class="close-popup-btn" onclick="closePopup(event)">×</span>
-  </div>
-  <div id="chat-bubble" aria-label="AI Assistant, drag to move, click to open">
-    <img src="avatar.png" alt="Ovi AI Avatar" id="avatar-img" onerror="this.src='https://i.postimg.cc/5y4bwvmk/1000099141-removebg-preview.png'">
-    <span class="eye-lid left" aria-hidden="true"></span>
-    <span class="eye-lid right" aria-hidden="true"></span>
-  </div>
-  <div id="chat-window" class="chat-hidden">
-    <div class="chat-header">
-      <h4>Ovi's AI Assistant</h4>
-      <span onclick="toggleChatWindow()" style="cursor:pointer; font-size: 1.5rem; line-height: 1;">×</span>
-    </div>
-    <div id="chat-messages">
-      <div class="bot-message">হাই! তামজিদুল ইসলাম (অভি) এবং তার ওয়েবসাইটে যা কিছু আছে সে সম্পর্কে যেকোনো প্রশ্ন করতে পারেন।</div>
-    </div>
-    <div class="chat-quick-row" id="chatQuickRow">
-      <button type="button" class="chat-chip" data-q="তুমি কে এবং কি করো?">তুমি কে?</button>
-      <button type="button" class="chat-chip" data-q="তোমার দক্ষতা ও সার্ভিসগুলো কি কি?">দক্ষতা</button>
-      <button type="button" class="chat-chip" data-q="তোমার সাথে কিভাবে যোগাযোগ করব?">যোগাযোগ</button>
-    </div>
-    <div class="chat-input-container">
-      <input type="text" id="user-msg-input" placeholder="এখানে লিখুন..." onkeypress="handleEnter(event)">
-      <button id="chat-send-btn" onclick="handleUserMessage()">Send</button>
-    </div>
-  </div>
-</div>
 
 <div id="mouse-light" aria-hidden="true"></div>
 <div id="progress" aria-hidden="true"></div>
@@ -165,7 +133,6 @@
       <div class="h-ring"></div>
       <div class="h-ring"></div>
       <div class="h-ring"></div>
-      <!-- ল্যাপটপওয়ালা ছবি -->
       <img src="myimg.png" alt="Ovi" class="h-my-img">
     </div>
 
@@ -216,14 +183,11 @@
           <div class="av-scene">
             <div class="av-inner">
               <div class="av-frame">
-                <!-- ২য় ছবি -->
                 <img src="myimg2.png" alt="Tamjidul Islam Ovi" loading="eager" fetchpriority="high">
               </div>
             </div>
             <div class="av-orbit ao1"></div>
             <div class="av-orbit ao2"></div>
-            <div class="av-tag">Full Stack</div>
-            <div class="av-tag">UI/UX</div>
           </div>
         </div>
       </div>
@@ -242,16 +206,14 @@
           <span class="sk-bg-num">01</span>
           <div>
             <span class="sk-icon">
-              <!-- Code Icon -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
             </span>
             <h3 class="sk-nm">Full Stack Development</h3>
-            <p style="font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">
+            <p style="font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:2.5rem">
               ফ্রন্টএন্ডের ইউজার এক্সপেরিয়েন্স থেকে শুরু করে ব্যাকএন্ডের সিকিউর ডেটাবেস ম্যানেজমেন্ট — সম্পূর্ণ স্কেলেবল ওয়েব অ্যাপ্লিকেশন তৈরি।
             </p>
           </div>
           <div>
-            <!-- বৃত্ত মুছে ফেলা হয়েছে -->
             <div class="sk-tags">
               <span class="stag">React.js</span>
               <span class="stag">Node.js</span>
@@ -263,24 +225,24 @@
         <div class="sk-card rv" style="transition-delay:.1s;--sw:0.85">
           <span class="sk-bg-num">02</span>
           <span class="sk-icon">
-            <!-- Cloud Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>
           </span>
           <h3 class="sk-nm">Cloud & API</h3>
-          <div class="sk-bar"><div class="sk-fill"></div></div>
-          <span class="sk-pct">85%</span>
+          <p style="font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">
+            গুগল ক্লাউড এবং ফায়ারবেস ব্যবহার করে রিয়েল-টাইম ডেটাবেস, ক্লাউড ফাংশন ও সিকিউর এপিআই ইন্টিগ্রেশন।
+          </p>
           <div class="sk-tags"><span class="stag">Google Cloud</span><span class="stag">Firebase</span></div>
         </div>
 
         <div class="sk-card rv" style="transition-delay:.2s;--sw:0.90">
           <span class="sk-bg-num">03</span>
           <span class="sk-icon">
-            <!-- Pen/Design Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
           </span>
           <h3 class="sk-nm">Frontend UI</h3>
-          <div class="sk-bar"><div class="sk-fill"></div></div>
-          <span class="sk-pct">90%</span>
+          <p style="font-size:.95rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem">
+            মডার্ন ডিজাইন আর্কিটেকচার এবং টেইলউইন্ড সিএসএস দিয়ে দ্রুত, রেসপনসিভ ও পিক্সেল-পারফেক্ট ওয়েব ইন্টারফেস তৈরি।
+          </p>
           <div class="sk-tags"><span class="stag">Tailwind CSS</span><span class="stag">Figma</span></div>
         </div>
       </div>
