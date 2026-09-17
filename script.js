@@ -1,24 +1,29 @@
 // Loader
-window.addEventListener('load', () => {
-const loader = document.getElementById('loader');
-const lbar = document.getElementById('lbar');
-const lpct = document.getElementById('lpct');
-let p = 0;
-const iv = setInterval(() => {
-p += Math.random() * 25 + 10;
-if (p >= 100) {
-p = 100; clearInterval(iv);
-if(lbar) lbar.style.width = '100%';
-if(lpct) lpct.textContent = '100%';
-if(loader) {
-loader.classList.add('done');
-setTimeout(() => { loader.classList.add('out'); initHero(); }, 600);
-}
-} else {
-if(lbar) lbar.style.width = p + '%';
-if(lpct) lpct.textContent = Math.floor(p) + '%';
-}
-}, 40);
+document.addEventListener('DOMContentLoaded', () => {
+    const loader = document.getElementById('loader');
+    const lbar = document.getElementById('lbar');
+    const lpct = document.getElementById('lpct');
+    let p = 0;
+    
+    const iv = setInterval(() => {
+        p += Math.random() * 25 + 10;
+        if (p >= 100) {
+            p = 100; 
+            clearInterval(iv);
+            if(lbar) lbar.style.width = '100%';
+            if(lpct) lpct.textContent = '100%';
+            if(loader) {
+                loader.classList.add('done');
+                setTimeout(() => { 
+                    loader.classList.add('out'); 
+                    initHero(); 
+                }, 600);
+            }
+        } else {
+            if(lbar) lbar.style.width = p + '%';
+            if(lpct) lpct.textContent = Math.floor(p) + '%';
+        }
+    }, 40);
 });
 
 // Hero Typing Animation
