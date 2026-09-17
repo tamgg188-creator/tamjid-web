@@ -324,17 +324,21 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
   .av-scene { width: 240px; height: 240px; }
 }
 /* ডেস্কটপ বা বড় স্ক্রিনের জন্য লেআউট সেন্টারে আনার ফিক্স */
+/* ডেস্কটপ বা বড় স্ক্রিনের জন্য পারফেক্ট সেন্টারিং ও লেআউট ফিক্স */
 @media(min-width: 992px) {
   #hero {
+    min-height: 100vh;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    padding: 0 5%;
+    justify-content: space-between;
+    padding: 0 8%;
+    gap: 4rem;
   }
   
   .h-content {
-    max-width: 600px;
-    margin-right: auto;
+    max-width: 650px;
+    margin: 0;
   }
 
   .h-decor {
@@ -344,12 +348,14 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
     transform: none !important;
     width: 450px !important;
     height: 450px !important;
+    flex-shrink: 0;
     display: block !important;
   }
 
   .h-my-img {
-    width: 110% !important;
-    bottom: -10% !important;
+    position: absolute !important;
+    width: 120% !important;
+    bottom: -5% !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
   }
