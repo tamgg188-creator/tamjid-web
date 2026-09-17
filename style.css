@@ -141,7 +141,7 @@ section{position:relative;z-index:5}
 .h-eye .hline{ display:block;width:0;height:1px;background:var(--teal); animation:hLineGrow 1s var(--ease) 1.5s forwards; }
 @keyframes hLineGrow{to{width:60px}}
 
-.h-name{ display:block; font-family:var(--font-s);font-weight:800; font-size:clamp(3.5rem,8.5vw,8.5rem); line-height:1.05; letter-spacing:-.03em; word-wrap:break-word;white-space:normal; }
+.h-name{ display:block; font-family:var(--font-s);font-weight:800; font-size:clamp(2.8rem,9vw,8.5rem); line-height:1.05; letter-spacing:-.03em; word-wrap:break-word;white-space:normal; }
 .hc-word{display:inline-block;white-space:nowrap;margin-right:.25em}
 .h-r1{color:var(--text-dark);}
 .h-r2{ color: transparent; -webkit-text-stroke: 1.5px var(--text-dark); padding-right: 12px; }
@@ -170,7 +170,8 @@ section{position:relative;z-index:5}
 .h-ring:nth-child(3){inset:20%;border-color:rgba(129, 140, 248, 0.2);animation-delay:-4s}
 @keyframes rPulse{0%,100%{transform:scale(1);opacity:.2}50%{transform:scale(1.05);opacity:.5}}
 
-.h-my-img { position: absolute; bottom: -5%; left: 50%; transform: translateX(-50%); width: 120%; height: auto; z-index: 5; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7)); }
+/* ছবিটাকে উপরের দিকে তোলার জন্য bottom ভ্যালু আপডেট করা হয়েছে */
+.h-my-img { position: absolute; bottom: 0%; left: 50%; transform: translateX(-50%); width: 120%; height: auto; z-index: 5; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.7)); }
 
 .h-scroll{ position:absolute;bottom:2.5rem;left:5%; font-family:var(--font-m);font-size:.7rem; font-weight:600; color:var(--muted);letter-spacing:.15em; display:flex;align-items:center;gap:1rem; opacity:0;animation:fsu 1s var(--ease) 3.2s forwards; writing-mode:vertical-rl; text-transform:uppercase; }
 .h-scroll-line{ width:1.5px;height:60px; background:linear-gradient(transparent,var(--text-dark)); animation:sLine 2.5s ease-in-out infinite; }
@@ -223,12 +224,6 @@ section{position:relative;z-index:5}
 .sk-icon{margin-bottom:1.5rem;display:block}
 .sk-icon svg { width: 36px; height: 36px; color: var(--teal); }
 .sk-nm{ font-family:var(--font-s);font-size:1.3rem;font-weight:700; color:var(--text-dark);margin-bottom:1rem; }
-.sk-ring-wrap{ display:flex;align-items:center;justify-content:center; margin:2rem 0; }
-.sk-ring{ width:130px;height:130px;position:relative; }
-.sk-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.sk-ring-bg{ fill:none;stroke:var(--border);stroke-width:4; }
-.sk-ring-fill{ fill:none;stroke:var(--teal);stroke-width:4; stroke-linecap:round; stroke-dasharray:314;stroke-dashoffset:314; transition:stroke-dashoffset 1.5s var(--ease); }
-.sk-card.in .sk-ring-fill{stroke-dashoffset:var(--so,314)}
 .sk-bar{height:4px;background:var(--border); border-radius:4px; position:relative;overflow:hidden;margin-bottom:.8rem}
 .sk-fill{ position:absolute;inset:0;width:100%; border-radius:4px; background:var(--teal); transform:scaleX(0);transform-origin:left; transition:transform 1.4s var(--ease); }
 .sk-card.in .sk-fill{transform:scaleX(var(--sw,1))}
@@ -287,12 +282,13 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
 /* Chat AI */
 #ai-chat-container { position: fixed; bottom: 20px; left: 20px; z-index: 9999; font-family: var(--font-b); }
 #chat-bubble { width: 65px; height: 65px; border-radius: 50%; background: var(--bg2); cursor: grab; overflow: hidden; border: 2px solid var(--teal); position: relative; }
-#avatar-img { width: 100%; height: 100%; object-fit: cover; }
-.eye-lid { position: absolute; top: 44%; width: 9px; height: 2px; background: rgba(0,0,0,0.9); border-radius: 2px; opacity: 0; z-index: 2; }
+#avatar-img { width: 100%; height: 100%; object-fit: cover; pointer-events: none;}
+.eye-lid { position: absolute; top: 44%; width: 9px; height: 2px; background: rgba(0,0,0,0.9); border-radius: 2px; opacity: 0; z-index: 2; pointer-events: none;}
 .eye-lid.left { left: 24%; } .eye-lid.right { left: 60%; }
 .eye-lid.blink { opacity: 1; }
 #chat-welcome-popup { position: absolute; bottom: 85px; left: 0; width: 235px; background: var(--bg2); color: var(--text-dark); padding: 14px 18px; border-radius: 24px 24px 24px 6px; font-size: 0.85rem; border: 2.5px solid var(--teal); display: none; }
-#chat-welcome-popup.show { display: block; }
+#chat-welcome-popup.show { display: block; animation: popupAnim 0.5s ease; }
+@keyframes popupAnim { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .close-popup-btn { position: absolute; top: 4px; right: 10px; cursor: pointer; color: var(--muted); }
 #chat-window { position: absolute; bottom: 85px; left: 0; width: 320px; max-width: calc(100vw - 40px); height: 420px; background: var(--bg2); border-radius: 16px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; transition: opacity 0.35s, transform 0.35s; }
 .chat-hidden { opacity: 0; transform: scale(0.85); pointer-events: none; }
@@ -307,7 +303,7 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
 .chat-input-container input { flex: 1; padding: 10px 15px; border: 1px solid var(--border); border-radius: 50px; background: var(--bg); color: var(--text-dark); outline: none; }
 .chat-input-container button { background: var(--text-dark); color: var(--bg); border: none; padding: 0 15px; margin-left: 8px; border-radius: 50px; cursor: pointer; font-family: var(--font-m); font-weight: 600; }
 
-/* Responsive */
+/* Responsive Adjustments */
 @media(max-width:1100px){ 
   .about-grid{grid-template-columns:1fr;gap:4rem} 
   .sk-bento{grid-template-columns:1fr 1fr} 
@@ -321,13 +317,15 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
   .n-right { gap: 0.8rem; }
   .n-avail { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
   
+  /* নামের ফন্ট সাইজ ছোট করে লিকুইড করা হলো যেন 'l' না কাটে */
+  .h-name { font-size: clamp(2.2rem, 11vw, 3.5rem); padding-right: 5px; }
+
   .ham{display:flex} 
   .ct-grid{grid-template-columns:1fr;gap:4rem} 
   .h-stats{gap:2rem; flex-wrap: wrap;} 
   .sk-bento{grid-template-columns:1fr} 
   .ct-info-grid{grid-template-columns:1fr} 
   
-  /* Mobile Hero Adjustments for Image */
   #hero { padding-top: 130px; justify-content: flex-start; }
   .h-content { z-index: 2; margin-bottom: 2rem; }
   .h-decor { 
@@ -339,9 +337,10 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
     transform: none; 
     margin: 2rem auto 0; 
   }
+  /* ছবিটাকে মোবাইল ভিউতেও উপরে তুলে দিলাম */
   .h-my-img { 
     width: 125%; 
-    bottom: -15%; 
+    bottom: 5%; 
   }
   .h-orb, .h-ring { 
     opacity: 0.15; 
