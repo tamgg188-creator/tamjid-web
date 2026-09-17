@@ -131,7 +131,7 @@ section{position:relative;z-index:5}
 .s-title .v{color:var(--violet)}
 
 /* Hero Section */
-#hero{ min-height:100vh; display:flex;flex-direction:column;justify-content:center; padding:100px 5% 0;position:relative;overflow:hidden; }
+#hero{ min-height:100vh; display:flex;flex-direction:column;justify-content:flex-start; padding:180px 5% 100px; position:relative;overflow:hidden; }
 .h-bg-orbs{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
 .h-bg-orb{ position:absolute;border-radius:50%; opacity: 0.2; animation:orbDrift 20s ease-in-out infinite; }
 .h-bg-orb:nth-child(1){ width:600px;height:600px;right:-10%;top:-10%; background:radial-gradient(circle, rgba(20, 184, 166, 0.15), transparent 65%); }
