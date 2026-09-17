@@ -1,37 +1,37 @@
 :root {
-  --bg: #0a0a0a;
-  --bg2: #111111;
-  --bg3: #1a1a1a;
-  --surface: rgba(255, 255, 255, 0.03);
-  --teal: #14b8a6;
-  --teal2: #0d9488;
-  --pink: #ec4899;
-  --pink2: #be185d;
-  --violet: #818cf8;
-  --violet2: #4338ca;
-  --gold: #f59e0b;
-  --text: #d1d5db; 
-  --text-dark: #ffffff; 
-  --muted: #9ca3af;
-  --muted2: #6b7280;
-  --border: #27272a; 
-  --border2: #3f3f46;
-  
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-  --shadow-teal: 0 8px 20px rgba(20, 184, 166, 0.15);
-  
-  --ease: cubic-bezier(.23,1,.32,1);
-  --ease2: cubic-bezier(.76,0,.24,1);
-  
-  --font-d: 'Syne', 'Noto Sans Bengali', sans-serif;
-  --font-b: 'Barlow', 'Noto Sans Bengali', sans-serif;
-  --font-m: 'JetBrains Mono', monospace;
-  --font-s: 'Syne', sans-serif;
+--bg: #0a0a0a;
+--bg2: #111111;
+--bg3: #1a1a1a;
+--surface: rgba(255, 255, 255, 0.03);
+--teal: #14b8a6;
+--teal2: #0d9488;
+--pink: #ec4899;
+--pink2: #be185d;
+--violet: #818cf8;
+--violet2: #4338ca;
+--gold: #f59e0b;
+--text: #d1d5db;
+--text-dark: #ffffff;
+--muted: #9ca3af;
+--muted2: #6b7280;
+--border: #27272a;
+--border2: #3f3f46;
+
+--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+--shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+--shadow-teal: 0 8px 20px rgba(20, 184, 166, 0.15);
+
+--ease: cubic-bezier(.23,1,.32,1);
+--ease2: cubic-bezier(.76,0,.24,1);
+
+--font-d: 'Syne', 'Noto Sans Bengali', sans-serif;
+--font-b: 'Barlow', 'Noto Sans Bengali', sans-serif;
+--font-m: 'JetBrains Mono', monospace;
+--font-s: 'Syne', sans-serif;
 }
 
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+,::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 html,body{max-width:100%;overflow-x:hidden;touch-action:manipulation;scroll-behavior:smooth}
 
@@ -273,386 +273,169 @@ footer{ padding:5rem 5% 2rem; background:var(--bg2); border-top:1px solid var(--
 .ft-time-dot{ width:6px;height:6px;border-radius:50%; background:var(--teal2);animation:aPulseLight 2s infinite; }
 
 /* Responsive */
-@media(max-width:1100px){ 
-  .about-grid{grid-template-columns:minmax(0, 1fr);gap:4rem} 
-  .sk-bento{grid-template-columns:1fr 1fr} 
-  .ft-top{flex-direction:column;gap:3rem} 
+@media(max-width:1100px){
+.about-grid{grid-template-columns:minmax(0, 1fr);gap:4rem}
+.sk-bento{grid-template-columns:1fr 1fr}
+.ft-top{flex-direction:column;gap:3rem}
 }
 
-@media(max-width:768px){ 
-  .inner{padding: 100px 5%} 
-  .n-links{display:none} 
-  
-  .n-right { gap: 0.8rem; }
-  .n-avail { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
-  
-  .h-name { font-size: clamp(2.2rem, 11vw, 3.5rem); padding-right: 5px; }
+@media(max-width:768px){
+.inner{padding: 100px 5%}
+.n-links{display:none}
 
-  .ham{display:flex} 
-  .ct-grid{grid-template-columns:minmax(0, 1fr);gap:4rem} 
-  .h-stats{gap:2rem; flex-wrap: wrap;} 
-  .sk-bento{grid-template-columns:1fr} 
-  .ct-info-grid{grid-template-columns:1fr} 
-  
-  #hero { padding-top: 130px; justify-content: flex-start; }
-  .h-content { z-index: 2; margin-bottom: 2rem; }
-  .h-decor { 
-    position: relative; 
-    width: 280px; 
-    height: 280px; 
-    top: auto; 
-    right: auto; 
-    transform: none; 
-    margin: 2rem auto 0; 
-  }
-  .h-my-img { 
-    width: 125%; 
-    bottom: 5%; 
-  }
-  .h-orb, .h-ring { 
-    opacity: 0.15; 
-  }
+.n-right { gap: 0.8rem; }
+.n-avail { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
 
-  .av-scene { width: 280px; height: 280px; }
+.h-name { font-size: clamp(2.2rem, 11vw, 3.5rem); padding-right: 5px; }
+
+.ham{display:flex}
+.ct-grid{grid-template-columns:minmax(0, 1fr);gap:4rem}
+.h-stats{gap:2rem; flex-wrap: wrap;}
+.sk-bento{grid-template-columns:1fr}
+.ct-info-grid{grid-template-columns:1fr}
+
+#hero { padding-top: 130px; justify-content: flex-start; }
+.h-content { z-index: 2; margin-bottom: 2rem; }
+.h-decor {
+position: relative;
+width: 280px;
+height: 280px;
+top: auto;
+right: auto;
+transform: none;
+margin: 2rem auto 0;
+}
+.h-my-img {
+width: 125%;
+bottom: 5%;
+}
+.h-orb, .h-ring {
+opacity: 0.15;
+}
+
+.av-scene { width: 280px; height: 280px; }
 }
 
 @media(max-width:480px) {
-  .av-scene { width: 240px; height: 240px; }
+.av-scene { width: 240px; height: 240px; }
 }
 
-
 /* =========================================
-   DESKTOP HERO — CENTERED IMAGE FIX
-   ========================================= */
+DESKTOP HERO — CENTERED IMAGE FIX
+========================================= */
 
 @media (min-width: 992px) {
 
-  #hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 100vh;
-  }
+#hero {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+min-height: 100vh;
+}
 
-  .h-content {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.h-content {
+width: 100%;
+max-width: 800px;
+margin: 0 auto;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
 
-  .h-eye,
-  .h-role-wrap,
-  .h-cta,
-  .h-stats {
-    justify-content: center;
-  }
+.h-eye,
+.h-role-wrap,
+.h-cta,
+.h-stats {
+justify-content: center;
+}
 
-  .h-sub {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-  }
+.h-sub {
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+}
 
-  /* Image container: exact center */
-  .h-decor {
-    position: relative !important;
-    top: auto !important;
-    right: auto !important;
-    left: auto !important;
+/* Image container: exact center */
+.h-decor {
+position: relative !important;
+top: auto !important;
+right: auto !important;
+left: auto !important;
 
-    width: min(500px, 40vw) !important;
-    height: min(500px, 40vw) !important;
+width: min(500px, 40vw) !important;  
+height: min(500px, 40vw) !important;  
 
-    margin: 3rem auto 0 !important;
+margin: 3rem auto 0 !important;  
 
-    transform: none !important;
-    flex-shrink: 0;
-  }
-
-  /* Image: centered inside container */
-  .h-my-img {
-    position: absolute !important;
-
-    left: 50% !important;
-    bottom: -5% !important;
-
-    width: 120% !important;
-    height: auto !important;
-
-    transform: translateX(-50%) !important;
-  }
+transform: none !important;  
+flex-shrink: 0;
 
 }
 
+/* Image: centered inside container */
+.h-my-img {
+position: absolute !important;
+
+left: 50% !important;  
+bottom: -5% !important;  
+
+width: 120% !important;  
+height: auto !important;  
+
+transform: translateX(-50%) !important;
+
+}
+
+}
 
 /* =========================================
-   OPTIMIZED HERO LAYOUT
-   ========================================= */
+HERO IMAGE — FORCE CENTER
+Works for Tablet + Desktop
+========================================= */
 
 @media (min-width: 769px) {
 
-  #hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+#hero {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
 
-  .h-content {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.h-decor {
+position: relative !important;
 
-  .h-eye,
-  .h-role-wrap,
-  .h-cta,
-  .h-stats {
-    justify-content: center;
-  }
+/* Remove right-side positioning */  
+top: auto !important;  
+right: auto !important;  
+left: auto !important;  
 
-  .h-sub {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-  }
+/* Fixed centered container */  
+width: min(500px, 80vw) !important;  
+height: min(500px, 80vw) !important;  
 
-  .h-decor {
-    position: relative;
-    top: auto;
-    right: auto;
-    left: auto;
+margin: 3rem auto 0 !important;  
 
-    width: min(500px, 40vw);
-    height: min(500px, 40vw);
+transform: none !important;  
 
-    margin: 3rem auto 0;
-    transform: none;
-
-    align-self: center;
-    flex-shrink: 0;
-  }
-
-  .h-my-img {
-    position: absolute;
-    left: 50%;
-    bottom: -5%;
-    width: 120%;
-    height: auto;
-    transform: translateX(-50%);
-  }
+/* Prevent unwanted flex positioning */  
+align-self: center !important;  
+flex-shrink: 0;
 
 }
 
+.h-my-img {
+position: absolute !important;
 
-/* =========================================
-   REDUCED MOTION ACCESSIBILITY
-   ========================================= */
+left: 50% !important;  
+bottom: -5% !important;  
 
-@media (prefers-reduced-motion: reduce) {
+width: 120% !important;  
+height: auto !important;  
 
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+transform: translateX(-50%) !important;
 
 }
 
-
-/* =========================================
-   PERFORMANCE OPTIMIZATION
-   ========================================= */
-
-img {
-  max-width: 100%;
-}
-
-.h-bg-orb,
-.h-orb,
-.h-ring,
-.av-orbit {
-  will-change: transform;
-}
-
-
-/* =========================================
-   ACCESSIBILITY & FOCUS STATES
-   ========================================= */
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-[tabindex]:focus-visible {
-  outline: 2px solid var(--teal);
-  outline-offset: 4px;
-}
-
-
-/* =========================================
-   FORM OPTIMIZATION
-   ========================================= */
-
-.ct-form-input {
-  width: 100%;
-  min-width: 0;
-}
-
-.ct-form-input::placeholder {
-  color: var(--muted2);
-  opacity: 1;
-}
-
-
-/* =========================================
-   MOBILE OPTIMIZATION
-   ========================================= */
-
-@media (max-width: 768px) {
-
-  .h-sub {
-    font-size: 1rem;
-    line-height: 1.8;
-  }
-
-  .h-cta {
-    width: 100%;
-  }
-
-  .h-cta .mbtn {
-    flex: 1;
-    min-width: 0;
-    padding-left: 1.2rem;
-    padding-right: 1.2rem;
-  }
-
-  .n-avail {
-    max-width: 210px;
-    white-space: nowrap;
-  }
-
-  .h-decor {
-    overflow: visible;
-  }
-
-  .h-my-img {
-    max-width: none;
-  }
-
-}
-
-
-/* =========================================
-   SMALL MOBILE SCREENS
-   ========================================= */
-
-@media (max-width: 480px) {
-
-  .n-avail span {
-    font-size: 0.58rem;
-  }
-
-  .n-avail {
-    padding: 0.35rem 0.6rem;
-  }
-
-  .h-cta {
-    gap: 0.8rem;
-  }
-
-  .h-cta .mbtn {
-    font-size: 0.7rem;
-  }
-
-  .h-stats {
-    gap: 1.5rem;
-  }
-
-}
-/* =========================================
-   ACCESSIBILITY — SKIP LINK FIX
-   Keeps the Bengali "মূল কনটেন্টে যান" link
-   hidden until keyboard focus.
-   ========================================= */
-
-.skip-link {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 10001;
-  transform: translateY(-200%);
-  opacity: 0;
-  pointer-events: none;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--teal);
-  border-radius: 4px;
-  background: var(--bg2);
-  color: var(--text-dark);
-  font-family: var(--font-b);
-  font-size: 0.95rem;
-  line-height: 1.4;
-  transition:
-    transform 0.25s var(--ease),
-    opacity 0.25s var(--ease);
-}
-
-.skip-link:focus,
-.skip-link:focus-visible {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-  outline: 2px solid var(--teal);
-  outline-offset: 4px;
-}
-
-/* Prevent accidental horizontal overflow from long Bengali/English text. */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-a,
-span,
-li {
-  overflow-wrap: anywhere;
-}
-
-/* Make interactive controls consistently show the pointer cursor. */
-button,
-a,
-[role="button"] {
-  cursor: pointer;
-}
-
-/* Avoid animation-related layout issues on very small screens. */
-@media (max-width: 480px) {
-  .h-role-wrap {
-    max-width: 100%;
-    flex-wrap: wrap;
-    row-gap: 0.5rem;
-  }
-
-  .h-slot {
-    max-width: 100%;
-    overflow: hidden;
-  }
-
-  .h-cta .mbtn {
-    min-height: 58px;
-  }
 }
