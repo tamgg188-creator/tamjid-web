@@ -503,3 +503,87 @@ opacity: 0.15;
     margin-top: 0;
   }
 }
+
+/* =========================================
+   SKILLS — SIX SERVICE CARDS
+   ========================================= */
+.sk-bento {
+  grid-template-columns: 1.45fr 1fr 1fr;
+  grid-template-rows: repeat(3, auto);
+  align-items: stretch;
+}
+
+.sk-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 0;
+}
+
+.sk-card.sk-featured {
+  grid-row: 1 / 4;
+}
+
+.sk-desc {
+  font-size: .95rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.sk-bottom {
+  margin-top: auto;
+}
+
+.sk-tech-label {
+  display: block;
+  font-family: var(--font-m);
+  font-size: .65rem;
+  color: var(--muted2);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: .7rem;
+}
+
+.sk-copy {
+  margin-top: 1.25rem;
+  padding: .65rem .85rem;
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-m);
+  font-size: .65rem;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: color .3s, border-color .3s, background .3s;
+}
+
+.sk-copy:hover,
+.sk-copy:focus-visible {
+  color: var(--text-dark);
+  border-color: var(--teal);
+  background: rgba(20, 184, 166, .08);
+  outline: none;
+}
+
+@media (max-width: 1100px) {
+  .sk-bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+
+  .sk-card.sk-featured {
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .sk-bento {
+    grid-template-columns: 1fr;
+  }
+
+  .sk-copy {
+    width: 100%;
+  }
+}
