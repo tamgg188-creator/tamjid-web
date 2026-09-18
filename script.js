@@ -112,17 +112,17 @@ if (contactForm) {
         submitBtn.disabled = true;
         const btnText = submitBtn.querySelector('span');
         const origText = btnText.textContent;
-        btnText.textContent = 'Sending...';
+        btnText.textContent = 'পাঠানো হচ্ছে...';
         formStatus.textContent = '';
         fetch(scriptURL, { method: 'POST', body: new FormData(contactForm) })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
-                formStatus.textContent = 'Message sent successfully!';
+                formStatus.textContent = 'সফলভাবে পাঠানো হয়েছে!';
                 formStatus.style.color = 'var(--teal)';
                 contactForm.reset();
             } else {
-                formStatus.textContent = 'Something went wrong. Please try again.';
+                formStatus.textContent = 'সমস্যা হয়েছে!';
                 formStatus.style.color = 'var(--pink)';
             }
         })
