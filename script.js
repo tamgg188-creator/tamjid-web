@@ -13,7 +13,7 @@ function splitChars(el, text, base) {
         let ci = el.querySelectorAll('.hc').length;
         [...word].forEach((ch, j) => {
             const s = document.createElement('span');
-            s.className = 'hc';
+            s.className = 'hc'; s.style.opacity = '1'; s.style.transform = 'none';
             s.textContent = ch === ' ' ? '\u00A0' : ch;
             s.style.animationDelay = (base + (ci + j) * .04) + 's';
             wrap.appendChild(s);
@@ -71,17 +71,7 @@ if (hamEl) {
 }
 
 // Intersection Animations
-function animCount(el, target) {
-    let s = null;
-    (function step(ts) {
-        if (!s) s = ts;
-        const prog = Math.min((ts - s) / 1500, 1);
-        const ease = 1 - Math.pow(1 - prog, 3);
-        el.textContent = Math.round(ease * target) + '+';
-        if (prog < 1) requestAnimationFrame(step);
-        else el.textContent = target + '+';
-    })(performance.now());
-}
+function animCount(el, target) { if (el) el.textContent = target + '+'; }
 const revIO = new IntersectionObserver(entries => {
     entries.forEach(e => {
         if (!e.isIntersecting) return;
