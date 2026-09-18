@@ -155,3 +155,34 @@ function updateClock() {
     el.textContent = `${h}:${m}:${s} BST`;
 }
 setInterval(updateClock, 1000); updateClock();
+
+// Skills: copy description and tech stack together
+
+document.querySelectorAll('.sk-copy').forEach(button => {
+    button.addEventListener('click', async () => {
+        const card = button.closest('.sk-card');
+        if (!card) return;
+
+        const title = card.querySelector('.sk-nm')?.textContent.trim() || '';
+        const description = card.querySelector('.sk-desc')?.textContent.trim() || '';
+        const techLabel = card.querySelector('.sk-tech-label')?.textContent.trim() || 'Technologies';
+        const techStack = [...card.querySelectorAll('.stag')].map(tag => tag.textContent.trim()).join(', ');
+        const copyText = `${title}\n\n${description}\n\n${techLabel}\n${techStack}`;
+
+        try {
+            await navigator.clipboard.writeText(copyText);
+            const originalText = button.textContent;
+            button.textContent = 'Copied Successfully';
+            button.classList.add('copied');
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('copied');
+            }, 1800);
+        } catch (error) {
+            button.textContent = 'Copy Failed — Try Again';
+            setTimeout(() => {
+                button.textContent = 'Copy Description + Tech Stack';
+            }, 1800);
+        }
+    });
+});
