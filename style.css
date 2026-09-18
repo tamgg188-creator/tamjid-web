@@ -449,3 +449,39 @@ opacity: 0.15;
   }
 
 }
+
+/* =========================================
+   HERO + MARQUEE — REMOVE EXTRA SPACE
+   ========================================= */
+
+/* Hero section height adjustment */
+#hero {
+  min-height: auto;
+  padding-bottom: 0;
+}
+
+/* Keep image container centered */
+.h-decor {
+  margin-bottom: 0 !important;
+}
+
+/* Technology marquee directly after hero */
+.mq-sec {
+  margin-top: 0;
+}
+
+/* Mobile adjustment */
+@media (max-width: 768px) {
+  #hero {
+    min-height: auto;
+    padding-bottom: 0;
+  }
+
+  .h-decor {
+    margin-bottom: 0 !important;
+  }
+
+  .mq-sec {
+    margin-top: 0;
+  }
+}
